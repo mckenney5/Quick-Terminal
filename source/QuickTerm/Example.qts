@@ -1,0 +1,55 @@
+﻿// Created by Adam (Adam@quitetiny.com)
+// This is an example QuickTerminalScript file (.qts)
+// '//' is a comment
+// '#' means a special condition (ex '#e.msg' makes every error be displayed in a message box)
+// everything else that you type is treated like a command except 'wait' and 'break' which are for scripting only
+// break= pause (waits for the enter key)
+// wait= waits a certain amount of time. (ex 'wait 1000')
+// # can be #e. or #r. (coming soon)
+// #e. can be either default (prints on screen), 'log' (logs it all to a file), or 'msg' (creates a seprate msgbox for every error)
+// ~ = special var like '~user'
+// for 'do loops' just type 'do' <code> 'loop' (if you dont specify a number after 'do' it does it inifinitly)
+// for a new line just type 'echo' without anything after it
+// also note that commands have a 100 millisecond delay to keep program stability
+#e.msg
+echo Hello World! and Welcome to QuickTerm Mr.~user
+wait 1000
+dim test = It works
+echo I made the var 'test' = 'It works'
+echo ~test
+break
+echo now for the if
+if ~test = It works
+echo Awesome it worked
+end if
+break
+echo Today is ~date ~time
+wait 1000
+echo Now here is a loop
+wait 1000
+do 4
+echo This will happen 4 times!
+wait 500
+loop
+break
+clear
+echo Now in 3 seconds an error will apear in a msgbox (#e.msg)
+wait 3000
+errortest
+break
+echo
+echo Here is an invalid command handled defaultly (#e.default)
+#e.default
+errortest
+break
+echo
+echo Here is an invalid command handled by logging it to QtErrors.log (#e.log)
+#e.log
+errortest
+run QtErrors.log
+break
+del QtErrors.log
+clear
+echo Here is a scripting error which will halt the script
+wait 1000
+wait foobar

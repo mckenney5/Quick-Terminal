@@ -1,0 +1,3 @@
+﻿use webclient for ddos instead of socks? 
+dim w as webclient
+make crawler also look up .html in regex
