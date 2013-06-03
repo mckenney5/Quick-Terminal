@@ -1,4 +1,5 @@
-﻿Imports System.Net
+﻿'Most Network things are handled here
+Imports System.Net
 Imports System.Text
 Imports System.Console
 Imports System.Net.Sockets
@@ -62,7 +63,8 @@ Public Class NetworkClass
         Return System.Net.IPAddress.Loopback
     End Function
 
-    Public Sub Scan(ByVal Address1 As String, Optional StartPort1 As Integer = 20, Optional EndPort1 As Integer = 82)
+    Public Sub Scan(ByVal Address1 As String, Optional ByVal StartPort1 As Integer = 20, Optional ByVal EndPort1 As Integer = 82)
+        'Oddly this commands is REALY fast on GNU/Linux
         Address = Address1
         Startport = StartPort1
         Endport = EndPort1

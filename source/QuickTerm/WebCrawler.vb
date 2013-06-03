@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿'Handles the crawl command
+Imports System.IO
 Imports System.Net
 Imports System.Console
 Imports System.Text.RegularExpressions
@@ -177,7 +178,6 @@ a:
             'put the source into a string
             strSource = wc.DownloadString(url)
             Dim HrefRegex As New Regex(strRegex, RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            'Dim HrefRegex2 As New Regex(strRegex2, RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             'parse the urls from the source
             Dim HrefMatch As Match = HrefRegex.Match(strSource)
             'used later to get the base domain without subdirectories or pages

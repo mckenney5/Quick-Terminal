@@ -1,6 +1,8 @@
-﻿Public Class QTMath
+﻿'Math things go here
+'Reserved for future use
+Public Class QTMath
     Public Pi As Decimal = "3.1415926535897932384626433833"
-    Public Function Random(Optional Lowest As Integer = 1, Optional Highest As Integer = 1000) As Integer
+    Public Function Random(Optional ByVal Lowest As Integer = 1, Optional ByVal Highest As Integer = 1000) As Integer
         Dim ran As New Random
         Return ran.Next(Lowest, Highest)
     End Function

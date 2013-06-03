@@ -1,9 +1,11 @@
-﻿Imports System.IO
+﻿'Converts other scripting langs. to QTS
+'Not finished
+Imports System.IO
 Imports System.Console
 Public Class QTScriptConvert
     Public Sub ConvertScript(ByVal Filename As String, ByVal FileType As String)
         Try
-            Filename = WorkingDir & "\" & Filename
+            Filename = Environment.CurrentDirectory & "\" & Filename
             If IO.File.Exists(Filename) = False Then
                 WriteLine("File not found")
                 Main()

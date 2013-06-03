@@ -1,4 +1,12 @@
-﻿Imports System.Console
+﻿'All information about commands go here
+'for adding a command do the following:
+'
+'1. Add to help
+'2. Add to Search with its prefix (e.x. command foobar, prefix would be 'fo' or 'foo')
+'3. Add to syntax if needed
+'4. Add to credits if needed
+'5. Add to BetaCommands is needed
+Imports System.Console
 Public Class Info
     Public Sub BetaCommands()
         WriteLine("Everything not in this list should* work 100%")

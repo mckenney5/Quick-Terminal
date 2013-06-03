@@ -12,7 +12,7 @@
 // for a new line just type 'echo' without anything after it
 // also note that commands have a 100 millisecond delay to keep program stability
 #e.msg
-echo Hello World! and Welcome to QuickTerm Mr.~user
+echo Hello world and Welcome to QuickTerm ~user
 wait 1000
 dim test = It works
 echo I made the var 'test' = 'It works'

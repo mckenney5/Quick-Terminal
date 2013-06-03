@@ -1,7 +1,9 @@
-﻿Imports System.Net.Sockets
+﻿'Handles remote connections
+'May get deleted at some point
+Imports System.Net.Sockets
 Imports System.Text
 Imports System.Console
-Public Class Remote
+Public Class Remote 'this doesnt work/buggy
     Dim requestCount As Integer
     Dim port As Int16 = 80
     Dim clientSocket As TcpClient

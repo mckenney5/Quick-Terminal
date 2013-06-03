@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿'All built-in commands go in here
+Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.IO
 Imports System.Console
@@ -8,7 +9,7 @@ Public Class Core
     Dim CdromOpen As Boolean = False
     Public Type As String = "png"
     Public TimerStop As Boolean = False
-    Public Function SaveScreen(Optional theFile As String = "ScreenShot") As Boolean
+    Public Function SaveScreen(Optional ByVal theFile As String = "ScreenShot") As Boolean 'doesnt work on GNU/Linux
         Threading.Thread.Sleep(500)
         Try
             SendKeys.SendWait("%{PRTSC}")            '<alt + printscreen>
@@ -43,7 +44,7 @@ Public Class Core
         End Try
     End Function
 
-    Public Function SaveWholeScreen(Optional theFile As String = "ScreenShot") As Boolean
+    Public Function SaveWholeScreen(Optional ByVal theFile As String = "ScreenShot") As Boolean 'doesnt work on GNU/Linux
         Try
             SendKeys.SendWait("{PRTSC}")            '<printscreen>
             Application.DoEvents()
@@ -77,7 +78,7 @@ Public Class Core
         End Try
     End Function
 
-    Public Sub Gentoo()
+    Public Sub Gentoo() 'doesnt work on GNU/Linux
         ForegroundColor = ConsoleColor.Blue
         WriteLine("     .vir.                                d$b ")
         WriteLine("  .d$$$$$$b.    .cd$$b.     .d$$b.   d$$$$$$$$$$$b  .d$$b.      .d$$b. ")
@@ -207,7 +208,7 @@ a:
         TRunning -= 1
     End Sub
 
-    Public Sub cd()
+    Public Sub cd() 'doesnt work on GNU/Linux
         TRunning += 1
         Try
             If CdromOpen = False Then

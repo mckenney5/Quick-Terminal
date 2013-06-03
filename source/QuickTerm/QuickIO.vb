@@ -1,15 +1,16 @@
-﻿Imports System.IO
+﻿'Handles most file/folder reading and writing
+Imports System.IO
 Imports System.Console
 Imports System.IO.Packaging
 Public Class QuickIO
-    Public Sub Read2(ByVal TextFile As String)
+    Public Sub Read2(ByVal TextFile As String) 'doesnt work on GNU/Linux
         Dim File2 As String = TextFile
-        TextFile = WorkingDir & "\" & TextFile
+        TextFile = Environment.CurrentDirectory & "\" & TextFile
         Try
             If Scripting = True Then
                 GoTo a
             End If
-            If File.Exists(TextFile) = False Then
+            If File.Exists(TextFile) = False Then '<-- this is the part that doesnt work on GNU/Linux
                 WriteLine("File not found")
                 Main()
             End If
@@ -106,8 +107,8 @@ a:
         End Try
     End Sub
 
-    Public Sub WriteFile(ByVal FileName As String)
-        FileName = WorkingDir & "\" & FileName
+    Public Sub WriteFile(ByVal FileName As String) 'doesnt work on GNU/Linux
+        FileName = Environment.CurrentDirectory & "\" & FileName
         'File.Create(FileName)
         Dim inpt As String
         WriteLine("To exit type '~exit' in lower-case")
@@ -126,8 +127,8 @@ a:
         GoTo a
     End Sub
 
-    Public Sub DelFile(ByVal FileName As String)
-        FileName = WorkingDir & "\" & FileName
+    Public Sub DelFile(ByVal FileName As String) 'doesnt work on GNU/Linux
+        FileName = Environment.CurrentDirectory & "\" & FileName
         Try
             If File.Exists(FileName) = True Then
                 File.Delete(FileName)
@@ -141,9 +142,9 @@ a:
         Main()
     End Sub
 
-    Public Sub DelFileThread()
+    Public Sub DelFileThread() 'doesnt work on GNU/Linux
         TRunning += 1
-        Filee = WorkingDir & "\" & Filee
+        Filee = Environment.CurrentDirectory & "\" & Filee
         Try
             If File.Exists(Filee) = True Then
                 File.Delete(Filee)
@@ -157,9 +158,9 @@ a:
         TRunning -= 1
     End Sub
 
-    Public Sub SecureDelete()
+    Public Sub SecureDelete() 'doesnt work on GNU/Linux
         TRunning += 1
-        Filee = WorkingDir & "\" & Filee
+        Filee = Environment.CurrentDirectory & "\" & Filee
         Try
             Dim ran As New Random
             If File.Exists(Filee) = True Then
@@ -168,7 +169,7 @@ a:
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory)
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory)
                 Rename(Filee, "asfsdfewafdfvasdfew")
-                Filee = WorkingDir & "\" & "asfsdfewafdfvasdfew"
+                Filee = Environment.CurrentDirectory & "\" & "asfsdfewafdfvasdfew"
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.OSVersion & My.Computer.Info.OSFullName & My.Computer.Info.InstalledUICulture.Calendar.AlgorithmType)
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & vbNewLine _
                                   & My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.AvailablePhysicalMemory * 1398 ^ 4 * Environment.CurrentDirectory.Length & _
@@ -183,7 +184,7 @@ a:
                 File.WriteAllText(Filee, ran.Next(1000, 10000))
                 File.WriteAllText(Filee, My.Computer.Info.TotalVirtualMemory / My.Computer.Info.AvailablePhysicalMemory * TRunning)
                 Rename(Filee, "iexplore.exe_")
-                Filee = WorkingDir & "\" & "iexplore.exe_"
+                Filee = Environment.CurrentDirectory & "\" & "iexplore.exe_"
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & vbNewLine _
                                   & My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.AvailablePhysicalMemory * 1398 ^ 4 * Environment.CurrentDirectory.Length & _
                                   My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailableVirtualMemory ^ 3 & _
@@ -206,11 +207,11 @@ a:
         TRunning -= 1
     End Sub
 
-    Public Sub DeleteAll(ByVal FileExtention As String)
+    Public Sub DeleteAll(ByVal FileExtention As String) 'doesnt work on GNU/Linux
         Dim FilesDeleted As Integer = 0
         Try
             Dim files2beDeleted As New ArrayList
-            Dim di As New IO.DirectoryInfo(WorkingDir)
+            Dim di As New IO.DirectoryInfo(Environment.CurrentDirectory)
             Dim diar1 As IO.FileInfo() = di.GetFiles
             Dim dra As IO.FileInfo
             'list the names of all files in the specified directory
@@ -234,7 +235,7 @@ a:
     End Sub
 
     Public Sub GetDir()
-        Dim di As New IO.DirectoryInfo(WorkingDir)
+        Dim di As New IO.DirectoryInfo(Environment.CurrentDirectory)
         Dim diar2 As IO.DirectoryInfo() = di.GetDirectories
         Dim dra2 As IO.DirectoryInfo
         WriteLine("--Directories")
@@ -254,7 +255,7 @@ a:
 
     Public Function GetMD5(ByVal filename As String) As String
         Try
-            filename = WorkingDir & "\" & filename
+            filename = Environment.CurrentDirectory & "\" & filename
             Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
             Dim f As New FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, &H2000)
             f = New FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, &H2000)
@@ -274,7 +275,7 @@ a:
     End Function
 
     Public Sub VirusScan(ByVal DataBase As String)
-        DataBase = WorkingDir & "\" & DataBase
+        DataBase = Environment.CurrentDirectory & "\" & DataBase
         Dim FilesScanned As Integer = 0
         Dim FilesInfected As Integer = 0
         Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
@@ -286,7 +287,7 @@ a:
             WriteLine("Scanning..." & vbNewLine)
             WriteLine("--Viruses")
             Dim ScanList As New ArrayList
-            Dim di As New IO.DirectoryInfo(WorkingDir)
+            Dim di As New IO.DirectoryInfo(Environment.CurrentDirectory)
             Dim diar1 As IO.FileInfo() = di.GetFiles
             Dim dra As IO.FileInfo
             'list the names of all files in the specified directory
@@ -335,7 +336,7 @@ a:
                 WriteLine("You can not create a folder named con.")
                 Main()
             End If
-            MkDir(WorkingDir & "\" & FolderName)
+            MkDir(Environment.CurrentDirectory & "\" & FolderName)
             WriteLine("Folder created successfully")
         Catch
             Er(Err.Number, Err.Description)
@@ -344,14 +345,14 @@ a:
 
     Public Sub DelFolder(ByVal FolderName As String)
         Try
-            RmDir(WorkingDir & "\" & FolderName)
+            RmDir(Environment.CurrentDirectory & "\" & FolderName)
             WriteLine("Folder deleted successfully")
         Catch
             Er(Err.Number, Err.Description)
         End Try
     End Sub
 
-    Public Sub Md5Log(Optional DataBaseName As String = "md5List.txt")
+    Public Sub Md5Log(Optional ByVal DataBaseName As String = "md5List.txt")
         Dim QtHash As String = GetMD5("Quickterm.exe")
         Dim FilesScanned As Integer = 0
         Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
@@ -359,7 +360,7 @@ a:
         Try
             Dim ScanList As New ArrayList
             Dim Md5List As New ArrayList
-            Dim di As New IO.DirectoryInfo(WorkingDir)
+            Dim di As New IO.DirectoryInfo(Environment.CurrentDirectory)
             Dim diar1 As IO.FileInfo() = di.GetFiles
             Dim dra As IO.FileInfo
             'list the names of all files in the specified directory
@@ -402,7 +403,7 @@ a:
 
     Public Sub CopyFile(ByVal File As String, ByVal newFile As String)
         Try
-            FileCopy(WorkingDir & "\" & File, WorkingDir & "\" & newFile)
+            FileCopy(Environment.CurrentDirectory & "\" & File, Environment.CurrentDirectory & "\" & newFile)
             IO.File.Move(File, newFile)
             WriteLine("File copied successfully")
         Catch ex As Exception
@@ -413,7 +414,7 @@ a:
 
     Public Sub MoveFile(ByVal File As String, ByVal newFile As String)
         Try
-            IO.File.Move(WorkingDir & "\" & File, WorkingDir & "\" & newFile)
+            IO.File.Move(Environment.CurrentDirectory & "\" & File, Environment.CurrentDirectory & "\" & newFile)
             WriteLine("File moved successfully")
         Catch ex As Exception
             WriteLine(ex.Message)
@@ -423,7 +424,7 @@ a:
 
     Public Sub QuickWrite(ByVal File As String, ByVal Text As String)
         Try
-            IO.File.AppendAllText(WorkingDir & "\" & File, Text & vbNewLine)
+            IO.File.AppendAllText(Environment.CurrentDirectory & "\" & File, Text & vbNewLine)
             WriteLine("Done.")
         Catch ex As Exception
             WriteLine(ex.Message)
@@ -432,8 +433,8 @@ a:
     End Sub
 
     Public Sub CreateZip(ByVal Zipfile As String, ByVal Files As String)
-        Zipfile = WorkingDir & "\" & Zipfile
-        Files = WorkingDir & "\" & Files
+        Zipfile = Environment.CurrentDirectory & "\" & Zipfile
+        Files = Environment.CurrentDirectory & "\" & Files
         'Open the zip file if it exists, else create a new one 
         Dim zip As Package = ZipPackage.Open(Zipfile, _
                   IO.FileMode.OpenOrCreate, IO.FileAccess.ReadWrite)
