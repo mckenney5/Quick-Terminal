@@ -202,7 +202,7 @@ Module QuickTerminal
     Public Sub Main2()
         Try
             If exitafter = True Then
-                ForegroundColor = ConsoleColor.Black
+                Console.ForegroundColor = ConsoleColor.Black
                 ReadKey()
                 Environment.Exit(0)
             End If
@@ -216,14 +216,14 @@ Module QuickTerminal
             If ReadConfig() = False Then
                 MsgBox("Error reading main.conf! Args are disabled until file is found but Commands will still work.", 16, )
             End If
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             WriteLine("Welcome " & Environment.UserName)
 a:
-            Title = "Quick Terminal"
-            BackgroundColor = ConsoleColor.Black
-            ForegroundColor = ConsoleColor.Cyan
+            Console.Title = "Quick Terminal"
+            'Console.BackgroundColor = ConsoleColor.Black
+            Console.ForegroundColor = ConsoleColor.Cyan
             Write(Prompt)
-            ForegroundColor = ConsoleColor.Gray
+            Console.ForegroundColor = ConsoleColor.Gray
             inpt = ReadLine()
             back = True
             If inpt = "" Then
@@ -245,7 +245,7 @@ a:
                 cmdssaid = 0
                 command = temp
             End If
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             Dim i As Integer = 0
             'Begin Commands
             Args = Split(command)
@@ -570,15 +570,15 @@ a:
             ElseIf Args(0) = "enc" Or Args(0) = "encrypt" Then 'I know this is a mess
                 Dim encstring As String
                 WriteLine("Text to encrypt")
-                ForegroundColor = ConsoleColor.Cyan
+                Console.ForegroundColor = ConsoleColor.Cyan
                 Write("> ")
-                ForegroundColor = ConsoleColor.Gray
+                Console.ForegroundColor = ConsoleColor.Gray
                 encstring = ReadLine()
                 Dim securePwd As New System.Security.SecureString()
                 Dim key As ConsoleKeyInfo
-                ForegroundColor = ConsoleColor.Cyan
+                Console.ForegroundColor = ConsoleColor.Cyan
                 Write("Key: ")
-                ForegroundColor = ConsoleColor.Gray
+                Console.ForegroundColor = ConsoleColor.Gray
                 Do
                     key = Console.ReadKey(True)
                     securePwd.AppendChar(key.KeyChar)
@@ -601,9 +601,9 @@ a:
                     End If
                     Dim securePwd As New System.Security.SecureString()
                     Dim key As ConsoleKeyInfo
-                    ForegroundColor = ConsoleColor.Cyan
+                    Console.ForegroundColor = ConsoleColor.Cyan
                     Write("Key: ")
-                    ForegroundColor = ConsoleColor.Gray
+                    Console.ForegroundColor = ConsoleColor.Gray
                     Do
                         key = Console.ReadKey(True)
                         securePwd.AppendChar(key.KeyChar)
@@ -618,15 +618,15 @@ a2:
                     Dim inpt2 As String
                     WriteLine("From file? [Y/N]")
 a:
-                    ForegroundColor = ConsoleColor.Cyan
+                    Console.ForegroundColor = ConsoleColor.Cyan
                     Write("> ")
-                    ForegroundColor = ConsoleColor.Gray
+                    Console.ForegroundColor = ConsoleColor.Gray
                     inpt2 = ReadLine()
                     If inpt2.ToLower = "y" Or inpt2.ToLower.StartsWith("y") Then
                         Dim decfilee
-                        ForegroundColor = ConsoleColor.Cyan
+                        Console.ForegroundColor = ConsoleColor.Cyan
                         Write("File> ")
-                        ForegroundColor = ConsoleColor.Gray
+                        Console.ForegroundColor = ConsoleColor.Gray
                         decfilee = ReadLine()
                         If System.IO.File.Exists(decfilee) = False Then
                             WriteLine("File not found")
@@ -635,9 +635,9 @@ a:
                         Dim securePwd2 As New System.Security.SecureString()
                         Dim key2 As ConsoleKeyInfo
                         Dim decfilee2 As String = System.IO.File.ReadAllText(decfilee)
-                        ForegroundColor = ConsoleColor.Cyan
+                        Console.ForegroundColor = ConsoleColor.Cyan
                         Write("Key: ")
-                        ForegroundColor = ConsoleColor.Gray
+                        Console.ForegroundColor = ConsoleColor.Gray
                         Do
                             key2 = Console.ReadKey(True)
                             securePwd2.AppendChar(key2.KeyChar)
@@ -650,16 +650,16 @@ a:
                         GoTo a
                     End If
                     WriteLine("Text to decrypt")
-                    ForegroundColor = ConsoleColor.Cyan
+                    Console.ForegroundColor = ConsoleColor.Cyan
                     Write("> ")
-                    ForegroundColor = ConsoleColor.Gray
+                    Console.ForegroundColor = ConsoleColor.Gray
                     encstring = ReadLine()
 b:
                     Dim securePwd As New System.Security.SecureString()
                     Dim key As ConsoleKeyInfo
-                    ForegroundColor = ConsoleColor.Cyan
+                    Console.ForegroundColor = ConsoleColor.Cyan
                     Write("Key: ")
-                    ForegroundColor = ConsoleColor.Gray
+                    Console.ForegroundColor = ConsoleColor.Gray
                     Do
                         key = Console.ReadKey(True)
                         securePwd.AppendChar(key.KeyChar)
@@ -679,8 +679,8 @@ b:
                 worker = New Thread(AddressOf refresh)
                 worker.Start()
             ElseIf Args(0) = "rms" Then
-                WriteLine("Mr. Stallman, this program is open source!")
-                ForegroundColor = ConsoleColor.DarkGreen
+                WriteLine("Mr. Stallman, this program is free (as in freedom)!")
+                Console.ForegroundColor = ConsoleColor.DarkGreen
                 WriteLine(">Muh freedoms")
             ElseIf Args(0) = "/g/" Then
                 Core.Gentoo()
@@ -694,9 +694,9 @@ b:
                         WriteLine("Delay must be 0 or greater")
                         Main2()
                     ElseIf Args(2) <= 75 Then
-                        ForegroundColor = ConsoleColor.Yellow
+                        Console.ForegroundColor = ConsoleColor.Yellow
                         WriteLine("Warning: Having the delay 75 or lower can get you banned off a site for spam.")
-                        ForegroundColor = ConsoleColor.White
+                        Console.ForegroundColor = ConsoleColor.White
                     End If
                     Crawler.Delay = Args(2)
                     WriteLine("Delay set to " & Crawler.Delay & " milliseconds.")
@@ -864,9 +864,9 @@ Cont6:
                         lstEmails.Clear()
                         WriteLine("Logs cleared")
                     ElseIf Args(1) = "thread" Then
-                        ForegroundColor = ConsoleColor.Yellow
+                        Console.ForegroundColor = ConsoleColor.Yellow
                         WriteLine("Warning this is a beta version")
-                        ForegroundColor = ConsoleColor.White
+                        Console.ForegroundColor = ConsoleColor.White
                         If Crawler.nonThreaded = False Then
                             Crawler.nonThreaded = True
                             WriteLine("Threading turned off")
@@ -1043,10 +1043,10 @@ Cont6:
                 Thread.Sleep(100)
                 Process.Start("qt.reg")
                 Write("Press any key to continue...")
-                ForegroundColor = ConsoleColor.Black
+                Console.ForegroundColor = ConsoleColor.Black
                 ReadKey()
                 WriteLine()
-                ForegroundColor = ConsoleColor.White
+                Console.ForegroundColor = ConsoleColor.White
                 IO.File.Delete("qt.reg")
             ElseIf Args(0) = "prompt" Then
                 If Args.Length = 1 Then
@@ -1091,11 +1091,13 @@ Cont6:
             ElseIf Args(0) = "pi2" Then
                 QMath.GetPi()
             ElseIf Args(0) = "zip" Then
+            	WriteLine("Command Disabled")
+            	Exit Sub
                 If Args.Length < 2 Or command.Contains("|") = False Then
                     WriteLine("Invalid syntax")
                 Else
                     Dim temp() = Split(command.Remove(0, 4), "|")
-                    QIO.CreateZip(temp(0), temp(1))
+                    'QIO.CreateZip(temp(0), temp(1))
                 End If
 
             ElseIf Args(0) = "cd" Then
@@ -1111,7 +1113,7 @@ Cont6:
             Else
                 If Scripting = True Then
                     If errorhandle = "default" Then
-                        ForegroundColor = ConsoleColor.Red
+                        Console.ForegroundColor = ConsoleColor.Red
                         GoTo lol
                     ElseIf errorhandle = "log" Then
                         System.IO.File.AppendAllText("QtErrors.log", "The command '" & command & "' is not found." & vbNewLine)
@@ -1130,7 +1132,7 @@ lol:
                     ReadFile(command)
                 Else
                     WriteLine("The command '" & command & "' is not found.")
-                    ForegroundColor = ConsoleColor.White
+                    Console.ForegroundColor = ConsoleColor.White
                     QuickInfo.Search(command)
                 End If
             End If
@@ -1225,10 +1227,10 @@ lol:
     Private Sub ddosUpdateSub()
         TRunning += 1
 a:
-        Title = "Quick Terminal - REQ: " & Ddos.REQ & " - Ping: " & Ddos.Psent
+        Console.Title = "Quick Terminal - REQ: " & Ddos.REQ & " - Ping: " & Ddos.Psent
         If Ddos.Attack_Stop = True Then
             WriteLine("DDOS Updater stoped.")
-            Title = "Quick Terminal"
+            Console.Title = "Quick Terminal"
             back = True
             Main2()
             TRunning -= 1
@@ -1251,25 +1253,27 @@ a:
     End Sub
 
     Private Function UptoDate() As Boolean
-        Try
-            Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
-            Dim response As System.Net.HttpWebResponse = request.GetResponse()
+    'Disabled
+    	Return True
+        'Try
+            'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
+            'Dim response As System.Net.HttpWebResponse = request.GetResponse()
 
-            Dim sr As System.IO.StreamReader = New System.IO.StreamReader(response.GetResponseStream())
+            'Dim sr As System.IO.StreamReader = New System.IO.StreamReader(response.GetResponseStream())
 
-            Dim newestversion As String = sr.ReadToEnd()
-            Dim currentversion As String = ver
+            'Dim newestversion As String = sr.ReadToEnd()
+            'Dim currentversion As String = ver
 
-            If newestversion.Contains(currentversion) Then
+            'If newestversion.Contains(currentversion) Then
                 'MessageBox.Show("You have the current version")
-                Return True
-            Else
-                Return False
-            End If
-        Catch
-            Er()
-            Return Nothing
-        End Try
+                'Return True
+            'Else
+                'Return False
+            'End If
+        'Catch
+            'Er()
+            'Return Nothing
+        'End Try
     End Function
 
     Private Sub refresh()
@@ -1404,7 +1408,7 @@ B:
             QtCont()
         End If
 a:
-        ForegroundColor = ConsoleColor.Red
+        Console.ForegroundColor = ConsoleColor.Red
         If Err.Number = 0 Or Err.Number = Nothing Then
             WriteLine("Error: (" & Err.Number & ") Unknown Error.")
         ElseIf Err.Number = 9 Then
@@ -1418,14 +1422,14 @@ a:
         End If
         Err.Clear()
         If EndOnFinish = True Then
-            ForegroundColor = ConsoleColor.Black
+            Console.ForegroundColor = ConsoleColor.Black
             Read()
             Environment.Exit(1000)
         End If
         If Core.back2 = True Then
             Core.Cmd2()
         End If
-        ForegroundColor = ConsoleColor.White
+        Console.ForegroundColor = ConsoleColor.White
         Main2()
     End Sub
 #End Region
@@ -1487,7 +1491,7 @@ a:
                 ElseIf IO.File.ReadAllLines(ProgramLocation & "\vars.tmp").Length > 0 AndAlso QtFile(i2).Contains("~") = True AndAlso QtFile(i2).Contains("'~") = False Then
                     Dim temp() As String = IO.File.ReadAllLines(ProgramLocation & "\vars.tmp")
                     If temp.Length > 65535 Then
-                        ForegroundColor = ConsoleColor.Red
+                        Console.ForegroundColor = ConsoleColor.Red
                         WriteLine("Error! You can not have more then 65535 vars!")
                         ClearVars()
                         Main2() 'goes back to the UI
@@ -1550,7 +1554,7 @@ b:
                     i2 += 1
                     GoTo a
                 ElseIf QtFile(i2).StartsWith("title ") = True Then
-                    Title = QtFile(i2).Remove(0, 6)
+                    Console.Title = QtFile(i2).Remove(0, 6)
                 ElseIf QtFile(i2) = "do" Then 'do loop forever
                     loopp = i2
                 ElseIf QtFile(i2).StartsWith("do ") = True Then 'do loop for specific ammount
@@ -1596,32 +1600,32 @@ b:
                 ElseIf QtFile(i2).StartsWith("input ") = True Then
                     Dim ytemp As String = QtFile(i2).Remove(0, 6)
                     ytemp = ytemp.Replace(" ", "")
-                    ForegroundColor = ConsoleColor.Cyan
+                    Console.ForegroundColor = ConsoleColor.Cyan
                     Write("> ")
-                    ForegroundColor = ConsoleColor.Gray
+                    Console.ForegroundColor = ConsoleColor.Gray
                     Dim xtemp As String = ReadLine()
-                    ForegroundColor = ConsoleColor.White
+                    Console.ForegroundColor = ConsoleColor.White
                     IO.File.AppendAllText(ProgramLocation & "\vars.tmp", ytemp & "▬" & xtemp & vbNewLine)
                 ElseIf QtFile(i2).StartsWith("dim ") = True Then 'creates vars
                     QtFile(i2) = QtFile(i2).Remove(0, 4)
                     QtFile(i2) = QtFile(i2).Replace(" = ", "▬")
-                    Dim temp() As String = QtFile(i2).Split("▬")
+                    Dim temp() As String = Split(QtFile(i2), "▬")
                     IO.File.AppendAllText(ProgramLocation & "\vars.tmp", QtFile(i2) & vbNewLine)
                 ElseIf QtFile(i2).Contains("~random") = True AndAlso QtFile(i2).Contains("'~random'") = False Then 'random number gen
                     Dim ran As New Random
                     QtFile(i2) = QtFile(i2).Replace("~random", ran.Next(1000)) 'replaces with a random number between 1 - 1000
                 ElseIf QtFile(i2) = "break" Then 'like pause
                     Write("Press any key to continue...")
-                    ForegroundColor = ConsoleColor.Black
+                    Console.ForegroundColor = ConsoleColor.Black
                     ReadKey()
                     WriteLine()
-                    ForegroundColor = ConsoleColor.White
+                    Console.ForegroundColor = ConsoleColor.White
                 ElseIf QtFile(i2) = "pause" Then 'like pause
                     Write("Press any key to continue...")
-                    ForegroundColor = ConsoleColor.Black
+                    Console.ForegroundColor = ConsoleColor.Black
                     ReadKey()
                     WriteLine()
-                    ForegroundColor = ConsoleColor.White
+                    Console.ForegroundColor = ConsoleColor.White
                 ElseIf QtFile(i2).StartsWith("wait ") = True Then 'sleeps
                     Threading.Thread.Sleep(QtFile(i2).Remove(0, 5))
                 ElseIf QtFile(i2) = "refresh" Then
@@ -1635,13 +1639,13 @@ b:
                 i2 += 1
             Loop
         Catch
-            ForegroundColor = ConsoleColor.Red
+            Console.ForegroundColor = ConsoleColor.Red
             Write("(")
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             Write("!")
-            ForegroundColor = ConsoleColor.Red
+            Console.ForegroundColor = ConsoleColor.Red
             Write(") Script Stopped! Error on line ")
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             WriteLine(i2 + 1)
             ClearVars() 'allows for more scripts to be run later
             Er(Err.Number, Err.Description)

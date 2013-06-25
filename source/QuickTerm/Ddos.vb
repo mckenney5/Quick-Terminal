@@ -33,7 +33,7 @@ Public Class Ddos
     Dim Interval As Integer
     Dim Booster As Boolean
     Dim Booster_File As String
-    Dim Booster_Whole()
+    Dim Booster_Whole() As String
     Dim Booster_Urls As New ArrayList
     Dim Boosters_UserAgent As New ArrayList
     Dim numm As Integer = 0
@@ -114,9 +114,9 @@ Public Class Ddos
                       & "Would you like to continue anyway? [Y/N]")
             Dim inpt As String
 a:
-            ForegroundColor = ConsoleColor.Cyan
+            Console.ForegroundColor = ConsoleColor.Cyan
             Write("> ")
-            ForegroundColor = ConsoleColor.Gray
+            Console.ForegroundColor = ConsoleColor.Gray
             inpt = ReadLine()
             If inpt.ToLower = "y" Or inpt.ToLower.StartsWith("y") Then
                 'do work
@@ -152,9 +152,9 @@ a:
                       & "Would you like to continue anyway? [Y/N]")
             Dim inpt As String
 a:
-            ForegroundColor = ConsoleColor.Cyan
+            Console.ForegroundColor = ConsoleColor.Cyan
             Write("> ")
-            ForegroundColor = ConsoleColor.Gray
+            Console.ForegroundColor = ConsoleColor.Gray
             inpt = ReadLine()
             If inpt.ToLower = "y" Or inpt.ToLower.StartsWith("y") Then
                 'do work
@@ -339,9 +339,9 @@ b:
             t10 = New Threading.Thread(AddressOf Ping_Attack)
             TRunning += 10
         ElseIf Attack_Type = "Boost" Then
-            ForegroundColor = ConsoleColor.Yellow
+            Console.ForegroundColor = ConsoleColor.Yellow
             WriteLine("Warning: Boost may slow down your computer until stopped.")
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             'Make more threads then 5, maybe 25?
             t1 = New Threading.Thread(AddressOf Boost_Attack)
             t2 = New Threading.Thread(AddressOf Boost_Attack)

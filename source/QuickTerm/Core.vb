@@ -79,7 +79,7 @@ Public Class Core
     End Function
 
     Public Sub Gentoo() 'doesnt work on GNU/Linux
-        ForegroundColor = ConsoleColor.Blue
+        Console.ForegroundColor = ConsoleColor.Blue
         WriteLine("     .vir.                                d$b ")
         WriteLine("  .d$$$$$$b.    .cd$$b.     .d$$b.   d$$$$$$$$$$$b  .d$$b.      .d$$b. ")
         WriteLine("  $$$$( )$$$b d$$$()$$$.   d$$$$$$$b Q$$$$$$$P$$$P.$$$$$$$b.  .$$$$$$$b. ")
@@ -89,7 +89,7 @@ Public Class Core
         WriteLine("  $$$$$$$P       `'''''   ''        ''   Q$$$P     'Q$$$P'     'Q$$$P' ")
         WriteLine(" `Q$$P''                                  ''' ")
         WriteLine()
-        ForegroundColor = ConsoleColor.White
+        Console.ForegroundColor = ConsoleColor.White
         WriteLine("Welcome Gentoomen!")
         SaveScreen("4chan.g")
         Process.Start("4chan.g.png")
@@ -99,7 +99,7 @@ Public Class Core
     Public Sub dev()
         Try
             If File.Exists(Directory.GetCurrentDirectory & "\Dev.log") Then
-                Dim Filee()
+                Dim Filee() As String
                 Filee = File.ReadAllLines(Directory.GetCurrentDirectory & "\Dev.log")
                 If Filee(0) = "--Begin of dev log" AndAlso Filee(1) = "(anything made before this is undocumented)" Then
                     Process.Start("Dev.log")
@@ -180,10 +180,9 @@ Public Class Core
         WriteLine("To exit type '~exit' in lower-case")
 a:
         WriteLine()
-        BackgroundColor = ConsoleColor.Black
-        ForegroundColor = ConsoleColor.Cyan
+        Console.ForegroundColor = ConsoleColor.Cyan
         Write("Shell=> ")
-        ForegroundColor = ConsoleColor.Gray
+        Console.ForegroundColor = ConsoleColor.Gray
         inpt = ReadLine()
         If inpt = "~exit" Then
             back2 = False

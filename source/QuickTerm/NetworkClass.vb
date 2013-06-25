@@ -26,9 +26,9 @@ Public Class NetworkClass
     End Sub
 
     Public Sub ReverseDnsLookUp(ByVal Server As IPAddress)
-        ForegroundColor = ConsoleColor.Yellow
+        Console.ForegroundColor = ConsoleColor.Yellow
         WriteLine("Warning this is a beta version")
-        ForegroundColor = ConsoleColor.White
+        Console.ForegroundColor = ConsoleColor.White
         Console.WriteLine("Looking up " & Server.ToString)
         Dim Hostname As IPHostEntry = Dns.GetHostEntry(Server)
         Dim tuff() = Hostname.Aliases()
@@ -144,9 +144,9 @@ a:
     End Sub
 
     Public Sub Connect(ByVal Address As String, ByVal Port As Integer)
-        ForegroundColor = ConsoleColor.Yellow
+        Console.ForegroundColor = ConsoleColor.Yellow
         WriteLine("Warning this is a beta version")
-        ForegroundColor = ConsoleColor.White
+        Console.ForegroundColor = ConsoleColor.White
         WriteLine("Connecting to " & Address & " on port " & Port)
         Dim inpt As String
         Try

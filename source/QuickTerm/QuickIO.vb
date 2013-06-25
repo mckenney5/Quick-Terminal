@@ -1,7 +1,7 @@
 ﻿'Handles most file/folder reading and writing
 Imports System.IO
 Imports System.Console
-Imports System.IO.Packaging
+'Imports System.IO.Packaging
 Public Class QuickIO
     Public Sub Read2(ByVal TextFile As String) 'doesnt work on GNU/Linux
         Dim File2 As String = TextFile
@@ -20,9 +20,9 @@ Public Class QuickIO
                 WriteLine("(which may make the terminal freeze)")
                 WriteLine("Would you like to read it anyway? [y/n]")
 b:
-                ForegroundColor = ConsoleColor.Cyan
+                Console.ForegroundColor = ConsoleColor.Cyan
                 Write("> ")
-                ForegroundColor = ConsoleColor.Gray
+                Console.ForegroundColor = ConsoleColor.Gray
                 Dim cho As String = ReadLine()
                 If cho.ToLower = "y" Then
                     GoTo a
@@ -33,7 +33,7 @@ b:
                 End If
             End If
 a:
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             Dim TFile() As String = File.ReadAllLines(TextFile)
             Dim i As Integer = 0
             If TFile.Length > 250 Then
@@ -92,10 +92,10 @@ a:
                 WriteLine(TFile(i))
                 i += 1
             Loop
-            ForegroundColor = ConsoleColor.Yellow
+            Console.ForegroundColor = ConsoleColor.Yellow
             WriteLine("Warning: File lines exceed 1500 lines (reads maximum limit)")
             WriteLine("The rest of the file will be dumped.")
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             ReadKey()
             Do Until i = TFile.Length
                 WriteLine(TFile(i))
@@ -306,7 +306,7 @@ a:
                 Next
                 f.Close()
                 If f2.Contains(buff.ToString) = True Then
-                    ForegroundColor = ConsoleColor.Red
+                    Console.ForegroundColor = ConsoleColor.Red
                     WriteLine(ScanList.Item(i))
                     FilesInfected += 1
                 Else
@@ -315,14 +315,14 @@ a:
                 FilesScanned += 1
                 i += 1
             Loop
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             WriteLine("---------")
             WriteLine()
             WriteLine("Scanned: " & FilesScanned)
             Write("Infected: ")
-            ForegroundColor = ConsoleColor.Red
+            Console.ForegroundColor = ConsoleColor.Red
             WriteLine(FilesInfected)
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             WriteLine("Done.")
             Main()
         Catch
@@ -392,7 +392,7 @@ a:
                 End If
                 i += 1
             Loop
-            ForegroundColor = ConsoleColor.White
+            Console.ForegroundColor = ConsoleColor.White
             WriteLine("Scanned: " & FilesScanned)
             WriteLine("Done.")
             Main()
@@ -432,42 +432,7 @@ a:
         Main()
     End Sub
 
-    Public Sub CreateZip(ByVal Zipfile As String, ByVal Files As String)
-        Zipfile = Environment.CurrentDirectory & "\" & Zipfile
-        Files = Environment.CurrentDirectory & "\" & Files
-        'Open the zip file if it exists, else create a new one 
-        Dim zip As Package = ZipPackage.Open(Zipfile, _
-                  IO.FileMode.OpenOrCreate, IO.FileAccess.ReadWrite)
-
-        'Replace spaces with an underscore (_) 
-        Dim uriFileName As String = Files.Replace(" ", "_")
-
-        'A Uri always starts with a forward slash "/" 
-        Dim zipUri As String = String.Concat("/", _
-                  IO.Path.GetFileName(uriFileName))
-
-        Dim partUri As New Uri(zipUri, UriKind.Relative)
-        Dim contentType As String = _
-                  Net.Mime.MediaTypeNames.Application.Zip
-
-        'The PackagePart contains the information: 
-        ' Where to extract the file when it's extracted (partUri) 
-        ' The type of content stream (MIME type) - (contentType) 
-        ' The type of compression to use (CompressionOption.Normal) 
-        Dim pkgPart As PackagePart = _
-                  zip.CreatePart(partUri, contentType, _
-                  CompressionOption.Normal)
-
-        'Read all of the bytes from the file to add to the zip file 
-        Dim bites As Byte() = File.ReadAllBytes(Files)
-
-        'Compress and write the bytes to the zip file 
-        pkgPart.GetStream().Write(bites, 0, bites.Length)
-
-        zip.Close() 'Close the zip file
-        WriteLine("Done.")
-        Main()
-    End Sub
+    'P
 
     Public Sub RenameFile(ByVal Filename As String, ByVal NewName As String)
         Try
