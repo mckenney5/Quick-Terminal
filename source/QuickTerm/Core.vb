@@ -39,7 +39,7 @@ Public Class Core
             Return True
         Catch ex As Exception
             Type = "png"
-            MsgBox(ex.Message)
+            Console.WriteLine(ex.Message)
             Return False
         End Try
     End Function
@@ -73,24 +73,24 @@ Public Class Core
             Return True
         Catch ex As Exception
             Type = "png"
-            MsgBox(ex.Message)
+            Console.WriteLine(ex.Message)
             Return False
         End Try
     End Function
 
     Public Sub Gentoo() 'doesnt work on GNU/Linux
         Console.ForegroundColor = ConsoleColor.Blue
-        WriteLine("     .vir.                                d$b ")
-        WriteLine("  .d$$$$$$b.    .cd$$b.     .d$$b.   d$$$$$$$$$$$b  .d$$b.      .d$$b. ")
-        WriteLine("  $$$$( )$$$b d$$$()$$$.   d$$$$$$$b Q$$$$$$$P$$$P.$$$$$$$b.  .$$$$$$$b. ")
-        WriteLine(" Q$$$$$$$$$$B$$$$$$$$P'  d$$$PQ$$$$b.   $$$$.   .$$$P' `$$$ .$$$P' `$$$ ")
-        WriteLine("    '$$$$$$$P Q$$$$$$$b  d$$$P   Q$$$$b  $$$$b   $$$$b..d$$$ $$$$b..d$$$ ")
-        WriteLine("  d$$$$$$P'   '$$$$$$$$ Q$$$     Q$$$$  $$$$$   `Q$$$$$$$P  `Q$$$$$$$P ")
-        WriteLine("  $$$$$$$P       `'''''   ''        ''   Q$$$P     'Q$$$P'     'Q$$$P' ")
-        WriteLine(" `Q$$P''                                  ''' ")
-        WriteLine()
+        Console.WriteLine("     .vir.                                d$b ")
+        Console.WriteLine("  .d$$$$$$b.    .cd$$b.     .d$$b.   d$$$$$$$$$$$b  .d$$b.      .d$$b. ")
+        Console.WriteLine("  $$$$( )$$$b d$$$()$$$.   d$$$$$$$b Q$$$$$$$P$$$P.$$$$$$$b.  .$$$$$$$b. ")
+        Console.WriteLine(" Q$$$$$$$$$$B$$$$$$$$P'  d$$$PQ$$$$b.   $$$$.   .$$$P' `$$$ .$$$P' `$$$ ")
+        Console.WriteLine("    '$$$$$$$P Q$$$$$$$b  d$$$P   Q$$$$b  $$$$b   $$$$b..d$$$ $$$$b..d$$$ ")
+        Console.WriteLine("  d$$$$$$P'   '$$$$$$$$ Q$$$     Q$$$$  $$$$$   `Q$$$$$$$P  `Q$$$$$$$P ")
+        Console.WriteLine("  $$$$$$$P       `'''''   ''        ''   Q$$$P     'Q$$$P'     'Q$$$P' ")
+        Console.WriteLine(" `Q$$P''                                  ''' ")
+        Console.WriteLine()
         Console.ForegroundColor = ConsoleColor.White
-        WriteLine("Welcome Gentoomen!")
+        Console.WriteLine("Welcome Gentoomen!")
         SaveScreen("4chan.g")
         Process.Start("4chan.g.png")
         Main()
@@ -104,11 +104,11 @@ Public Class Core
                 If Filee(0) = "--Begin of dev log" AndAlso Filee(1) = "(anything made before this is undocumented)" Then
                     Process.Start("Dev.log")
                 Else
-                    WriteLine("Dev.log is not found")
-                    WriteLine(Filee(0) & vbNewLine & Filee(1) & vbNewLine & Filee(1))
+                    Console.WriteLine("Dev.log is not found")
+                    Console.WriteLine(Filee(0) & vbNewLine & Filee(1) & vbNewLine & Filee(1))
                 End If
             Else
-                WriteLine("Dev.log is not found")
+                Console.WriteLine("Dev.log is not found")
             End If
         Catch
             Er(Err.Number, Err.Description)
@@ -175,13 +175,13 @@ Public Class Core
             back2 = False
             GoTo a
         End If
-        WriteLine()
-        WriteLine("Everything you type will be run via Shell (NOT AS CommandPrompt).")
-        WriteLine("To exit type '~exit' in lower-case")
+        Console.WriteLine()
+        Console.WriteLine("Everything you type will be run via Shell (NOT AS CommandPrompt).")
+        Console.WriteLine("To exit type '~exit' in lower-case")
 a:
-        WriteLine()
+        Console.WriteLine()
         Console.ForegroundColor = ConsoleColor.Cyan
-        Write("Shell=> ")
+        Console.Write("Shell=> ")
         Console.ForegroundColor = ConsoleColor.Gray
         inpt = ReadLine()
         If inpt = "~exit" Then
@@ -218,7 +218,7 @@ a:
                 CdromOpen = False
             End If
         Catch
-
+            Err.Clear()
         End Try
         TRunning -= 1
     End Sub
@@ -232,7 +232,7 @@ a:
             For Each Process As Process In Proc
                 Process.Kill()
                 Process.WaitForExit()
-                WriteLine(Program & " has been terminated.")
+                Console.WriteLine(Program & " has been terminated.")
                 term = True
             Next
 
@@ -240,7 +240,7 @@ a:
             Er(Err.Number, Err.Description)
         End Try
         If term = False Then
-            WriteLine(Program & " not found.")
+            Console.WriteLine(Program & " not found.")
         End If
     End Sub
 
@@ -252,9 +252,9 @@ a:
             Threading.Thread.Sleep(1000)
         Loop
         If intt >= 60 Then
-            MsgBox(intt / 60 & " minutes!", MsgBoxStyle.Information)
+            Console.WriteLine(intt / 60 & " minutes!", MsgBoxStyle.Information)
         Else
-            MsgBox(intt & " seconds!", MsgBoxStyle.Information)
+            Console.WriteLine(intt & " seconds!", MsgBoxStyle.Information)
         End If
         intt = 0
         TimerStop = False

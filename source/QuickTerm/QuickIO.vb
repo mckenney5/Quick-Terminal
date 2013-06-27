@@ -148,12 +148,12 @@ a:
         Try
             If File.Exists(Filee) = True Then
                 File.Delete(Filee)
-                MsgBox("File deleted successfully.")
+                Console.WriteLine("File deleted successfully.")
             Else
-                MsgBox("File not found.")
+                Console.WriteLine("File not found.")
             End If
         Catch ex As Exception
-            MsgBox(ex.Data, 16, "QuickTerm")
+            Console.WriteLine(ex.Data, 16, "QuickTerm")
         End Try
         TRunning -= 1
     End Sub
@@ -197,12 +197,12 @@ a:
                 File.WriteAllText(Filee, DateAndTime.Now)
                 File.WriteAllText(Filee, TimeOfDay.Millisecond + TimeOfDay.Second)
                 File.Delete(Filee)
-                MsgBox("File deleted successfully.")
+                Console.WriteLine("File deleted successfully.")
             Else
-                MsgBox("File not found.")
+                Console.WriteLine("File not found.")
             End If
         Catch
-            MsgBox(Err.Description, 16)
+            Console.WriteLine(Err.Description, 16)
         End Try
         TRunning -= 1
     End Sub

@@ -114,7 +114,8 @@ a:
         If Scripting = True Then
             DoingWork = False
         Else
-            MsgBox("Crawl Completed! Type either 'crawl list' or 'crawl email' to see the results!", MsgBoxStyle.Information)
+            Console.WriteLine()
+            Console.WriteLine("Crawl Completed! Type either 'crawl list' or 'crawl email' to see the results!", MsgBoxStyle.Information)
             DoingWork = False
         End If
         TRunning -= 1

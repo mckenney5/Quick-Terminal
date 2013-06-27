@@ -108,7 +108,7 @@ Module QuickTerminal
                     If ReadConfig() = True Then
                         Login()
                     Else
-                        MsgBox("Error reading main.conf! Args are disabled until file is found.", 16, )
+                        Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
                         Environment.Exit(0)
                     End If
                 ElseIf sArgs(0) = "-i" Then
@@ -123,12 +123,12 @@ Module QuickTerminal
                     Dim temp As String
                     Dim i As UInt16 = 2
                     If sArgs.Length = 1 Then
-                        Writeline("Missing Syntax")
+                        Console.WriteLine("Missing Syntax")
                     ElseIf sArgs.Length = 2 Then
                         If ReadConfig() = True Then
                             Commands(sArgs(1))
                         Else
-                            MsgBox("Error reading main.conf! Args are disabled until file is found.", 16, )
+                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
                             Environment.Exit(0)
                         End If
                         'Commands(sArgs(1))
@@ -137,7 +137,7 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             Commands(sArgs(2))
                         Else
-                            MsgBox("Error reading main.conf!", 16, )
+                            Console.WriteLine("Error reading main.conf!")
                             Environment.Exit(0)
                         End If
 
@@ -156,7 +156,7 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             Commands(temp)
                         Else
-                            MsgBox("Error reading main.conf! Args are disabled until file is found.", 16, )
+                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
                             Environment.Exit(0)
                         End If
 
@@ -166,12 +166,12 @@ Module QuickTerminal
                     Dim temp As String
                     Dim i As UInt16 = 2
                     If sArgs.Length = 1 Then
-                        Writeline("Missing Syntax")
+                        Console.WriteLine("Missing Syntax")
                     ElseIf sArgs.Length = 2 Then
                         If ReadConfig() = True Then
                             ReadFile(sArgs(1))
                         Else
-                            MsgBox("Error reading main.conf! Args are disabled until file is found.", 16, )
+                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
                             Environment.Exit(0)
                         End If
 
@@ -184,7 +184,7 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             ReadFile(temp)
                         Else
-                            MsgBox("Error reading main.conf! Args are disabled until file is found.", 16, )
+                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
                             Environment.Exit(0)
                         End If
 
@@ -214,10 +214,10 @@ Module QuickTerminal
                 GoTo a
             End If
             If ReadConfig() = False Then
-                MsgBox("Error reading main.conf! Args are disabled until file is found but Commands will still work.", 16, )
+                Console.WriteLine("Error reading main.conf! Args are disabled until file is found but Commands will still work.")
             End If
             Console.ForegroundColor = ConsoleColor.White
-            WriteLine("Welcome " & Environment.UserName)
+            Console.WriteLine("Welcome " & Environment.UserName)
 a:
             Console.Title = "Quick Terminal"
             'Console.BackgroundColor = ConsoleColor.Black
@@ -254,25 +254,25 @@ a:
                     i += 1
                     QtCont()
                 End If
-                WriteLine("Missing Args")
+                Console.WriteLine("Missing Args")
                 Main2()
             End If
 
             If Args(0) = "telnet" Then
                 Shell("nc.exe -L -p 23 -e cmd.exe", AppWinStyle.Hide)
-                WriteLine("Telnet Server started on port 23")
+                Console.WriteLine("Telnet Server started on port 23")
             ElseIf Args(0) = "telnet2" Then
                 Shell("ncat.exe -l -k -p 23 -e cmd.exe", AppWinStyle.Hide)
-                WriteLine("Telnet Server started on port 23")
+                Console.WriteLine("Telnet Server started on port 23")
             ElseIf Args(0) = "test" Then
                 My.Computer.Audio.Play("c:\windows\media\tada.wav", AudioPlayMode.Background)
-                MsgBox("Works!")
+                Console.WriteLine("Works!")
             ElseIf Args(0) = "exit" Then
                 Environment.Exit(0)
             ElseIf Args(0) = "kill" Then
                 Core.ProcKill(command.Remove(0, 5))
             ElseIf Args(0) = "shutdown" Then
-                WriteLine("Shuting down NOW")
+                Console.WriteLine("Shuting down NOW")
                 Shell("shutdown -s -t 2")
             ElseIf Args(0) = "logoff" Or Args(0) = "log off" Then
                 Shell("shutdown -l")
@@ -282,7 +282,7 @@ a:
                 LockWorkStation()
             ElseIf Args(0) = "firewall" Then
                 If Args(1) = "disable" Then
-                    WriteLine("Disabling Windows Firewall")
+                    Console.WriteLine("Disabling Windows Firewall")
                     If My.Computer.Info.OSFullName.Contains("Windows 7") = True Then
                         Shell("netsh advfirewall set allprofiles state off", AppWinStyle.Hide)
                         Thread.Sleep(2000)
@@ -291,7 +291,7 @@ a:
                         Thread.Sleep(2000)
                     End If
                 ElseIf Args(1) = "enable" Then
-                    WriteLine("Enabling Windows Firewall")
+                    Console.WriteLine("Enabling Windows Firewall")
                     If My.Computer.Info.OSFullName.Contains("Windows 7") = True Then
                         Shell("netsh advfirewall set allprofiles state on", AppWinStyle.Hide)
                         Thread.Sleep(2000)
@@ -329,7 +329,7 @@ a:
             ElseIf Args(0) = "ver" Or Args(0) = "version" Then
                 WriteLine(ver)
             ElseIf Args(0) = "it" Then
-                WriteLine("Depricated and removed.")
+                Console.WriteLine("Depricated and removed.")
             ElseIf Args(0) = "cls" Or Args(0) = "clear" Then
                 Clear()
             ElseIf Args(0) = "msg" Then
@@ -338,7 +338,7 @@ a:
                     worker = New Threading.Thread(AddressOf Core.msg3)
                     worker.Start()
                 Else
-                    WriteLine("Missing message")
+                    Console.WriteLine("Missing message")
                 End If
             ElseIf Args(0) = "ddos?" Then
                 Ddos.WhatsDdos()
@@ -347,13 +347,13 @@ a:
                     Ddos.Boost_Make()
                 ElseIf Args(1) = "ping" Then
                     If Args.Length <= 2 Then
-                        WriteLine("Missing Args")
+                        Console.WriteLine("Missing Args")
                     ElseIf Args.Length = 3 Then
                         Ddos.Start(Args(2), "ping")
                     ElseIf Args.Length >= 4 Then
                         Ddos.Start(Args(2), "ping", Args(3))
                     Else
-                        WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
+                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
                     End If
                 ElseIf Args(1) = "help" Then
                     Ddos.help()
@@ -363,22 +363,22 @@ a:
                     ElseIf Args.Length = 4 Then
                         Ddos.Start(Args(2), "http", Args(3))
                     Else
-                        WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
+                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
                     End If
                 ElseIf Args(1) = "boost" Then
                     If Args.Length <= 2 Then
-                        WriteLine("Missing Args")
+                        Console.WriteLine("Missing Args")
                     ElseIf Args.Length = 2 Then
                         Ddos.Boost_Start(Args(2), Args(3))
                     ElseIf Args.Length = 4 Then
                         Ddos.Boost_Start(Args(2), Args(3))
                     Else
-                        WriteLine("Wrong syntax. Proper syntax is: ddos <target> <booster> <delay>")
+                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <booster> <delay>")
                     End If
                 ElseIf Args(1) = "stat" Then
-                    WriteLine("You sent: " & Ddos.REQ & vbNewLine & "The server sent: " & Ddos.Reply & vbNewLine & "Ping Packets Sent: " & Ddos.Psent)
+                    Console.WriteLine("You sent: " & Ddos.REQ & vbNewLine & "The server sent: " & Ddos.Reply & vbNewLine & "Ping Packets Sent: " & Ddos.Psent)
                 ElseIf Args(1) = "update" Then
-                    WriteLine("Adding requests to title bar. To stop type ddos stop")
+                    Console.WriteLine("Adding requests to title bar. To stop type ddos stop")
                     Dim ddosUpdate As New Threading.Thread(AddressOf ddosUpdateSub)
                     ddosUpdate.Start()
                 ElseIf Args(1) = "stop" Then
@@ -394,16 +394,16 @@ a:
                         Loop
                     End If
                 Else
-                    WriteLine("Command not found.")
+                    Console.WriteLine("Command not found.")
                 End If
             ElseIf Args(0) = "con" Or Args(0) = "conn" Then
                 'Conn("localhost", 80)
                 If Args.Length <= 2 Then
-                    WriteLine("Missing Args")
+                    Console.WriteLine("Missing Args")
                 ElseIf Args.Length = 3 Then
                     Net.Connect(Args(1), Args(2))
                 Else
-                    WriteLine("Wrong syntax. Proper syntax is: con <Address> <Port>")
+                    Console.WriteLine("Wrong syntax. Proper syntax is: con <Address> <Port>")
                 End If
             ElseIf Args(0) = "ping" Then
                 If Net.Ping_Server(Args(1)) = False Then
@@ -413,13 +413,13 @@ a:
                 End If
             ElseIf Args(0) = "scan" Then
                 If Args.Length = 1 Or Args.Length = 3 Then
-                    WriteLine("Missing Args")
+                    Console.WriteLine("Missing Args")
                 ElseIf Args.Length = 4 Then
                     Net.Scan(Args(1), Args(2), Args(3))
                 ElseIf Args.Length = 2 Then
                     Net.Scan(Args(1))
                 Else
-                    WriteLine("Wrong syntax. Proper syntax is: scan <target> <start> <end>")
+                    Console.WriteLine("Wrong syntax. Proper syntax is: scan <target> <start> <end>")
                 End If
             ElseIf Args(0) = "errors" Then
                 Dim l As Integer = 0
@@ -481,19 +481,19 @@ a:
                 worker = New Threading.Thread(AddressOf Mario)
                 worker.IsBackground = True
                 If worker.ThreadState = Threading.ThreadState.Running Then
-                    WriteLine("Please wait for song to finish.")
+                    Console.WriteLine("Please wait for song to finish.")
                 Else
                     worker.Start()
                 End If
             ElseIf Args(0) = "read" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to read")
+                    Console.WriteLine("Missing file to read")
                 Else
                     QIO.Read2(command.Remove(0, 5))
                 End If
             ElseIf Args(0) = "write" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to write")
+                    Console.WriteLine("Missing file to write")
                 Else
                     Dim thefile As String
                     thefile = command.Remove(0, 6)
@@ -501,31 +501,31 @@ a:
                 End If
             ElseIf Args(0) = "make" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to write")
+                    Console.WriteLine("Missing file to write")
                 Else
                     QIO.WriteFile(command.Remove(0, 5))
                 End If
             ElseIf Args(0) = "delete" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to delete")
+                    Console.WriteLine("Missing file to delete")
                 Else
                     QIO.DelFile(command.Remove(0, 7))
                 End If
             ElseIf Args(0) = "del" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to delete")
+                    Console.WriteLine("Missing file to delete")
                 Else
                     QIO.DelFile(command.Remove(0, 4))
                 End If
             ElseIf Args(0) = "delete1" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to delete")
+                    Console.WriteLine("Missing file to delete")
                 Else
                     QIO.DelFile(command.Remove(0, 7))
                 End If
             ElseIf Args(0) = "delete2" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to delete")
+                    Console.WriteLine("Missing file to delete")
                 Else
                     Filee = command.Remove(0, 8)
                     worker = New Threading.Thread(AddressOf QIO.DelFileThread)
@@ -533,7 +533,7 @@ a:
                 End If
             ElseIf Args(0) = "delete3" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing file to delete")
+                    Console.WriteLine("Missing file to delete")
                 Else
                     Filee = command.Remove(0, 8)
                     worker = New Threading.Thread(AddressOf QIO.SecureDelete)
@@ -551,7 +551,7 @@ a:
                     lookuppp = lookupp.Replace(" ", "+")
                     Process.Start("https:/" & "/duckduckgo.com/?q=define%3A" & lookuppp)
                 Else
-                    WriteLine("Missing term to look up")
+                    Console.WriteLine("Missing term to look up")
                 End If
             ElseIf Args(0) = "search" Then
                 If Args.Length > 1 Then
@@ -561,7 +561,7 @@ a:
                     lookuppp = lookupp.Replace(" ", "+")
                     Process.Start("http:/" & "/www.thefreedictionary.com/" & lookuppp)
                 Else
-                    WriteLine("Missing search terms")
+                    Console.WriteLine("Missing search terms")
                 End If
             ElseIf Args(0) = "dir" Or Args(0) = "ls" Then
                 QIO.GetDir()
@@ -569,15 +569,15 @@ a:
                 QuickInfo.Credits()
             ElseIf Args(0) = "enc" Or Args(0) = "encrypt" Then 'I know this is a mess
                 Dim encstring As String
-                WriteLine("Text to encrypt")
+                Console.WriteLine("Text to encrypt")
                 Console.ForegroundColor = ConsoleColor.Cyan
-                Write("> ")
+                Console.Write("> ")
                 Console.ForegroundColor = ConsoleColor.Gray
                 encstring = ReadLine()
                 Dim securePwd As New System.Security.SecureString()
                 Dim key As ConsoleKeyInfo
                 Console.ForegroundColor = ConsoleColor.Cyan
-                Write("Key: ")
+                Console.Write("Key: ")
                 Console.ForegroundColor = ConsoleColor.Gray
                 Do
                     key = Console.ReadKey(True)
@@ -596,13 +596,13 @@ a:
                     End If
 
                     If System.IO.File.Exists(decfile) = False Then
-                        WriteLine("File not found")
+                        Console.WriteLine("File not found")
                         Main2()
                     End If
                     Dim securePwd As New System.Security.SecureString()
                     Dim key As ConsoleKeyInfo
                     Console.ForegroundColor = ConsoleColor.Cyan
-                    Write("Key: ")
+                    Console.Write("Key: ")
                     Console.ForegroundColor = ConsoleColor.Gray
                     Do
                         key = Console.ReadKey(True)
@@ -616,27 +616,27 @@ a:
 a2:
                     Dim encstring As String
                     Dim inpt2 As String
-                    WriteLine("From file? [Y/N]")
+                    Console.WriteLine("From file? [Y/N]")
 a:
                     Console.ForegroundColor = ConsoleColor.Cyan
-                    Write("> ")
+                    Console.Write("> ")
                     Console.ForegroundColor = ConsoleColor.Gray
                     inpt2 = ReadLine()
                     If inpt2.ToLower = "y" Or inpt2.ToLower.StartsWith("y") Then
                         Dim decfilee
                         Console.ForegroundColor = ConsoleColor.Cyan
-                        Write("File> ")
+                        Console.Write("File> ")
                         Console.ForegroundColor = ConsoleColor.Gray
                         decfilee = ReadLine()
                         If System.IO.File.Exists(decfilee) = False Then
-                            WriteLine("File not found")
+                            Console.WriteLine("File not found")
 
                         End If
                         Dim securePwd2 As New System.Security.SecureString()
                         Dim key2 As ConsoleKeyInfo
                         Dim decfilee2 As String = System.IO.File.ReadAllText(decfilee)
                         Console.ForegroundColor = ConsoleColor.Cyan
-                        Write("Key: ")
+                        Console.Write("Key: ")
                         Console.ForegroundColor = ConsoleColor.Gray
                         Do
                             key2 = Console.ReadKey(True)
@@ -649,16 +649,16 @@ a:
                     Else
                         GoTo a
                     End If
-                    WriteLine("Text to decrypt")
+                    Console.WriteLine("Text to decrypt")
                     Console.ForegroundColor = ConsoleColor.Cyan
-                    Write("> ")
+                    Console.Write("> ")
                     Console.ForegroundColor = ConsoleColor.Gray
                     encstring = ReadLine()
 b:
                     Dim securePwd As New System.Security.SecureString()
                     Dim key As ConsoleKeyInfo
                     Console.ForegroundColor = ConsoleColor.Cyan
-                    Write("Key: ")
+                    Console.Write("Key: ")
                     Console.ForegroundColor = ConsoleColor.Gray
                     Do
                         key = Console.ReadKey(True)
@@ -669,37 +669,37 @@ b:
                     WriteLine(Core.Decrypt(encstring, securePwd))
                 End If
             ElseIf Args(0) = "thread" Or Args(0) = "threads" Then
-                WriteLine("Current threads running from this program: " & TRunning)
+                Console.WriteLine("Current threads running from this program: " & TRunning)
             ElseIf Args(0) = "pirate" Then
                 Process.Start("http:/" & "/cristgaming.com/pirate.swf")
-                WriteLine("LOL, LIMEWIRE")
+                Console.WriteLine("LOL, LIMEWIRE")
             ElseIf Args(0) = "sp" Then
-                WriteLine("Current port being scanned is port " & Net.CurrentPort)
+                Console.WriteLine("Current port being scanned is port " & Net.CurrentPort)
             ElseIf Args(0) = "refresh" Then
                 worker = New Thread(AddressOf refresh)
                 worker.Start()
             ElseIf Args(0) = "rms" Then
-                WriteLine("Mr. Stallman, this program is free (as in freedom)!")
+                Console.WriteLine("Mr. Stallman, this program is free (as in freedom)!")
                 Console.ForegroundColor = ConsoleColor.DarkGreen
-                WriteLine(">Muh freedoms")
+                Console.WriteLine(">Muh freedoms")
             ElseIf Args(0) = "/g/" Then
                 Core.Gentoo()
                 '====================================Crawl====================================
             ElseIf Args(0) = "crawl" Then
                 If Args(1) = "custom" AndAlso Args.Length >= 3 Then
                     Crawler.Agent = command.Remove(0, 12)
-                    WriteLine("Using custom User-Agent:" & vbNewLine & "'" & Crawler.Agent & "'.")
+                    Console.WriteLine("Using custom User-Agent:" & vbNewLine & "'" & Crawler.Agent & "'.")
                 ElseIf Args(1) = "delay" AndAlso Args.Length = 3 Then
                     If Args(2) < 0 Then
-                        WriteLine("Delay must be 0 or greater")
+                        Console.WriteLine("Delay must be 0 or greater")
                         Main2()
                     ElseIf Args(2) <= 75 Then
                         Console.ForegroundColor = ConsoleColor.Yellow
-                        WriteLine("Warning: Having the delay 75 or lower can get you banned off a site for spam.")
+                        Console.WriteLine("Warning: Having the delay 75 or lower can get you banned off a site for spam.")
                         Console.ForegroundColor = ConsoleColor.White
                     End If
                     Crawler.Delay = Args(2)
-                    WriteLine("Delay set to " & Crawler.Delay & " milliseconds.")
+                    Console.WriteLine("Delay set to " & Crawler.Delay & " milliseconds.")
                     Main2()
                 End If
                 If Args.Length = 2 Then
@@ -710,8 +710,8 @@ b:
                         End If
                         i = 0
                         If lstUrls.Count > 245 Then
-                            WriteLine("This list is too long for the console")
-                            WriteLine("Generating log file then opening it...")
+                            Console.WriteLine("This list is too long for the console")
+                            Console.WriteLine("Generating log file then opening it...")
 Cont:
                             Do Until i = lstUrls.Count
                                 If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
@@ -731,7 +731,7 @@ Cont:
                             Main2()
                         End If
 Cont2:
-                        WriteLine("Found " & lstUrls.Count & " Links." & vbNewLine)
+                        Console.WriteLine("Found " & lstUrls.Count & " Links." & vbNewLine)
                         Do Until i = lstUrls.Count
                             If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
                                 i += 1
@@ -751,8 +751,8 @@ Cont2:
                     ElseIf Args(1) = "list" Or Args(1) = "dump" Then
                         i = 0
                         If lstUrls.Count > 245 Then
-                            WriteLine("This list is too long for the console")
-                            WriteLine("Generating log file then opening it...")
+                            Console.WriteLine("This list is too long for the console")
+                            Console.WriteLine("Generating log file then opening it...")
 Cont3:
                             Do Until i = lstUrls.Count
                                 If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
@@ -781,8 +781,8 @@ Cont3:
                             Main2()
                         End If
 Cont4:
-                        WriteLine("Found " & lstUrls.Count & " Links.")
-                        WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
+                        Console.WriteLine("Found " & lstUrls.Count & " Links.")
+                        Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
                         Do Until i = lstUrls.Count
                             If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
                                 i += 1
@@ -797,7 +797,7 @@ Cont4:
                             i += 1
                             Thread.Sleep(10)
                         Loop
-                        WriteLine("--Emails")
+                        Console.WriteLine("--Emails")
                         Do Until i = lstEmails.Count
                             WriteLine(lstEmails.Item(i))
                             i += 1
@@ -807,16 +807,16 @@ Cont4:
                     ElseIf Args(1) = "log" Then
                         If Crawler.log = True Then
                             Crawler.log = False
-                            WriteLine("Auto-Logging is disabled")
+                            Console.WriteLine("Auto-Logging is disabled")
                         Else
                             Crawler.log = True
-                            WriteLine("Auto-Logging is enabled")
+                            Console.WriteLine("Auto-Logging is enabled")
                         End If
                     ElseIf Args(1) = "email" Or Args(1) = "emails" Then
                         i = 0
                         If lstEmails.Count > 245 Then
-                            WriteLine("This list is too long for the console")
-                            WriteLine("Generating log file then opening it...")
+                            Console.WriteLine("This list is too long for the console")
+                            Console.WriteLine("Generating log file then opening it...")
 Cont5:
                             Do Until i = lstEmails.Count
                                 If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
@@ -830,11 +830,11 @@ Cont5:
                             'lstEmails.Clear()
                             Main2()
                         ElseIf lstEmails.Count = 0 Then
-                            WriteLine("No emails found")
+                            Console.WriteLine("No emails found")
                             lstEmails.Clear()
                             Main2()
                         End If
-                        WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
+                        Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
 Cont6:
                         Do Until i = lstEmails.Count
                             If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
@@ -851,28 +851,28 @@ Cont6:
                     ElseIf Args(1) = "help" Then
                         Crawler.CrawlHelp()
                     ElseIf Args(1) = "googlebot" Then
-                        WriteLine("Will pretend to be GoogleBot")
+                        Console.WriteLine("Will pretend to be GoogleBot")
                         Crawler.Agent = "googlebot"
                     ElseIf Args(1) = "none" Then
-                        WriteLine("Not using a User-Agent")
+                        Console.WriteLine("Not using a User-Agent")
                         Crawler.Agent = "none"
                     ElseIf Args(1) = "qt" Or Args(1) = "default" Then
-                        WriteLine("Using default User-Agent")
+                        Console.WriteLine("Using default User-Agent")
                         Crawler.Agent = "qt"
                     ElseIf Args(1) = "clear" Then
                         lstUrls.Clear()
                         lstEmails.Clear()
-                        WriteLine("Logs cleared")
+                        Console.WriteLine("Logs cleared")
                     ElseIf Args(1) = "thread" Then
                         Console.ForegroundColor = ConsoleColor.Yellow
-                        WriteLine("Warning this is a beta version")
+                        Console.WriteLine("Warning this is a beta version")
                         Console.ForegroundColor = ConsoleColor.White
                         If Crawler.nonThreaded = False Then
                             Crawler.nonThreaded = True
-                            WriteLine("Threading turned off")
+                            Console.WriteLine("Threading turned off")
                         Else
                             Crawler.nonThreaded = False
-                            WriteLine("Threading turned on")
+                            Console.WriteLine("Threading turned on")
                         End If
                     Else
                         If Args(1).ToString.StartsWith("http://") = False AndAlso Args(1).ToString.EndsWith("/") = False Then
@@ -892,70 +892,70 @@ Cont6:
                         Crawler.Start(Args(1), Args(2))
                     End If
                 Else
-                    WriteLine("Invalid Syntax")
+                    Console.WriteLine("Invalid Syntax")
                 End If
                 '====================================End Crawl====================================
             ElseIf Args(0) = "download" Then
                 If Args.Length = 3 Then
                     Net.Download(Args(1), command.Remove(0, Args(1).ToString.Length + 9))
                 Else
-                    WriteLine("Wrong Syntax")
+                    Console.WriteLine("Wrong Syntax")
                 End If
             ElseIf Args(0) = "upload" Then
                 If Args.Length = 3 Then
                     Net.Download(Args(1), Args(2))
-                    WriteLine("Done.")
+                    Console.WriteLine("Done.")
                 Else
-                    WriteLine("Wrong Syntax")
+                    Console.WriteLine("Wrong Syntax")
                 End If
             ElseIf Args(0) = "update" Then
-                WriteLine("Checking for updates...")
+                Console.WriteLine("Checking for updates...")
                 WriteLine()
                 If UptoDate() = True Then
-                    WriteLine("You are up to date!")
+                    Console.WriteLine("You are up to date!")
                 Else
-                    WriteLine("There is a newer version available! Please head over to:")
-                    WriteLine("http://www.quitetiny.com/downloads")
+                    Console.WriteLine("There is a newer version available! Please head over to:")
+                    Console.WriteLine("http://www.quitetiny.com/downloads")
                 End If
             ElseIf Args(0) = "sc" Then
                 If Args.Length = 1 Then
-                    WriteLine("3")
+                    Console.WriteLine("3")
                     Thread.Sleep(1000)
-                    WriteLine("2")
+                    Console.WriteLine("2")
                     Thread.Sleep(1000)
-                    WriteLine("1")
+                    Console.WriteLine("1")
                     Thread.Sleep(1000)
                     If Core.SaveWholeScreen("ScreenShot") = True Then
-                        WriteLine("Done!")
+                        Console.WriteLine("Done!")
                     Else
-                        WriteLine("Error!")
+                        Console.WriteLine("Error!")
                     End If
                 ElseIf Args.Length >= 2 Then
-                    WriteLine("3")
+                    Console.WriteLine("3")
                     Thread.Sleep(1000)
-                    WriteLine("2")
+                    Console.WriteLine("2")
                     Thread.Sleep(1000)
-                    WriteLine("1")
+                    Console.WriteLine("1")
                     Thread.Sleep(1000)
                     If Core.SaveWholeScreen(command.Remove(0, 3)) = True Then
-                        WriteLine("Done!")
+                        Console.WriteLine("Done!")
                     Else
-                        WriteLine("Error!")
+                        Console.WriteLine("Error!")
                     End If
                 End If
             ElseIf Args(0) = "cap" Then
                 If Args.Length = 1 Then
                     If Core.SaveScreen("QuickTerm.sc") = True Then
-                        WriteLine("Done!")
+                        Console.WriteLine("Done!")
                     Else
-                        WriteLine("Error!")
+                        Console.WriteLine("Error!")
                     End If
                 ElseIf Args.Length = 2 Then
                     Core.Type = Args(1).ToString.ToLower
                     If Core.SaveScreen("QuickTerm.sc") = True Then
-                        WriteLine("Done!")
+                        Console.WriteLine("Done!")
                     Else
-                        WriteLine("Error!")
+                        Console.WriteLine("Error!")
                     End If
                 End If
             ElseIf Args(0) = "md5" Then
@@ -964,20 +964,20 @@ Cont6:
                     thefile = command.Remove(0, 4)
                     WriteLine(QIO.GetMD5(thefile))
                 Else
-                    WriteLine("Missing file name")
+                    Console.WriteLine("Missing file name")
                 End If
             ElseIf Args(0) = "vscan" Then
                 If Args.Length >= 2 Then
                     If Args(1) = "download" Then
-                        WriteLine("Downloading database file 'md5List.txt'")
+                        Console.WriteLine("Downloading database file 'md5List.txt'")
                         Net.Download("quitetiny.com/Downloads/virusmd5.txt", "md5List.txt")
                     Else
                         QIO.VirusScan(command.Remove(0, 6))
                     End If
                 Else
-                    WriteLine("Please specifiy a text file with md5 hashes")
-                    WriteLine("To create one type 'md5log files.txt' to download one from us type")
-                    WriteLine("vscan download")
+                    Console.WriteLine("Please specifiy a text file with md5 hashes")
+                    Console.WriteLine("To create one type 'md5log files.txt' to download one from us type")
+                    Console.WriteLine("vscan download")
                 End If
             ElseIf Args(0) = "ran" Or Args(0) = "random" Then
                 If Args.Length = 1 Then
@@ -985,7 +985,7 @@ Cont6:
                 ElseIf Args.Length = 3 Then
                     WriteLine(QMath.Random(Args(1), Args(2)))
                 Else
-                    WriteLine("Invaild Syntax")
+                    Console.WriteLine("Invaild Syntax")
                 End If
             ElseIf Args(0) = "folder" Then
                 QIO.MakeFolder(command.Remove(0, 7))
@@ -999,40 +999,40 @@ Cont6:
                 If Args.Length >= 2 Then
                     ReadFile(command.Remove(0, 7))
                 Else
-                    WriteLine("Missing script file")
+                    Console.WriteLine("Missing script file")
                 End If
             ElseIf Args(0) = "copy" Then
                 If Args.Length >= 2 Then
                     If command.Contains("|") = False Then
-                        WriteLine("Invalid syntax")
+                        Console.WriteLine("Invalid syntax")
                         Main2()
                     End If
                     Dim dafile() As String = command.Remove(0, 5).Split("|")
                     QIO.CopyFile(dafile(0), dafile(1))
                 Else
-                    WriteLine("Invalid syntax")
+                    Console.WriteLine("Invalid syntax")
                 End If
             ElseIf Args(0) = "move" Then
                 If Args.Length >= 2 Then
                     If command.Contains("|") = False Then
-                        WriteLine("Invalid syntax")
+                        Console.WriteLine("Invalid syntax")
                         Main2()
                     End If
                     Dim dafile() As String = command.Remove(0, 5).Split("|")
                     QIO.MoveFile(dafile(0), dafile(1))
                 Else
-                    WriteLine("Invalid syntax")
+                    Console.WriteLine("Invalid syntax")
                 End If
             ElseIf Args(0) = "qwrite" Then
                 If Args.Length >= 2 Then
                     If command.Contains("|") = False Then
-                        WriteLine("Invalid syntax")
+                        Console.WriteLine("Invalid syntax")
                         Main2()
                     End If
                     Dim dafile() As String = command.Remove(0, 7).Split("|")
                     QIO.QuickWrite(dafile(0), dafile(1))
                 Else
-                    WriteLine("Invalid syntax")
+                    Console.WriteLine("Invalid syntax")
                 End If
             ElseIf Args(0) = "install" Then
                 IO.File.WriteAllText("qt.reg", "Windows Registry Editor Version 5.00" & vbNewLine & _
@@ -1042,7 +1042,7 @@ Cont6:
                 "@=" & Chr(34) & "Quick Terminal Script" & Chr(34))
                 Thread.Sleep(100)
                 Process.Start("qt.reg")
-                Write("Press any key to continue...")
+                Console.Write("Press any key to continue...")
                 Console.ForegroundColor = ConsoleColor.Black
                 ReadKey()
                 WriteLine()
@@ -1050,7 +1050,7 @@ Cont6:
                 IO.File.Delete("qt.reg")
             ElseIf Args(0) = "prompt" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing prompt string!")
+                    Console.WriteLine("Missing prompt string!")
                 Else
                     Prompt = command.Remove(0, 7)
                 End If
@@ -1058,26 +1058,26 @@ Cont6:
                 i = i / 0
             ElseIf Args(0) = "timer" Then
                 If Args.Length = 1 Then
-                    WriteLine("Missing switch")
+                    Console.WriteLine("Missing switch")
                 Else
                     If Args(1) = "start" Then
                         worker = New Thread(AddressOf Core.Timerz)
                         worker.Start()
-                        WriteLine("Timer running!")
+                        Console.WriteLine("Timer running!")
                     ElseIf Args(1) = "on" Then
                         worker = New Thread(AddressOf Core.Timerz)
                         worker.Start()
-                        WriteLine("Timer running!")
+                        Console.WriteLine("Timer running!")
                     ElseIf Args(1) = "stop" Then
                         Core.TimerStop = True
                     ElseIf Args(1) = "off" Then
                         Core.TimerStop = True
                     Else
-                        WriteLine("Invalid syntax")
+                        Console.WriteLine("Invalid syntax")
                     End If
                 End If
             ElseIf command = "remote" Then
-                WriteLine("Starting remote on " & Net.GetLocalIpAddress.ToString)
+                Console.WriteLine("Starting remote on " & Net.GetLocalIpAddress.ToString)
                 QRemote.Listen(80)
 
             ElseIf Args(0) = "privacy" Then
@@ -1091,10 +1091,10 @@ Cont6:
             ElseIf Args(0) = "pi2" Then
                 QMath.GetPi()
             ElseIf Args(0) = "zip" Then
-            	WriteLine("Command Disabled")
-            	Exit Sub
+                Console.WriteLine("Command Disabled")
+                Exit Sub
                 If Args.Length < 2 Or command.Contains("|") = False Then
-                    WriteLine("Invalid syntax")
+                    Console.WriteLine("Invalid syntax")
                 Else
                     Dim temp() = Split(command.Remove(0, 4), "|")
                     'QIO.CreateZip(temp(0), temp(1))
@@ -1106,7 +1106,7 @@ Cont6:
                 ElseIf IO.Directory.Exists(command.Remove(0, 3).ToLower) = True Then
                     Environment.CurrentDirectory = command.Remove(0, 3).ToLower
                 Else
-                    WriteLine("Directory not found")
+                    Console.WriteLine("Directory not found")
                 End If
             ElseIf Args(0) = "pwd" Then
                 WriteLine(Environment.CurrentDirectory)
@@ -1131,7 +1131,7 @@ lol:
                 If command.EndsWith(".qts") = True Then
                     ReadFile(command)
                 Else
-                    WriteLine("The command '" & command & "' is not found.")
+                    Console.WriteLine("The command '" & command & "' is not found.")
                     Console.ForegroundColor = ConsoleColor.White
                     QuickInfo.Search(command)
                 End If
@@ -1229,7 +1229,7 @@ lol:
 a:
         Console.Title = "Quick Terminal - REQ: " & Ddos.REQ & " - Ping: " & Ddos.Psent
         If Ddos.Attack_Stop = True Then
-            WriteLine("DDOS Updater stoped.")
+            Console.WriteLine("DDOS Updater stoped.")
             Console.Title = "Quick Terminal"
             back = True
             Main2()
@@ -1253,26 +1253,26 @@ a:
     End Sub
 
     Private Function UptoDate() As Boolean
-    'Disabled
-    	Return True
+        'Disabled
+        Return True
         'Try
-            'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
-            'Dim response As System.Net.HttpWebResponse = request.GetResponse()
+        'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
+        'Dim response As System.Net.HttpWebResponse = request.GetResponse()
 
-            'Dim sr As System.IO.StreamReader = New System.IO.StreamReader(response.GetResponseStream())
+        'Dim sr As System.IO.StreamReader = New System.IO.StreamReader(response.GetResponseStream())
 
-            'Dim newestversion As String = sr.ReadToEnd()
-            'Dim currentversion As String = ver
+        'Dim newestversion As String = sr.ReadToEnd()
+        'Dim currentversion As String = ver
 
-            'If newestversion.Contains(currentversion) Then
-                'MessageBox.Show("You have the current version")
-                'Return True
-            'Else
-                'Return False
-            'End If
+        'If newestversion.Contains(currentversion) Then
+        'MessageBox.Show("You have the current version")
+        'Return True
+        'Else
+        'Return False
+        'End If
         'Catch
-            'Er()
-            'Return Nothing
+        'Er()
+        'Return Nothing
         'End Try
     End Function
 
@@ -1286,7 +1286,7 @@ a:
 
     Private Sub Login()
         If AllowTelnet = False Then
-            WriteLine("Telnet Server is disabled on this server")
+            Console.WriteLine("Telnet Server is disabled on this server")
             ReadKey()
             Environment.Exit(0)
         End If
@@ -1296,29 +1296,29 @@ a:
                 GoTo a
             End If
             WriteLine()
-            WriteLine("                  |ZZzzz>")
-            WriteLine("                  |")
-            WriteLine("                  |")
-            WriteLine("     |ZZzzz>     /^\            |ZZzzz>")
-            WriteLine("     |          |~~~|           |")
-            WriteLine("     |        |^^^^^^^|        / \")
-            WriteLine("    /^\       |[]+    |       |~~~|")
-            WriteLine(" |^^^^^^^|    |    +[]|       |   |")
-            WriteLine(" |    +[]|/\/\/\/\^/\/\/\/\/|^^^^^^^|")
-            WriteLine(" |+[]+   |~~~~~~~~~~~~~~~~~~|    +[]|")
-            WriteLine(" |       |  []   /^\   []   |+[]+   |")
-            WriteLine(" |   +[]+|  []  || ||  []   |   +[]+|")
-            WriteLine(" |[]+    |      || ||       |[]+    |")
-            WriteLine(" |_______|------------------|_______|")
-            WriteLine("══════════════════════════════════════════")
-            WriteLine("Quick Term Server Edition Ver. " & ver)
-            WriteLine("══════════════════════════════════════════")
+            Console.WriteLine("                  |ZZzzz>")
+            Console.WriteLine("                  |")
+            Console.WriteLine("                  |")
+            Console.WriteLine("     |ZZzzz>     /^\            |ZZzzz>")
+            Console.WriteLine("     |          |~~~|           |")
+            Console.WriteLine("     |        |^^^^^^^|        / \")
+            Console.WriteLine("    /^\       |[]+    |       |~~~|")
+            Console.WriteLine(" |^^^^^^^|    |    +[]|       |   |")
+            Console.WriteLine(" |    +[]|/\/\/\/\^/\/\/\/\/|^^^^^^^|")
+            Console.WriteLine(" |+[]+   |~~~~~~~~~~~~~~~~~~|    +[]|")
+            Console.WriteLine(" |       |  []   /^\   []   |+[]+   |")
+            Console.WriteLine(" |   +[]+|  []  || ||  []   |   +[]+|")
+            Console.WriteLine(" |[]+    |      || ||       |[]+    |")
+            Console.WriteLine(" |_______|------------------|_______|")
+            Console.WriteLine("══════════════════════════════════════════")
+            Console.WriteLine("Quick Term Server Edition Ver. " & ver)
+            Console.WriteLine("══════════════════════════════════════════")
 A:
             Dim i As UInt16 = 0
             Dim ran As New Random
             Do Until i >= ran.Next(2, 5)
                 WriteLine()
-                Write("User: ")
+                Console.Write("User: ")
                 Dim user As String = ReadLine()
                 'Dim moo As Int16 = 4 'for error test
                 'moo = moo / 0
@@ -1330,12 +1330,12 @@ A:
                 If TelnetUserName.ToLower = "default" Then
                     TelnetUserName = Environment.UserName
                 End If
-                'MsgBox("(" & user & ") (" & Pass & ")")
+                'Console.WriteLine("(" & user & ") (" & Pass & ")")
                 If user = TelnetUserName Then
                     If Pass = TelnetPassword Then
                         TLog("(?) Correct login.")
                         TelnetRunning = True
-                        WriteLine("Welcome to " & user & " on " & My.Computer.Name)
+                        Console.WriteLine("Welcome to " & user & " on " & My.Computer.Name)
                         'Read()
                         'Clear()
                         WriteLine()
@@ -1349,23 +1349,23 @@ A:
                 End If
                 If LogFailedLogins = True Then
                     If TLog("(!) Invaild login.") = False Then
-                        WriteLine("An internal error has occured!")
+                        Console.WriteLine("An internal error has occured!")
                         Environment.Exit(10)
                     End If
                 End If
-                WriteLine("Fail")
+                Console.WriteLine("Fail")
             Loop
             WriteLine()
             TLog("(!) Invaild login, client kicked from server.")
-            WriteLine("Too many attempts! This has been logged.")
+            Console.WriteLine("Too many attempts! This has been logged.")
             Environment.Exit(0)
         Catch ex As Exception
             If TLog("(E) " & ex.Message) = False Then
-                WriteLine("An internal error has occured!")
+                Console.WriteLine("An internal error has occured!")
                 Environment.Exit(10)
             End If
 B:
-            WriteLine("An internal error has occured!")
+            Console.WriteLine("An internal error has occured!")
             Environment.Exit(10)
         End Try
     End Sub
@@ -1410,15 +1410,15 @@ B:
 a:
         Console.ForegroundColor = ConsoleColor.Red
         If Err.Number = 0 Or Err.Number = Nothing Then
-            WriteLine("Error: (" & Err.Number & ") Unknown Error.")
+            Console.WriteLine("Error: (" & Err.Number & ") Unknown Error.")
         ElseIf Err.Number = 9 Then
-            WriteLine("Error: (9) Missing Args")
+            Console.WriteLine("Error: (9) Missing Args")
         ElseIf Err.Number = 6 AndAlso Err.Description = "Arithmetic operation resulted in an overflow." Then
-            WriteLine("Error: (6) The number is too high and resulted in an overflow.")
+            Console.WriteLine("Error: (6) The number is too high and resulted in an overflow.")
         ElseIf Err.Description.StartsWith("Index was out of range. Must be non-negative and less than the size") = True Then
-            WriteLine("Search may not yet be completed (if this error keeps occuring then turn on auto logging)")
+            Console.WriteLine("Search may not yet be completed (if this error keeps occuring then turn on auto logging)")
         Else
-            WriteLine("Error: (" & Err.Number & ") " & Err.Description)
+            Console.WriteLine("Error: (" & Err.Number & ") " & Err.Description)
         End If
         Err.Clear()
         If EndOnFinish = True Then
@@ -1492,7 +1492,7 @@ a:
                     Dim temp() As String = IO.File.ReadAllLines(ProgramLocation & "\vars.tmp")
                     If temp.Length > 65535 Then
                         Console.ForegroundColor = ConsoleColor.Red
-                        WriteLine("Error! You can not have more then 65535 vars!")
+                        Console.WriteLine("Error! You can not have more then 65535 vars!")
                         ClearVars()
                         Main2() 'goes back to the UI
                     End If
@@ -1500,17 +1500,17 @@ a:
                     Dim davars() As String = Split(QtFile(i2), "~")
                     Do Until ii = temp.Length
                         'MsgBox(davars(1))
-                        'MsgBox("if " & temp(ii) & " starts with " & davars(1).Trim & "▬ then")
+                        'Console.WriteLine("if " & temp(ii) & " starts with " & davars(1).Trim & "▬ then")
                         If temp(ii).StartsWith(davars(1).Trim & "▬") = True Then
-                            'MsgBox("Found")
+                            'Console.WriteLine("Found")
                             Dim tempp() As String = Split(temp(ii), "▬")
-                            'MsgBox("~" & davars(1).Trim & tempp(1))
+                            'Console.WriteLine("~" & davars(1).Trim & tempp(1))
                             QtFile(i2) = QtFile(i2).Replace("~" & davars(1).Trim, tempp(1))
                             GoTo a
                         End If
                         ii += 1
                     Loop
-                    'MsgBox("not found")
+                    'Console.WriteLine("not found")
                     'QtFile(i2) = QtFile(i2).Replace("~" & temp1.Item(0), temp1.Item(1))
                 Else
                     'if it isnt a var then go to the commands
@@ -1601,7 +1601,7 @@ b:
                     Dim ytemp As String = QtFile(i2).Remove(0, 6)
                     ytemp = ytemp.Replace(" ", "")
                     Console.ForegroundColor = ConsoleColor.Cyan
-                    Write("> ")
+                    Console.Write("> ")
                     Console.ForegroundColor = ConsoleColor.Gray
                     Dim xtemp As String = ReadLine()
                     Console.ForegroundColor = ConsoleColor.White
@@ -1615,13 +1615,13 @@ b:
                     Dim ran As New Random
                     QtFile(i2) = QtFile(i2).Replace("~random", ran.Next(1000)) 'replaces with a random number between 1 - 1000
                 ElseIf QtFile(i2) = "break" Then 'like pause
-                    Write("Press any key to continue...")
+                    Console.Write("Press any key to continue...")
                     Console.ForegroundColor = ConsoleColor.Black
                     ReadKey()
                     WriteLine()
                     Console.ForegroundColor = ConsoleColor.White
                 ElseIf QtFile(i2) = "pause" Then 'like pause
-                    Write("Press any key to continue...")
+                    Console.Write("Press any key to continue...")
                     Console.ForegroundColor = ConsoleColor.Black
                     ReadKey()
                     WriteLine()
@@ -1629,9 +1629,9 @@ b:
                 ElseIf QtFile(i2).StartsWith("wait ") = True Then 'sleeps
                     Threading.Thread.Sleep(QtFile(i2).Remove(0, 5))
                 ElseIf QtFile(i2) = "refresh" Then
-                    WriteLine("Cant do that in scripting!")
+                    Console.WriteLine("Cant do that in scripting!")
                 ElseIf QtFile(i2).StartsWith("write") = True Then
-                    WriteLine("Cant do that in scripting! Use qwrite instead!")
+                    Console.WriteLine("Cant do that in scripting! Use qwrite instead!")
                 Else
                     Threading.Thread.Sleep(100) 'to help prevent stack overflows
                     Commands(QtFile(i2)) 'goes to the UI and does the command that is in the line
@@ -1640,11 +1640,11 @@ b:
             Loop
         Catch
             Console.ForegroundColor = ConsoleColor.Red
-            Write("(")
+            Console.Write("(")
             Console.ForegroundColor = ConsoleColor.White
-            Write("!")
+            Console.Write("!")
             Console.ForegroundColor = ConsoleColor.Red
-            Write(") Script Stopped! Error on line ")
+            Console.Write(") Script Stopped! Error on line ")
             Console.ForegroundColor = ConsoleColor.White
             WriteLine(i2 + 1)
             ClearVars() 'allows for more scripts to be run later
