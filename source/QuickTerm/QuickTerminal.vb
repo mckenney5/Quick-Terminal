@@ -63,6 +63,7 @@ Module QuickTerminal
 
     '[Strings]
     Dim Prompt As String = "==> "
+    Dim ExecDir As String = "C:\Windows\System32\"
 
     '[Threads]
     Dim worker As Threading.Thread
@@ -108,7 +109,8 @@ Module QuickTerminal
     Sub Main(Optional ByVal sArgs() As String = Nothing)
         Try
             If OS = "Unix" Then 'Mono calls all computers that arent Windows, Unix
-                Slash = "/"
+                Slash = "/" 'flips slash for Linux
+                ExecDir = "/bin/" 'runs programs from bin
             End If
             If sArgs.Length = 0 Then 'if no args were passed to the program
                 Main2()
@@ -236,9 +238,6 @@ Module QuickTerminal
             If back = True Then
                 GoTo a
             End If
-            If ReadConfig() = False Then
-                Console.WriteLine("Error reading main.conf! Args are disabled until file is found but Commands will still work.")
-            End If
             Console.ForegroundColor = ConsoleColor.White
             Console.WriteLine("Welcome " & Environment.UserName)
 a:
@@ -273,10 +272,8 @@ a:
                 DoubleCMD = True
                 DC = 0
                 command = command.Replace(" && ", "■")
-                WriteLine(command)
                 DoubleCMD2 = command.Split("■")
                 command = DoubleCMD2(0)
-                WriteLine(command)
             End If
             'Begin Commands
             Args = Split(command)
@@ -295,6 +292,12 @@ a:
             ElseIf Args(0) = "telnet2" Then
                 Shell("ncat.exe -l -k -p 23 -e cmd.exe", AppWinStyle.Hide)
                 Console.WriteLine("Telnet Server started on port 23")
+            ElseIf Args(0) = "call" Then 'Doesnt work on Linux *yet*
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
+                Shell(command.Remove(0, 6), , True)
             ElseIf Args(0) = "test" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
@@ -363,6 +366,8 @@ a:
                     ReadFile(Environment.CurrentDirectory & Slash & command.Remove(0, 4))
                 Else
                     If IO.File.Exists(Environment.CurrentDirectory & Slash & command.Remove(0, 4)) = True Then
+                        Process.Start(Environment.CurrentDirectory & Slash & command.Remove(0, 4))
+                    ElseIf IO.File.Exists(ExecDir & command.Remove(0, 4)) = True Then
                         Process.Start(Environment.CurrentDirectory & Slash & command.Remove(0, 4))
                     Else
                         Process.Start(command.Remove(0, 4))

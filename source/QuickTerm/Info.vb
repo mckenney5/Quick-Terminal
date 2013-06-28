@@ -86,6 +86,7 @@ Public Class Info
             WriteLine("Did you mean cls or clear?")
         ElseIf Term.StartsWith("ca") = True Then
             WriteLine("Did you mean cap?")
+            WriteLine("Did you mean call?")
         ElseIf Term.StartsWith("cra") = True Then
             WriteLine("Did you mean crawl?")
         ElseIf Term.StartsWith("cre") = True Then
@@ -208,6 +209,7 @@ Public Class Info
     Public Sub Help()
         WriteLine("VERSION: " & QuickTerminal.ver & vbNewLine _
                                   & "beta                (shows beta commands, use the commands with caution)" & vbNewLine _
+                                  & "call                (runs a program and waits for it to finish)" & vbNewLine _
                                   & "cap                 (captures QuickTerm)" & vbNewLine _
                                   & "cd                  (changes current directory)" & vbNewLine _
                                   & "cdtray              (opens/closes cd tray)" & vbNewLine _
