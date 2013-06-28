@@ -26,7 +26,7 @@ Module QuickTerminal
 
 #Region "Vars"
     '[Public]
-    Public ReadOnly ver As String = "1.2.5 BETA"
+    Public ReadOnly ver As String = "1.2.6 BETA"
     Public ErrorLog As New ArrayList
     Public lstUrls As New ArrayList
     Public lstEmails As New ArrayList
@@ -104,7 +104,7 @@ Module QuickTerminal
 #Region "UI"
     Sub Main(Optional ByVal sArgs() As String = Nothing)
         Try
-            If OS = "Unix" Then
+            If OS = "Unix" Then 'Mono calls all computers that arent Windows, Unix
                 Slash = "/"
             End If
             If sArgs.Length = 0 Then 'if no args were passed to the program

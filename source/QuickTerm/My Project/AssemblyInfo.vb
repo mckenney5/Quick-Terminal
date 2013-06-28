@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("A terminal emulator written by QT Productions")> 
 <Assembly: AssemblyCompany("Quite Tiny Productions")> 
 <Assembly: AssemblyProduct("QuickTerm Terminal Emulator")> 
-<Assembly: AssemblyCopyright("Copyright ©  2013")> 
+<Assembly: AssemblyCopyright("Copyleft ©  2013")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.5.1")> 
-<Assembly: AssemblyFileVersion("1.2.5.1")> 
+<Assembly: AssemblyVersion("1.2.6.1")> 
+<Assembly: AssemblyFileVersion("1.2.6.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-US")> 
