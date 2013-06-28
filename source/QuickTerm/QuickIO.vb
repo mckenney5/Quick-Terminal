@@ -12,7 +12,7 @@ Public Class QuickIO
             End If
             If File.Exists(TextFile) = False Then '<-- this is the part that doesnt work on GNU/Linux
                 WriteLine("File not found")
-                Main()
+                Main2()
             End If
             If TextFile.EndsWith(".txt") = False AndAlso TextFile.EndsWith(".qts") = False AndAlso TextFile.EndsWith(".qt") = False AndAlso TextFile.EndsWith(".log") = False _
                 AndAlso TextFile.EndsWith(".htm") = False AndAlso TextFile.EndsWith(".html") = False AndAlso TextFile.EndsWith(".rtf") = False Then
@@ -27,7 +27,7 @@ b:
                 If cho.ToLower = "y" Then
                     GoTo a
                 ElseIf cho.ToLower = "n" Then
-                    Main()
+                    Main2()
                 Else
                     GoTo b
                 End If
@@ -48,7 +48,7 @@ a:
                 i += 1
             Loop
             If i = TFile.Length Then
-                Main()
+                Main2()
             Else
                 ReadKey()
             End If
@@ -57,7 +57,7 @@ a:
                 i += 1
             Loop
             If i = TFile.Length Then
-                Main()
+                Main2()
             Else
                 ReadKey()
             End If
@@ -66,7 +66,7 @@ a:
                 i += 1
             Loop
             If i = TFile.Length Then
-                Main()
+                Main2()
             Else
                 ReadKey()
             End If
@@ -75,7 +75,7 @@ a:
                 i += 1
             Loop
             If i = TFile.Length Then
-                Main()
+                Main2()
             Else
                 ReadKey()
             End If
@@ -84,7 +84,7 @@ a:
                 i += 1
             Loop
             If i = TFile.Length Then
-                Main()
+                Main2()
             Else
                 ReadKey()
             End If
@@ -101,7 +101,7 @@ a:
                 WriteLine(TFile(i))
                 i += 1
             Loop
-            Main()
+            Main2()
         Catch
             Er(Err.Number, Err.Description)
         End Try
@@ -116,7 +116,7 @@ a:
         inpt = ReadLine()
         If inpt = "~exit" Then
 
-            Main()
+            Main2()
         ElseIf inpt = "" Then
             inpt = vbNewLine
             File.AppendAllText(FileName, inpt)
@@ -139,7 +139,7 @@ a:
         Catch
             Er(Err.Number, Err.Description)
         End Try
-        Main()
+        Main2()
     End Sub
 
     Public Sub DelFileThread() 'doesnt work on GNU/Linux
@@ -152,8 +152,9 @@ a:
             Else
                 Console.WriteLine("File not found.")
             End If
-        Catch ex As Exception
-            Console.WriteLine(ex.Data, 16, "QuickTerm")
+        Catch
+            Console.WriteLine()
+            Er(Err.Number, Err.Description)
         End Try
         TRunning -= 1
     End Sub
@@ -202,7 +203,8 @@ a:
                 Console.WriteLine("File not found.")
             End If
         Catch
-            Console.WriteLine(Err.Description, 16)
+            Console.WriteLine()
+            Er(Err.Number, Err.Description)
         End Try
         TRunning -= 1
     End Sub
@@ -228,19 +230,24 @@ a:
             Loop
             WriteLine("Done.")
             WriteLine("Deleted " & FilesDeleted & " files.")
-            Main()
+            Main2()
         Catch
             Er(Err.Number, Err.Description)
         End Try
     End Sub
 
-    Public Sub GetDir()
+    Public Sub GetDir(Optional ByVal ShowHidden As Boolean = False) 'maybe if Unix then not display hidden files unless an arg is passed
         Dim di As New IO.DirectoryInfo(Environment.CurrentDirectory)
         Dim diar2 As IO.DirectoryInfo() = di.GetDirectories
         Dim dra2 As IO.DirectoryInfo
         WriteLine("--Directories")
         For Each dra2 In diar2
-            WriteLine(dra2)
+            If OS = "Unix" Then
+                Dim temp() As String = dra2.ToString.Split("/")
+                WriteLine(temp(temp.Length - 1))
+            Else
+                WriteLine(dra2)
+            End If
         Next
         Dim diar1 As IO.FileInfo() = di.GetFiles
         Dim dra As IO.FileInfo
@@ -248,9 +255,14 @@ a:
         WriteLine("--Files")
         'list the names of all files in the specified directory
         For Each dra In diar1
-            WriteLine(dra)
+            If OS = "Unix" Then
+                Dim temp() As String = dra.ToString.Split("/")
+                WriteLine(temp(temp.Length - 1))
+            Else
+                WriteLine(dra)
+            End If
         Next
-        Main()
+        Main2()
     End Sub
 
     Public Function GetMD5(ByVal filename As String) As String
@@ -324,7 +336,7 @@ a:
             WriteLine(FilesInfected)
             Console.ForegroundColor = ConsoleColor.White
             WriteLine("Done.")
-            Main()
+            Main2()
         Catch
             Er(Err.Number, Err.Description)
         End Try
@@ -334,7 +346,7 @@ a:
         Try
             If FolderName.ToLower = "con" Then
                 WriteLine("You can not create a folder named con.")
-                Main()
+                Main2()
             End If
             MkDir(Environment.CurrentDirectory & Slash & FolderName)
             WriteLine("Folder created successfully")
@@ -395,7 +407,7 @@ a:
             Console.ForegroundColor = ConsoleColor.White
             WriteLine("Scanned: " & FilesScanned)
             WriteLine("Done.")
-            Main()
+            Main2()
         Catch
             Er(Err.Number, Err.Description)
         End Try
@@ -406,30 +418,30 @@ a:
             FileCopy(Environment.CurrentDirectory & Slash & File, Environment.CurrentDirectory & Slash & newFile)
             IO.File.Move(File, newFile)
             WriteLine("File copied successfully")
-        Catch ex As Exception
-            WriteLine(ex.Message)
+        Catch
+            Er(Err.Number, Err.Description)
         End Try
-        Main()
+        Main2()
     End Sub
 
     Public Sub MoveFile(ByVal File As String, ByVal newFile As String)
         Try
             IO.File.Move(Environment.CurrentDirectory & Slash & File, Environment.CurrentDirectory & Slash & newFile)
             WriteLine("File moved successfully")
-        Catch ex As Exception
-            WriteLine(ex.Message)
+        Catch
+            Er(Err.Number, Err.Description)
         End Try
-        Main()
+        Main2()
     End Sub
 
     Public Sub QuickWrite(ByVal File As String, ByVal Text As String)
         Try
             IO.File.AppendAllText(Environment.CurrentDirectory & Slash & File, Text & vbNewLine)
             WriteLine("Done.")
-        Catch ex As Exception
-            WriteLine(ex.Message)
+        Catch
+            Er(Err.Number, Err.Description)
         End Try
-        Main()
+        Main2()
     End Sub
 
     'P
@@ -437,7 +449,7 @@ a:
     Public Sub RenameFile(ByVal Filename As String, ByVal NewName As String)
         Try
             Rename(Filename, NewName)
-        Catch ex As Exception
+        Catch
             Er(Err.Number, Err.Description)
         End Try
 
