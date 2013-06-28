@@ -78,6 +78,7 @@
     <Compile Include="Info.vb" />
     <Compile Include="QTMath.vb" />
     <Compile Include="QTScriptConvert.vb" />
+    <Compile Include="QuickEncryption.vb" />
     <Compile Include="QuickIO.vb" />
     <Compile Include="Core.vb" />
     <Compile Include="NetworkClass.vb" />
