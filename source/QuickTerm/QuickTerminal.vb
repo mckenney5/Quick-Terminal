@@ -30,7 +30,7 @@ Module QuickTerminal
     Public ErrorLog As New ArrayList
     Public lstUrls As New ArrayList
     Public lstEmails As New ArrayList
-    Public TRunning As Integer = 1
+    Public TRunninhg As Integer = 1
     Public inpt As String
     Public Filee As String = Nothing
     Public nomsg As Boolean = False
@@ -295,13 +295,13 @@ a:
             ElseIf Args(0) = "call" Then 'Doesnt work on Linux *yet*
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 Shell(command.Remove(0, 6), , True)
             ElseIf Args(0) = "test" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 My.Computer.Audio.Play("c:\windows\media\tada.wav", AudioPlayMode.Background)
                 Console.WriteLine("Works!")
@@ -319,7 +319,7 @@ a:
             ElseIf Args(0) = "logoff" Or command = "log off" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 Shell("shutdown -l")
             ElseIf Args(0) = "restart" Then
@@ -331,13 +331,13 @@ a:
             ElseIf Args(0) = "lock" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 LockWorkStation()
             ElseIf Args(0) = "firewall" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 If Args(1) = "disable" Then
                     Console.WriteLine("Disabling Windows Firewall")
@@ -461,7 +461,7 @@ a:
             ElseIf Args(0) = "play" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Exit Sub
+                    Main2()
                 End If
                 If Args(1) = "-l" Then
                     My.Computer.Audio.Play(command.Remove(0, 8), AudioPlayMode.BackgroundLoop)
@@ -630,7 +630,7 @@ a:
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
                     Console.WriteLine("Try using the program scrot instead!")
-                    Exit Sub
+                    Main2()
                 End If
                 If Args.Length = 1 Then
                     Console.WriteLine("3")
@@ -661,7 +661,7 @@ a:
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
                     Console.WriteLine("Try using the program scrot instead!")
-                    Exit Sub
+                    Main2()
                 End If
                 If Args.Length = 1 Then
                     If Core.SaveScreen("QuickTerm.sc") = True Then
@@ -757,7 +757,7 @@ a:
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
                     Console.WriteLine("Linux doesnt have RegEdit!")
-                    Exit Sub
+                    Main2()
                 End If
                 IO.File.WriteAllText("qt.reg", "Windows Registry Editor Version 5.00" & vbNewLine & _
                 "[HKEY_CURRENT_USER\Software\Classes\Quick Terminal Script\shell\open\command]" & vbNewLine & _
@@ -816,7 +816,7 @@ a:
                 QMath.GetPi()
             ElseIf Args(0) = "zip" Then
                 Console.WriteLine("Command Disabled")
-                Exit Sub
+                Main2()
                 If Args.Length < 2 Or command.Contains("|") = False Then
                     Console.WriteLine("Invalid syntax")
                 Else
