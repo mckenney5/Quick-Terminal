@@ -116,59 +116,6 @@ Public Class Core
         Main()
     End Sub
 
-    Public Function Encrypt(ByVal input As String, ByVal key As System.Security.SecureString) As String
-        key.MakeReadOnly()
-        Dim ptr As IntPtr
-        ptr = Runtime.InteropServices.Marshal.SecureStringToBSTR(key)
-        'Return Runtime.InteropServices.Marshal.PtrToStringBSTR(ptr) = the key in string
-        Dim AES As New System.Security.Cryptography.RijndaelManaged
-        Dim Hash_AES As New System.Security.Cryptography.MD5CryptoServiceProvider
-        Dim encrypted As String = ""
-        Try
-            Dim hash(31) As Byte
-            Dim temp As Byte() = Hash_AES.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(Runtime.InteropServices.Marshal.PtrToStringBSTR(ptr)))
-            Array.Copy(temp, 0, hash, 0, 16)
-            Array.Copy(temp, 0, hash, 15, 16)
-            AES.Key = hash
-            AES.Mode = System.Security.Cryptography.CipherMode.ECB
-            Dim DESEncrypter As System.Security.Cryptography.ICryptoTransform = AES.CreateEncryptor
-            Dim Buffer As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(input)
-            encrypted = Convert.ToBase64String(DESEncrypter.TransformFinalBlock(Buffer, 0, Buffer.Length))
-            key.Dispose()
-            Return encrypted
-        Catch ex As Exception
-            key.Dispose()
-            Err.Clear()
-            Return "<Error Encrypting string.>"
-        End Try
-    End Function
-
-    Public Function Decrypt(ByVal input As String, ByVal key As System.Security.SecureString) As String
-        key.MakeReadOnly()
-        Dim ptr As IntPtr
-        ptr = Runtime.InteropServices.Marshal.SecureStringToBSTR(key)
-        Dim AES As New System.Security.Cryptography.RijndaelManaged
-        Dim Hash_AES As New System.Security.Cryptography.MD5CryptoServiceProvider
-        Dim decrypted As String = ""
-        Try
-            Dim hash(31) As Byte
-            Dim temp As Byte() = Hash_AES.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(Runtime.InteropServices.Marshal.PtrToStringBSTR(ptr)))
-            Array.Copy(temp, 0, hash, 0, 16)
-            Array.Copy(temp, 0, hash, 15, 16)
-            AES.Key = hash
-            AES.Mode = System.Security.Cryptography.CipherMode.ECB
-            Dim DESDecrypter As System.Security.Cryptography.ICryptoTransform = AES.CreateDecryptor
-            Dim Buffer As Byte() = Convert.FromBase64String(input)
-            decrypted = System.Text.ASCIIEncoding.ASCII.GetString(DESDecrypter.TransformFinalBlock(Buffer, 0, Buffer.Length))
-            key.Dispose()
-            Return decrypted
-        Catch ex As Exception
-            key.Dispose()
-            Err.Clear()
-            Return "<Error Decrypting string.>"
-        End Try
-    End Function
-
     Public Sub Cmd2()
         Dim inpt As String
         If back2 = True Then
