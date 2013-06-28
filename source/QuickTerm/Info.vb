@@ -15,7 +15,7 @@ Public Class Info
                          & "crawl thread        (toggles multi-threading) Bugged" & vbNewLine _
                          & "rdns                (looks up an IP for aliases)" & vbNewLine _
                          )
-        Main()
+        Main2()
     End Sub
 
     Public Sub Credits()
@@ -37,7 +37,7 @@ Public Class Info
         WriteLine("Information sent includes: your IP if you're not using a proxy")
         WriteLine("(your IP is used in crawl and connect and or any thing that uses a tcp connection)")
         WriteLine("and your port scan is logged to the computer, if you want to delete it, I suggest using delete3 command.")
-        Main()
+        Main2()
     End Sub
 
     Public Sub Syntax()
@@ -71,9 +71,9 @@ Public Class Info
                          & "timer <On/Off>" & vbNewLine _
                          & "upload <WebAddress> <FileName>" & vbNewLine _
                          & "write <filename> (filename= file on computer)" & vbNewLine _
-                         & "zip <zipfile>|<File-To-Archive>" & vbNewLine _
+                         & "(Disabled) zip <zipfile>|<File-To-Archive>" & vbNewLine _
                          )
-        Main()
+        Main2()
     End Sub
 
     Public Sub Search(ByVal Term As String)
@@ -199,10 +199,10 @@ Public Class Info
             WriteLine("Did you mean whoami?")
         ElseIf Term.StartsWith("wri") = True Then
             WriteLine("Did you mean write?")
-        ElseIf Term.StartsWith("z") = True Then
-            WriteLine("Did you mean zip?")
+            'ElseIf Term.StartsWith("z") = True Then
+            'WriteLine("Did you mean zip?")
         End If
-        Main()
+        Main2()
     End Sub
 
     Public Sub Help()
@@ -273,8 +273,8 @@ Public Class Info
                                   & "vscan               (scans the current dir for viruses)" & vbNewLine _
                                   & "whoami              (tells you who you are, very simular to bash)" & vbNewLine _
                                   & "write               (creates and edits a text file [OVERWRITES])" & vbNewLine _
-                                  & "zip                 (creates a zip archive)" & vbNewLine _
+                                  & "zip                 (Disabled) (creates a zip archive)" & vbNewLine _
                                   )
-        Main()
+        Main2()
     End Sub
 End Class
