@@ -5,7 +5,7 @@ Imports System.Console
 Public Class QuickIO
     Public Sub Read2(ByVal TextFile As String) 'doesnt work on GNU/Linux
         Dim File2 As String = TextFile
-        TextFile = Environment.CurrentDirectory & "\" & TextFile
+        TextFile = Environment.CurrentDirectory & Slash & TextFile
         Try
             If Scripting = True Then
                 GoTo a
@@ -108,7 +108,7 @@ a:
     End Sub
 
     Public Sub WriteFile(ByVal FileName As String) 'doesnt work on GNU/Linux
-        FileName = Environment.CurrentDirectory & "\" & FileName
+        FileName = Environment.CurrentDirectory & Slash & FileName
         'File.Create(FileName)
         Dim inpt As String
         WriteLine("To exit type '~exit' in lower-case")
@@ -128,7 +128,7 @@ a:
     End Sub
 
     Public Sub DelFile(ByVal FileName As String) 'doesnt work on GNU/Linux
-        FileName = Environment.CurrentDirectory & "\" & FileName
+        FileName = Environment.CurrentDirectory & Slash & FileName
         Try
             If File.Exists(FileName) = True Then
                 File.Delete(FileName)
@@ -144,7 +144,7 @@ a:
 
     Public Sub DelFileThread() 'doesnt work on GNU/Linux
         TRunning += 1
-        Filee = Environment.CurrentDirectory & "\" & Filee
+        Filee = Environment.CurrentDirectory & Slash & Filee
         Try
             If File.Exists(Filee) = True Then
                 File.Delete(Filee)
@@ -160,7 +160,7 @@ a:
 
     Public Sub SecureDelete() 'doesnt work on GNU/Linux
         TRunning += 1
-        Filee = Environment.CurrentDirectory & "\" & Filee
+        Filee = Environment.CurrentDirectory & Slash & Filee
         Try
             Dim ran As New Random
             If File.Exists(Filee) = True Then
@@ -169,7 +169,7 @@ a:
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory)
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory)
                 Rename(Filee, "asfsdfewafdfvasdfew")
-                Filee = Environment.CurrentDirectory & "\" & "asfsdfewafdfvasdfew"
+                Filee = Environment.CurrentDirectory & Slash & "asfsdfewafdfvasdfew"
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.OSVersion & My.Computer.Info.OSFullName & My.Computer.Info.InstalledUICulture.Calendar.AlgorithmType)
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & vbNewLine _
                                   & My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.AvailablePhysicalMemory * 1398 ^ 4 * Environment.CurrentDirectory.Length & _
@@ -184,7 +184,7 @@ a:
                 File.WriteAllText(Filee, ran.Next(1000, 10000))
                 File.WriteAllText(Filee, My.Computer.Info.TotalVirtualMemory / My.Computer.Info.AvailablePhysicalMemory * TRunning)
                 Rename(Filee, "iexplore.exe_")
-                Filee = Environment.CurrentDirectory & "\" & "iexplore.exe_"
+                Filee = Environment.CurrentDirectory & Slash & "iexplore.exe_"
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & vbNewLine _
                                   & My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.AvailablePhysicalMemory * 1398 ^ 4 * Environment.CurrentDirectory.Length & _
                                   My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailableVirtualMemory ^ 3 & _
@@ -255,7 +255,7 @@ a:
 
     Public Function GetMD5(ByVal filename As String) As String
         Try
-            filename = Environment.CurrentDirectory & "\" & filename
+            filename = Environment.CurrentDirectory & Slash & filename
             Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
             Dim f As New FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, &H2000)
             f = New FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, &H2000)
@@ -275,7 +275,7 @@ a:
     End Function
 
     Public Sub VirusScan(ByVal DataBase As String)
-        DataBase = Environment.CurrentDirectory & "\" & DataBase
+        DataBase = Environment.CurrentDirectory & Slash & DataBase
         Dim FilesScanned As Integer = 0
         Dim FilesInfected As Integer = 0
         Dim md5 As New System.Security.Cryptography.MD5CryptoServiceProvider
@@ -336,7 +336,7 @@ a:
                 WriteLine("You can not create a folder named con.")
                 Main()
             End If
-            MkDir(Environment.CurrentDirectory & "\" & FolderName)
+            MkDir(Environment.CurrentDirectory & Slash & FolderName)
             WriteLine("Folder created successfully")
         Catch
             Er(Err.Number, Err.Description)
@@ -345,7 +345,7 @@ a:
 
     Public Sub DelFolder(ByVal FolderName As String)
         Try
-            RmDir(Environment.CurrentDirectory & "\" & FolderName)
+            RmDir(Environment.CurrentDirectory & Slash & FolderName)
             WriteLine("Folder deleted successfully")
         Catch
             Er(Err.Number, Err.Description)
@@ -403,7 +403,7 @@ a:
 
     Public Sub CopyFile(ByVal File As String, ByVal newFile As String)
         Try
-            FileCopy(Environment.CurrentDirectory & "\" & File, Environment.CurrentDirectory & "\" & newFile)
+            FileCopy(Environment.CurrentDirectory & Slash & File, Environment.CurrentDirectory & Slash & newFile)
             IO.File.Move(File, newFile)
             WriteLine("File copied successfully")
         Catch ex As Exception
@@ -414,7 +414,7 @@ a:
 
     Public Sub MoveFile(ByVal File As String, ByVal newFile As String)
         Try
-            IO.File.Move(Environment.CurrentDirectory & "\" & File, Environment.CurrentDirectory & "\" & newFile)
+            IO.File.Move(Environment.CurrentDirectory & Slash & File, Environment.CurrentDirectory & Slash & newFile)
             WriteLine("File moved successfully")
         Catch ex As Exception
             WriteLine(ex.Message)
@@ -424,7 +424,7 @@ a:
 
     Public Sub QuickWrite(ByVal File As String, ByVal Text As String)
         Try
-            IO.File.AppendAllText(Environment.CurrentDirectory & "\" & File, Text & vbNewLine)
+            IO.File.AppendAllText(Environment.CurrentDirectory & Slash & File, Text & vbNewLine)
             WriteLine("Done.")
         Catch ex As Exception
             WriteLine(ex.Message)

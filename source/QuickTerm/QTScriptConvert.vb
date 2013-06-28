@@ -5,7 +5,7 @@ Imports System.Console
 Public Class QTScriptConvert
     Public Sub ConvertScript(ByVal Filename As String, ByVal FileType As String)
         Try
-            Filename = Environment.CurrentDirectory & "\" & Filename
+            Filename = Environment.CurrentDirectory & Slash & Filename
             If IO.File.Exists(Filename) = False Then
                 WriteLine("File not found")
                 Main()

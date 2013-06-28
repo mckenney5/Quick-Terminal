@@ -98,9 +98,9 @@ Public Class Core
 
     Public Sub dev()
         Try
-            If File.Exists(Directory.GetCurrentDirectory & "\Dev.log") Then
+            If File.Exists(Directory.GetCurrentDirectory & Slash & "Dev.log") Then
                 Dim Filee() As String
-                Filee = File.ReadAllLines(Directory.GetCurrentDirectory & "\Dev.log")
+                Filee = File.ReadAllLines(Directory.GetCurrentDirectory & Slash & "Dev.log")
                 If Filee(0) = "--Begin of dev log" AndAlso Filee(1) = "(anything made before this is undocumented)" Then
                     Process.Start("Dev.log")
                 Else
