@@ -1,13 +1,11 @@
 ﻿Quick Terminal
---------------
+==============
 	The Free (as in freedom) replacement to CMD
 
-Compiling
----------
+## Compiling
 	To compile you need Visual Studios from MicroSoft. The program can not compile with MonoDevelop *yet*
 
-Notes
------
+## Notes
 
 	SOME THINGS DO NOT WORK AT THE MOMENT
 
