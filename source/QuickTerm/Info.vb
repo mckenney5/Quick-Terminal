@@ -5,12 +5,13 @@
 '2. Add to Search with its prefix (e.x. command foobar, prefix would be 'fo' or 'foo')
 '3. Add to syntax if needed
 '4. Add to credits if needed
-'5. Add to BetaCommands is needed
+'5. Add to BetaCommands if needed
 Imports System.Console
 Public Class Info
     Public Sub BetaCommands()
         WriteLine("Everything not in this list should* work 100%")
         WriteLine("VERSION: " & QuickTerminal.ver & vbNewLine _
+                         & "&&                  (runs multiple commands in one line)" & vbNewLine _
                          & "con                 (connects to a server on a specified port)" & vbNewLine _
                          & "crawl thread        (toggles multi-threading) Bugged" & vbNewLine _
                          & "rdns                (looks up an IP for aliases)" & vbNewLine _
