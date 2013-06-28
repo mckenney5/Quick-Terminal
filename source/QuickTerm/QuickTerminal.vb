@@ -50,13 +50,16 @@ Module QuickTerminal
 
     '[Booleans]
     Dim back As Boolean = False
-    Dim exitafter = False
+    Dim exitafter As Boolean = False
+    Dim DoubleCMD As Boolean = False
 
     '[Ints]
     Dim cmdssaid As Integer = 0
+    Dim DC As Integer = 0
 
     '[Multi-Array]
     Dim Args()
+    Dim DoubleCMD2() As String
 
     '[Strings]
     Dim Prompt As String = "==> "
@@ -207,6 +210,20 @@ Module QuickTerminal
 
     Public Sub Main2()
         Try
+            If DoubleCMD = True Then
+                DC += 1
+                If DC - 1 = DoubleCMD2.Length Then
+                    DoubleCMD = False
+                    DC = 0
+                    Commands(DoubleCMD2(DoubleCMD2.Length - 1))
+                ElseIf DC > DoubleCMD2.Length Then
+                    DoubleCMD = False
+                    DC = 0
+                    Main2()
+                ElseIf DC < DoubleCMD2.Length Then
+                    Commands(DoubleCMD2(DC))
+                End If
+            End If
             If exitafter = True Then
                 Console.ForegroundColor = ConsoleColor.Black
                 ReadKey()
@@ -226,13 +243,12 @@ Module QuickTerminal
             Console.WriteLine("Welcome " & Environment.UserName)
 a:
             Console.Title = "Quick Terminal"
-            'Console.BackgroundColor = ConsoleColor.Black
             Console.ForegroundColor = ConsoleColor.Cyan
             Write(Prompt)
             Console.ForegroundColor = ConsoleColor.Gray
             inpt = ReadLine()
             back = True
-            If inpt = "" Then
+            If inpt = Nothing Then
                 GoTo a
             End If
             Commands(inpt)
@@ -244,7 +260,7 @@ a:
     Public Sub Commands(ByVal command As String)
         Try
             cmdssaid += 1
-            If cmdssaid >= 30 Then
+            If cmdssaid >= 30 Then 'Used to stop overflow
                 Dim temp As String = command
                 command = Nothing
                 Args = Nothing
@@ -253,6 +269,15 @@ a:
             End If
             Console.ForegroundColor = ConsoleColor.White
             Dim i As Integer = 0
+            If command.Contains(" && ") = True Then
+                DoubleCMD = True
+                DC = 0
+                command = command.Replace(" && ", "■")
+                WriteLine(command)
+                DoubleCMD2 = command.Split("■")
+                command = DoubleCMD2(0)
+                WriteLine(command)
+            End If
             'Begin Commands
             Args = Split(command)
             If Args.Length = 0 Then
@@ -348,7 +373,11 @@ a:
                 Console.WriteLine("Computer Name:              " & My.Computer.Name)
                 Console.WriteLine("Operating System:           " & My.Computer.Info.OSFullName)
                 Console.WriteLine("OS Version:                 " & My.Computer.Info.OSVersion)
-                Console.WriteLine("System Dir:                 " & Environment.SystemDirectory)
+                If OS = "Unix" Then
+                    Console.WriteLine("System Dir:                 /")
+                Else
+                    Console.WriteLine("System Dir:                 " & Environment.SystemDirectory)
+                End If
                 Console.WriteLine("Number of CPU(s):           " & Environment.ProcessorCount)
                 Console.WriteLine("Local IPv4:                 " & Net.GetLocalIpAddress().ToString)
                 If OS.Contains("Windows") = True Then
@@ -566,8 +595,6 @@ a:
                 worker.Start()
             ElseIf Args(0) = "rms" Then
                 Console.WriteLine("Mr. Stallman, this program is free (as in freedom)!")
-                Console.ForegroundColor = ConsoleColor.DarkGreen
-                Console.WriteLine(">Muh freedoms")
             ElseIf Args(0) = "/g/" Then
                 Core.Gentoo()
             ElseIf Args(0) = "crawl" Then
@@ -1067,6 +1094,15 @@ B:
         If Not ErrorNum = Nothing AndAlso Not ErrorDesc = Nothing Then
             Err.Number = ErrorNum
             Err.Description = ErrorDesc
+        End If
+        If Err.Number = 5 AndAlso Err.Description = Nothing AndAlso OS = "Unix" Then
+            'stops random error 5 in Linux
+            If Scripting = True Then
+                i2 += 1
+                QtCont()
+            Else
+                Main2()
+            End If
         End If
         ErrorLog.Add("Error: (" & Err.Number & ") " & Err.Description)
         If Scripting = True Then
