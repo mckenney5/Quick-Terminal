@@ -44,6 +44,7 @@ Module QuickTerminal
     Dim QIO As New QuickIO
     Dim QMath As New QTMath
     Dim QRemote As New Remote
+    Dim QEnc As New QuickEncryption
 
     '[Booleans]
     Dim back As Boolean = False
@@ -343,59 +344,7 @@ a:
             ElseIf Args(0) = "ddos?" Then
                 Ddos.WhatsDdos()
             ElseIf Args(0) = "ddos" Then
-                If Args(1) = "make" Then
-                    Ddos.Boost_Make()
-                ElseIf Args(1) = "ping" Then
-                    If Args.Length <= 2 Then
-                        Console.WriteLine("Missing Args")
-                    ElseIf Args.Length = 3 Then
-                        Ddos.Start(Args(2), "ping")
-                    ElseIf Args.Length >= 4 Then
-                        Ddos.Start(Args(2), "ping", Args(3))
-                    Else
-                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
-                    End If
-                ElseIf Args(1) = "help" Then
-                    Ddos.help()
-                ElseIf Args(1) = "http" Then
-                    If Args.Length = 3 Then
-                        Ddos.Start(Args(2), "http")
-                    ElseIf Args.Length = 4 Then
-                        Ddos.Start(Args(2), "http", Args(3))
-                    Else
-                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
-                    End If
-                ElseIf Args(1) = "boost" Then
-                    If Args.Length <= 2 Then
-                        Console.WriteLine("Missing Args")
-                    ElseIf Args.Length = 2 Then
-                        Ddos.Boost_Start(Args(2), Args(3))
-                    ElseIf Args.Length = 4 Then
-                        Ddos.Boost_Start(Args(2), Args(3))
-                    Else
-                        Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <booster> <delay>")
-                    End If
-                ElseIf Args(1) = "stat" Then
-                    Console.WriteLine("You sent: " & Ddos.REQ & vbNewLine & "The server sent: " & Ddos.Reply & vbNewLine & "Ping Packets Sent: " & Ddos.Psent)
-                ElseIf Args(1) = "update" Then
-                    Console.WriteLine("Adding requests to title bar. To stop type ddos stop")
-                    Dim ddosUpdate As New Threading.Thread(AddressOf ddosUpdateSub)
-                    ddosUpdate.Start()
-                ElseIf Args(1) = "stop" Then
-                    Ddos.Attack_Stop = True
-                    Thread.Sleep(1000)
-                    If Ddos.Attack_Type = "Boost" Then
-                        Do Until Ddos.threadNum = 30
-                            Thread.Sleep(1000)
-                        Loop
-                    ElseIf Ddos.Attack_Type = "http" Or Ddos.Attack_Type = "ping" Then
-                        Do Until Ddos.threadNum = 5
-                            Thread.Sleep(1000)
-                        Loop
-                    End If
-                Else
-                    Console.WriteLine("Command not found.")
-                End If
+                Ddos.DUI(Args)
             ElseIf Args(0) = "con" Or Args(0) = "conn" Then
                 'Conn("localhost", 80)
                 If Args.Length <= 2 Then
@@ -549,7 +498,7 @@ a:
                     Dim lookuppp As String
                     lookupp = command.Remove(0, 7)
                     lookuppp = lookupp.Replace(" ", "+")
-                    Process.Start("https:/" & "/duckduckgo.com/?q=define%3A" & lookuppp)
+                    Process.Start("http:/" & "/www.thefreedictionary.com/" & lookuppp)
                 Else
                     Console.WriteLine("Missing term to look up")
                 End If
@@ -559,7 +508,7 @@ a:
                     Dim lookuppp As String
                     lookupp = command.Remove(0, 7)
                     lookuppp = lookupp.Replace(" ", "+")
-                    Process.Start("http:/" & "/www.thefreedictionary.com/" & lookuppp)
+                    Process.Start("https:/" & "/duckduckgo.com/?q=define%3A" & lookuppp)
                 Else
                     Console.WriteLine("Missing search terms")
                 End If
@@ -567,107 +516,10 @@ a:
                 QIO.GetDir()
             ElseIf Args(0) = "cred" Or Args(0) = "credits" Then
                 QuickInfo.Credits()
-            ElseIf Args(0) = "enc" Or Args(0) = "encrypt" Then 'I know this is a mess
-                Dim encstring As String
-                Console.WriteLine("Text to encrypt")
-                Console.ForegroundColor = ConsoleColor.Cyan
-                Console.Write("> ")
-                Console.ForegroundColor = ConsoleColor.Gray
-                encstring = ReadLine()
-                Dim securePwd As New System.Security.SecureString()
-                Dim key As ConsoleKeyInfo
-                Console.ForegroundColor = ConsoleColor.Cyan
-                Console.Write("Key: ")
-                Console.ForegroundColor = ConsoleColor.Gray
-                Do
-                    key = Console.ReadKey(True)
-                    securePwd.AppendChar(key.KeyChar)
-                Loop While key.Key <> ConsoleKey.Enter
-                WriteLine()
-                securePwd.MakeReadOnly()
-                WriteLine(Core.Encrypt(encstring, securePwd))
+            ElseIf Args(0) = "enc" Or Args(0) = "encrypt" Then
+                QEnc.EUI(Args)
             ElseIf Args(0) = "dec" Or Args(0) = "decrypt" Then
-                If Args.Length >= 2 Then
-                    Dim decfile As String
-                    If Args(0) = "dec" Then
-                        decfile = command.Remove(0, 4)
-                    Else
-                        decfile = command.Remove(0, 8)
-                    End If
-
-                    If System.IO.File.Exists(decfile) = False Then
-                        Console.WriteLine("File not found")
-                        Main2()
-                    End If
-                    Dim securePwd As New System.Security.SecureString()
-                    Dim key As ConsoleKeyInfo
-                    Console.ForegroundColor = ConsoleColor.Cyan
-                    Console.Write("Key: ")
-                    Console.ForegroundColor = ConsoleColor.Gray
-                    Do
-                        key = Console.ReadKey(True)
-                        securePwd.AppendChar(key.KeyChar)
-                    Loop While key.Key <> ConsoleKey.Enter
-                    securePwd.MakeReadOnly()
-                    WriteLine()
-                    WriteLine(Core.Decrypt(System.IO.File.ReadAllText(decfile), securePwd))
-                Else
-                    'Else
-a2:
-                    Dim encstring As String
-                    Dim inpt2 As String
-                    Console.WriteLine("From file? [Y/N]")
-a:
-                    Console.ForegroundColor = ConsoleColor.Cyan
-                    Console.Write("> ")
-                    Console.ForegroundColor = ConsoleColor.Gray
-                    inpt2 = ReadLine()
-                    If inpt2.ToLower = "y" Or inpt2.ToLower.StartsWith("y") Then
-                        Dim decfilee
-                        Console.ForegroundColor = ConsoleColor.Cyan
-                        Console.Write("File> ")
-                        Console.ForegroundColor = ConsoleColor.Gray
-                        decfilee = ReadLine()
-                        If System.IO.File.Exists(decfilee) = False Then
-                            Console.WriteLine("File not found")
-
-                        End If
-                        Dim securePwd2 As New System.Security.SecureString()
-                        Dim key2 As ConsoleKeyInfo
-                        Dim decfilee2 As String = System.IO.File.ReadAllText(decfilee)
-                        Console.ForegroundColor = ConsoleColor.Cyan
-                        Console.Write("Key: ")
-                        Console.ForegroundColor = ConsoleColor.Gray
-                        Do
-                            key2 = Console.ReadKey(True)
-                            securePwd2.AppendChar(key2.KeyChar)
-                        Loop While key2.Key <> ConsoleKey.Enter
-                        WriteLine()
-                        securePwd2.MakeReadOnly()
-                        WriteLine(Core.Decrypt(decfilee2, securePwd2))
-                    ElseIf inpt2.ToLower = "n" Or inpt2.ToLower.StartsWith("N") Then
-                    Else
-                        GoTo a
-                    End If
-                    Console.WriteLine("Text to decrypt")
-                    Console.ForegroundColor = ConsoleColor.Cyan
-                    Console.Write("> ")
-                    Console.ForegroundColor = ConsoleColor.Gray
-                    encstring = ReadLine()
-b:
-                    Dim securePwd As New System.Security.SecureString()
-                    Dim key As ConsoleKeyInfo
-                    Console.ForegroundColor = ConsoleColor.Cyan
-                    Console.Write("Key: ")
-                    Console.ForegroundColor = ConsoleColor.Gray
-                    Do
-                        key = Console.ReadKey(True)
-                        securePwd.AppendChar(key.KeyChar)
-                    Loop While key.Key <> ConsoleKey.Enter
-                    WriteLine()
-                    securePwd.MakeReadOnly()
-                    WriteLine(Core.Decrypt(encstring, securePwd))
-                End If
+                QEnc.DUI(Args, command)
             ElseIf Args(0) = "thread" Or Args(0) = "threads" Then
                 Console.WriteLine("Current threads running from this program: " & TRunning)
             ElseIf Args(0) = "pirate" Then
@@ -684,217 +536,8 @@ b:
                 Console.WriteLine(">Muh freedoms")
             ElseIf Args(0) = "/g/" Then
                 Core.Gentoo()
-                '====================================Crawl====================================
             ElseIf Args(0) = "crawl" Then
-                If Args(1) = "custom" AndAlso Args.Length >= 3 Then
-                    Crawler.Agent = command.Remove(0, 12)
-                    Console.WriteLine("Using custom User-Agent:" & vbNewLine & "'" & Crawler.Agent & "'.")
-                ElseIf Args(1) = "delay" AndAlso Args.Length = 3 Then
-                    If Args(2) < 0 Then
-                        Console.WriteLine("Delay must be 0 or greater")
-                        Main2()
-                    ElseIf Args(2) <= 75 Then
-                        Console.ForegroundColor = ConsoleColor.Yellow
-                        Console.WriteLine("Warning: Having the delay 75 or lower can get you banned off a site for spam.")
-                        Console.ForegroundColor = ConsoleColor.White
-                    End If
-                    Crawler.Delay = Args(2)
-                    Console.WriteLine("Delay set to " & Crawler.Delay & " milliseconds.")
-                    Main2()
-                End If
-                If Args.Length = 2 Then
-                    If Args(1) = "urls" Or Args(1) = "url" Then
-                        If Crawler.log = True Then
-                            Process.Start(Crawler.Website & ".log")
-                            Exit Sub
-                        End If
-                        i = 0
-                        If lstUrls.Count > 245 Then
-                            Console.WriteLine("This list is too long for the console")
-                            Console.WriteLine("Generating log file then opening it...")
-Cont:
-                            Do Until i = lstUrls.Count
-                                If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
-                                    i += 1
-                                    'maybe say like "has javascript = true"
-                                    GoTo Cont
-                                ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
-                                    i += 1
-                                    'maybe add it to a mail list?
-                                    GoTo Cont
-                                End If
-                                System.IO.File.AppendAllText(Crawler.Website & ".log", lstUrls.Item(i) & vbNewLine)
-                                i += 1
-                            Loop
-                            Process.Start(Crawler.Website & ".log")
-                            'lstUrls.Clear()
-                            Main2()
-                        End If
-Cont2:
-                        Console.WriteLine("Found " & lstUrls.Count & " Links." & vbNewLine)
-                        Do Until i = lstUrls.Count
-                            If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
-                                i += 1
-                                'maybe say like " has javascript = true"
-                                GoTo Cont2
-                            ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
-                                i += 1
-                                'maybe add it to a mail list?
-                                GoTo Cont2
-                            End If
-                            WriteLine(lstUrls.Item(i))
-                            i += 1
-                            Thread.Sleep(10)
-                        Loop
-                        'lstUrls.Clear()
-
-                    ElseIf Args(1) = "list" Or Args(1) = "dump" Then
-                        i = 0
-                        If lstUrls.Count > 245 Then
-                            Console.WriteLine("This list is too long for the console")
-                            Console.WriteLine("Generating log file then opening it...")
-Cont3:
-                            Do Until i = lstUrls.Count
-                                If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
-                                    i += 1
-                                    'maybe say like "has javascript = true"
-                                    GoTo Cont
-                                ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
-                                    i += 1
-                                    'maybe add it to a mail list?
-                                    GoTo Cont3
-                                End If
-                                System.IO.File.AppendAllText(Crawler.Website & ".log", lstUrls.Item(i) & vbNewLine)
-                                i += 1
-                            Loop
-                            System.IO.File.AppendAllText(Crawler.Website & ".log", "--Emails")
-                            Do Until i = lstEmails.Count
-                                If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
-                                    i += 1
-                                    'maybe say like "has javascript = true"
-                                    GoTo Cont3
-                                End If
-                                System.IO.File.AppendAllText(Crawler.Website & ".log", lstEmails.Item(i) & vbNewLine)
-                                i += 1
-                            Loop
-                            Process.Start(Crawler.Website & ".log")
-                            Main2()
-                        End If
-Cont4:
-                        Console.WriteLine("Found " & lstUrls.Count & " Links.")
-                        Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
-                        Do Until i = lstUrls.Count
-                            If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
-                                i += 1
-                                'maybe say like " has javascript = true"
-                                GoTo Cont2
-                            ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
-                                i += 1
-                                'maybe add it to a mail list?
-                                GoTo Cont2
-                            End If
-                            WriteLine(lstUrls.Item(i))
-                            i += 1
-                            Thread.Sleep(10)
-                        Loop
-                        Console.WriteLine("--Emails")
-                        Do Until i = lstEmails.Count
-                            WriteLine(lstEmails.Item(i))
-                            i += 1
-                            Thread.Sleep(10)
-                        Loop
-
-                    ElseIf Args(1) = "log" Then
-                        If Crawler.log = True Then
-                            Crawler.log = False
-                            Console.WriteLine("Auto-Logging is disabled")
-                        Else
-                            Crawler.log = True
-                            Console.WriteLine("Auto-Logging is enabled")
-                        End If
-                    ElseIf Args(1) = "email" Or Args(1) = "emails" Then
-                        i = 0
-                        If lstEmails.Count > 245 Then
-                            Console.WriteLine("This list is too long for the console")
-                            Console.WriteLine("Generating log file then opening it...")
-Cont5:
-                            Do Until i = lstEmails.Count
-                                If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
-                                    i += 1
-                                    GoTo Cont5
-                                End If
-                                System.IO.File.AppendAllText(Crawler.Website & ".log", lstEmails.Item(i) & vbNewLine)
-                                i += 1
-                            Loop
-                            Process.Start(Crawler.Website & ".log")
-                            'lstEmails.Clear()
-                            Main2()
-                        ElseIf lstEmails.Count = 0 Then
-                            Console.WriteLine("No emails found")
-                            lstEmails.Clear()
-                            Main2()
-                        End If
-                        Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
-Cont6:
-                        Do Until i = lstEmails.Count
-                            If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
-                                i += 1
-                                'maybe say like " has javascript = true"
-                                GoTo Cont6
-                            Else
-                                WriteLine(lstEmails.Item(i))
-                                i += 1
-                            End If
-                            Thread.Sleep(10)
-                        Loop
-                        'lstEmails.Clear()
-                    ElseIf Args(1) = "help" Then
-                        Crawler.CrawlHelp()
-                    ElseIf Args(1) = "googlebot" Then
-                        Console.WriteLine("Will pretend to be GoogleBot")
-                        Crawler.Agent = "googlebot"
-                    ElseIf Args(1) = "none" Then
-                        Console.WriteLine("Not using a User-Agent")
-                        Crawler.Agent = "none"
-                    ElseIf Args(1) = "qt" Or Args(1) = "default" Then
-                        Console.WriteLine("Using default User-Agent")
-                        Crawler.Agent = "qt"
-                    ElseIf Args(1) = "clear" Then
-                        lstUrls.Clear()
-                        lstEmails.Clear()
-                        Console.WriteLine("Logs cleared")
-                    ElseIf Args(1) = "thread" Then
-                        Console.ForegroundColor = ConsoleColor.Yellow
-                        Console.WriteLine("Warning this is a beta version")
-                        Console.ForegroundColor = ConsoleColor.White
-                        If Crawler.nonThreaded = False Then
-                            Crawler.nonThreaded = True
-                            Console.WriteLine("Threading turned off")
-                        Else
-                            Crawler.nonThreaded = False
-                            Console.WriteLine("Threading turned on")
-                        End If
-                    Else
-                        If Args(1).ToString.StartsWith("http://") = False AndAlso Args(1).ToString.EndsWith("/") = False Then
-                            Crawler.Start("http://" & Args(1))
-                        ElseIf Args(1).ToString.StartsWith("http://") = False Then
-                            Crawler.Start("http://" & Args(1))
-                        Else
-                            Crawler.Start(Args(1))
-                        End If
-                    End If
-                ElseIf Args.Length = 3 Then
-                    If Args(1).ToString.StartsWith("http://") = False Then
-                        Crawler.Start("http://" & Args(1), Args(2))
-                    ElseIf Args(1).ToString.StartsWith("http://") = False Then
-                        Crawler.Start("http://" & Args(1), Args(2))
-                    Else
-                        Crawler.Start(Args(1), Args(2))
-                    End If
-                Else
-                    Console.WriteLine("Invalid Syntax")
-                End If
-                '====================================End Crawl====================================
+                Crawler.CUI(Args, command)
             ElseIf Args(0) = "download" Then
                 If Args.Length = 3 Then
                     Net.Download(Args(1), command.Remove(0, Args(1).ToString.Length + 9))
@@ -1224,21 +867,6 @@ lol:
             Er()
         End Try
     End Function
-    Private Sub ddosUpdateSub()
-        TRunning += 1
-a:
-        Console.Title = "Quick Terminal - REQ: " & Ddos.REQ & " - Ping: " & Ddos.Psent
-        If Ddos.Attack_Stop = True Then
-            Console.WriteLine("DDOS Updater stoped.")
-            Console.Title = "Quick Terminal"
-            back = True
-            Main2()
-            TRunning -= 1
-            Exit Sub
-        End If
-        Thread.Sleep(10)
-        GoTo a
-    End Sub
 
     Private Sub Mario()
         Console.Beep(659, 100)
