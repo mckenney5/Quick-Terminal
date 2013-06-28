@@ -204,6 +204,12 @@ Public Class Info
             'ElseIf Term.StartsWith("z") = True Then
             'WriteLine("Did you mean zip?")
         End If
+        If IO.File.Exists(ExecDir & Term) = True Then
+            WriteLine(Term & " was found in " & ExecDir & vbNewLine & "Type 'run " & Term & "' to run it.")
+        End If
+        If IO.File.Exists(Term) = True Then
+            WriteLine(Term & " was found in " & Environment.CurrentDirectory & Slash & vbNewLine & "Type 'run " & Term & "' to run it.")
+        End If
         Main2()
     End Sub
 

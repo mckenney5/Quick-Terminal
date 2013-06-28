@@ -36,6 +36,7 @@ Module QuickTerminal
     Public nomsg As Boolean = False
     Public OS As String = My.Computer.Info.OSFullName
     Public Slash As String = "\" 'used for OS types (Windows is '\')
+    Public ExecDir As String = "C:\Windows\System32\"
 
     '[Declarations]
     Dim Ddos As New Ddos
@@ -63,7 +64,6 @@ Module QuickTerminal
 
     '[Strings]
     Dim Prompt As String = "==> "
-    Dim ExecDir As String = "C:\Windows\System32\"
 
     '[Threads]
     Dim worker As Threading.Thread
