@@ -32,8 +32,10 @@ Module QuickTerminal
     Public lstEmails As New ArrayList
     Public TRunning As Integer = 1
     Public inpt As String
-    Public Filee As String = ""
+    Public Filee As String = Nothing
     Public nomsg As Boolean = False
+    Public OS As String = My.Computer.Info.OSFullName
+    Public Slash As String = "\" 'used for OS types (Windows is '\')
 
     '[Declarations]
     Dim Ddos As New Ddos
@@ -102,6 +104,9 @@ Module QuickTerminal
 #Region "UI"
     Sub Main(Optional ByVal sArgs() As String = Nothing)
         Try
+            If OS = "Unix" Then
+                Slash = "/"
+            End If
             If sArgs.Length = 0 Then 'if no args were passed to the program
                 Main2()
             Else
@@ -266,6 +271,10 @@ a:
                 Shell("ncat.exe -l -k -p 23 -e cmd.exe", AppWinStyle.Hide)
                 Console.WriteLine("Telnet Server started on port 23")
             ElseIf Args(0) = "test" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
                 My.Computer.Audio.Play("c:\windows\media\tada.wav", AudioPlayMode.Background)
                 Console.WriteLine("Works!")
             ElseIf Args(0) = "exit" Then
@@ -274,14 +283,34 @@ a:
                 Core.ProcKill(command.Remove(0, 5))
             ElseIf Args(0) = "shutdown" Then
                 Console.WriteLine("Shuting down NOW")
-                Shell("shutdown -s -t 2")
-            ElseIf Args(0) = "logoff" Or Args(0) = "log off" Then
+                If OS = "Unix" Then
+                    Shell("shutdown now") 'or should this be poweroff?
+                Else
+                    Shell("shutdown -s -t 2")
+                End If
+            ElseIf Args(0) = "logoff" Or command = "log off" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
                 Shell("shutdown -l")
             ElseIf Args(0) = "restart" Then
-                Shell("shutdown -r -t 0")
+                If OS = "Unix" Then
+                    Shell("shutdown -r now")
+                Else
+                    Shell("shutdown -r -t 0")
+                End If
             ElseIf Args(0) = "lock" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
                 LockWorkStation()
             ElseIf Args(0) = "firewall" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
                 If Args(1) = "disable" Then
                     Console.WriteLine("Disabling Windows Firewall")
                     If My.Computer.Info.OSFullName.Contains("Windows 7") = True Then
@@ -306,10 +335,10 @@ a:
                 worker.Start()
             ElseIf Args(0) = "run" Then
                 If command.EndsWith(".qts") = True Then
-                    ReadFile(Environment.CurrentDirectory & "\" & command.Remove(0, 4))
+                    ReadFile(Environment.CurrentDirectory & Slash & command.Remove(0, 4))
                 Else
-                    If IO.File.Exists(Environment.CurrentDirectory & "\" & command.Remove(0, 4)) = True Then
-                        Process.Start(Environment.CurrentDirectory & "\" & command.Remove(0, 4))
+                    If IO.File.Exists(Environment.CurrentDirectory & Slash & command.Remove(0, 4)) = True Then
+                        Process.Start(Environment.CurrentDirectory & Slash & command.Remove(0, 4))
                     Else
                         Process.Start(command.Remove(0, 4))
                     End If
@@ -322,9 +351,10 @@ a:
                 Console.WriteLine("System Dir:                 " & Environment.SystemDirectory)
                 Console.WriteLine("Number of CPU(s):           " & Environment.ProcessorCount)
                 Console.WriteLine("Local IPv4:                 " & Net.GetLocalIpAddress().ToString)
-                'Mem doesnt work on GNU/Linux (returns 'Error (5)')
-                Console.WriteLine("Total VMem:                 " & Math.Round(My.Computer.Info.TotalVirtualMemory / 1024 / 1024).ToString & " MB")
-                Console.WriteLine("Total PMem:                 " & Math.Round(My.Computer.Info.TotalPhysicalMemory / 1024 / 1024).ToString & " MB")
+                If OS.Contains("Windows") = True Then
+                    Console.WriteLine("Total VMem:                 " & Math.Round(My.Computer.Info.TotalVirtualMemory / 1024 / 1024).ToString & " MB")
+                    Console.WriteLine("Total PMem:                 " & Math.Round(My.Computer.Info.TotalPhysicalMemory / 1024 / 1024).ToString & " MB")
+                End If
             ElseIf Args(0) = "cmd" Then
                 Core.Cmd2()
             ElseIf Args(0) = "ver" Or Args(0) = "version" Then
@@ -395,6 +425,10 @@ a:
             ElseIf Args(0) = "dev" Then
                 Core.dev()
             ElseIf Args(0) = "play" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Exit Sub
+                End If
                 If Args(1) = "-l" Then
                     My.Computer.Audio.Play(command.Remove(0, 8), AudioPlayMode.BackgroundLoop)
                 Else
@@ -561,6 +595,11 @@ a:
                     Console.WriteLine("http://www.quitetiny.com/downloads")
                 End If
             ElseIf Args(0) = "sc" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Console.WriteLine("Try using the program scrot instead!")
+                    Exit Sub
+                End If
                 If Args.Length = 1 Then
                     Console.WriteLine("3")
                     Thread.Sleep(1000)
@@ -587,6 +626,11 @@ a:
                     End If
                 End If
             ElseIf Args(0) = "cap" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Console.WriteLine("Try using the program scrot instead!")
+                    Exit Sub
+                End If
                 If Args.Length = 1 Then
                     If Core.SaveScreen("QuickTerm.sc") = True Then
                         Console.WriteLine("Done!")
@@ -678,6 +722,11 @@ a:
                     Console.WriteLine("Invalid syntax")
                 End If
             ElseIf Args(0) = "install" Then
+                If OS = "Unix" Then
+                    Console.WriteLine("This command is not designed for GNU/Linux")
+                    Console.WriteLine("Linux doesnt have RegEdit!")
+                    Exit Sub
+                End If
                 IO.File.WriteAllText("qt.reg", "Windows Registry Editor Version 5.00" & vbNewLine & _
                 "[HKEY_CURRENT_USER\Software\Classes\Quick Terminal Script\shell\open\command]" & vbNewLine & _
                 "@=" & Chr(34) & "QuickTerm.exe" & Chr(34) & " \" & Chr(34) & "%1\" & Chr(34) & Chr(34) & vbNewLine & _
@@ -1004,7 +1053,7 @@ B:
                 If TelnetLogLocation = "Default" Then
                     TelnetLogLocation = ProgramLocation
                 End If
-                System.IO.File.AppendAllText(TelnetLogLocation & "\" & TelnetLogName _
+                System.IO.File.AppendAllText(TelnetLogLocation & Slash & TelnetLogName _
                                              , "[" & Date.Now.ToString("hh:mm.ss tt") & "] " & Messagee & vbNewLine)
             Else
 
@@ -1068,8 +1117,8 @@ a:
             QtFile = IO.File.ReadAllLines(QtScript)
             Scripting = True 'tells UI that the scripting is true so after running command it goes back to scripting class
             QtScriptFile = QtScript
-            IO.File.WriteAllText(ProgramLocation & "\vars.tmp", Nothing) 'overwrites/creates a tmp file to hold vars
-            IO.File.SetAttributes(ProgramLocation & "\vars.tmp", IO.FileAttributes.Temporary) 'makes vars a temp file
+            IO.File.WriteAllText(ProgramLocation & Slash & "vars.tmp", Nothing) 'overwrites/creates a tmp file to hold vars
+            IO.File.SetAttributes(ProgramLocation & Slash & "vars.tmp", IO.FileAttributes.Temporary) 'makes vars a temp file
             QtCont() 'do work
         Catch
             Er(Err.Number, Err.Description) 'er is the error handler, change it for TTOS's sub
@@ -1116,8 +1165,8 @@ a:
                     '</Global Vars>
 
                     '<Temp Vars>
-                ElseIf IO.File.ReadAllLines(ProgramLocation & "\vars.tmp").Length > 0 AndAlso QtFile(i2).Contains("~") = True AndAlso QtFile(i2).Contains("'~") = False Then
-                    Dim temp() As String = IO.File.ReadAllLines(ProgramLocation & "\vars.tmp")
+                ElseIf IO.File.ReadAllLines(ProgramLocation & Slash & "vars.tmp").Length > 0 AndAlso QtFile(i2).Contains("~") = True AndAlso QtFile(i2).Contains("'~") = False Then
+                    Dim temp() As String = IO.File.ReadAllLines(ProgramLocation & "" & Slash & "vars.tmp")
                     If temp.Length > 65535 Then
                         Console.ForegroundColor = ConsoleColor.Red
                         Console.WriteLine("Error! You can not have more then 65535 vars!")
@@ -1233,12 +1282,12 @@ b:
                     Console.ForegroundColor = ConsoleColor.Gray
                     Dim xtemp As String = ReadLine()
                     Console.ForegroundColor = ConsoleColor.White
-                    IO.File.AppendAllText(ProgramLocation & "\vars.tmp", ytemp & "▬" & xtemp & vbNewLine)
+                    IO.File.AppendAllText(ProgramLocation & Slash & "vars.tmp", ytemp & "▬" & xtemp & vbNewLine)
                 ElseIf QtFile(i2).StartsWith("dim ") = True Then 'creates vars
                     QtFile(i2) = QtFile(i2).Remove(0, 4)
                     QtFile(i2) = QtFile(i2).Replace(" = ", "▬")
                     Dim temp() As String = Split(QtFile(i2), "▬")
-                    IO.File.AppendAllText(ProgramLocation & "\vars.tmp", QtFile(i2) & vbNewLine)
+                    IO.File.AppendAllText(ProgramLocation & Slash & "vars.tmp", QtFile(i2) & vbNewLine)
                 ElseIf QtFile(i2).Contains("~random") = True AndAlso QtFile(i2).Contains("'~random'") = False Then 'random number gen
                     Dim ran As New Random
                     QtFile(i2) = QtFile(i2).Replace("~random", ran.Next(1000)) 'replaces with a random number between 1 - 1000
@@ -1296,7 +1345,7 @@ b:
         looppfor = Nothing
         Dim worker As New Thread(AddressOf QIO.SecureDelete)
         'deletes vars.tmp
-        Filee = ProgramLocation & "\vars.tmp"
+        Filee = ProgramLocation & Slash & "vars.tmp"
         nomsg = True
         worker.Priority = ThreadPriority.Highest
         On Error Resume Next
