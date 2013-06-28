@@ -30,7 +30,7 @@ Module QuickTerminal
     Public ErrorLog As New ArrayList
     Public lstUrls As New ArrayList
     Public lstEmails As New ArrayList
-    Public TRunninhg As Integer = 1
+    Public TRunning As Integer = 1
     Public inpt As String
     Public Filee As String = Nothing
     Public nomsg As Boolean = False
@@ -337,7 +337,7 @@ a:
             ElseIf Args(0) = "firewall" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Main2()
+                    Exit Sub
                 End If
                 If Args(1) = "disable" Then
                     Console.WriteLine("Disabling Windows Firewall")
@@ -461,7 +461,7 @@ a:
             ElseIf Args(0) = "play" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
-                    Main2()
+                    Exit Sub
                 End If
                 If Args(1) = "-l" Then
                     My.Computer.Audio.Play(command.Remove(0, 8), AudioPlayMode.BackgroundLoop)
@@ -630,7 +630,7 @@ a:
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
                     Console.WriteLine("Try using the program scrot instead!")
-                    Main2()
+                    Exit Sub
                 End If
                 If Args.Length = 1 Then
                     Console.WriteLine("3")
