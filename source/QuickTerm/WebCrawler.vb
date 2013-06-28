@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Net
 Imports System.Console
+Imports System.Threading
 Imports System.Text.RegularExpressions
 
 Public Class WebCrawler
@@ -152,6 +153,7 @@ a:
         Next
         Return aReturn
     End Function
+
     Private Overloads Function GrabUrls(ByVal url As String) As ArrayList
         Dim strSource As String
         'will hold the urls to be returned
@@ -208,6 +210,7 @@ a:
         Return aReturn
         links += 1
     End Function
+
     Private Overloads Function GrabUrls(ByVal url As String, ByRef aReturn As ArrayList, ByRef aNew As ArrayList) As ArrayList
         'overloads function to check duplicates in aNew and aReturn
         'temp url arraylist
@@ -222,4 +225,216 @@ a:
         Next
         Return tReturn
     End Function
+
+    Public Sub CUI(ByVal Args() As String, ByVal Command As String)
+        Dim i As UInt32
+        If Args(1) = "custom" AndAlso Args.Length >= 3 Then
+            Agent = Command.Remove(0, 12)
+            Console.WriteLine("Using custom User-Agent:" & vbNewLine & "'" & Agent & "'.")
+        ElseIf Args(1) = "delay" AndAlso Args.Length = 3 Then
+            If Args(2) < 0 Then
+                Console.WriteLine("Delay must be 0 or greater")
+                Main2()
+            ElseIf Args(2) <= 75 Then
+                Console.ForegroundColor = ConsoleColor.Yellow
+                Console.WriteLine("Warning: Having the delay 75 or lower can get you banned off a site for spam.")
+                Console.ForegroundColor = ConsoleColor.White
+            End If
+            Delay = Args(2)
+            Console.WriteLine("Delay set to " & Delay & " milliseconds.")
+            Main2()
+        End If
+        If Args.Length = 2 Then
+            If Args(1) = "urls" Or Args(1) = "url" Then
+                If log = True Then
+                    Process.Start(Website & ".log")
+                    Exit Sub
+                End If
+                i = 0
+                If lstUrls.Count > 245 Then
+                    Console.WriteLine("This list is too long for the console")
+                    Console.WriteLine("Generating log file then opening it...")
+Cont:
+                    Do Until i = lstUrls.Count
+                        If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
+                            i += 1
+                            'maybe say like "has javascript = true"
+                            GoTo Cont
+                        ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
+                            i += 1
+                            'maybe add it to a mail list?
+                            GoTo Cont
+                        End If
+                        System.IO.File.AppendAllText(Website & ".log", lstUrls.Item(i) & vbNewLine)
+                        i += 1
+                    Loop
+                    Process.Start(Website & ".log")
+                    'lstUrls.Clear()
+                    Main2()
+                End If
+Cont2:
+                Console.WriteLine("Found " & lstUrls.Count & " Links." & vbNewLine)
+                Do Until i = lstUrls.Count
+                    If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
+                        i += 1
+                        'maybe say like " has javascript = true"
+                        GoTo Cont2
+                    ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
+                        i += 1
+                        'maybe add it to a mail list?
+                        GoTo Cont2
+                    End If
+                    WriteLine(lstUrls.Item(i))
+                    i += 1
+                    Thread.Sleep(10)
+                Loop
+                'lstUrls.Clear()
+
+            ElseIf Args(1) = "list" Or Args(1) = "dump" Then
+                i = 0
+                If lstUrls.Count > 245 Then
+                    Console.WriteLine("This list is too long for the console")
+                    Console.WriteLine("Generating log file then opening it...")
+Cont3:
+                    Do Until i = lstUrls.Count
+                        If lstUrls.Item(i).ToString.Contains("javascript:") = True Then
+                            i += 1
+                            'maybe say like "has javascript = true"
+                            GoTo Cont
+                        ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
+                            i += 1
+                            'maybe add it to a mail list?
+                            GoTo Cont3
+                        End If
+                        System.IO.File.AppendAllText(Website & ".log", lstUrls.Item(i) & vbNewLine)
+                        i += 1
+                    Loop
+                    System.IO.File.AppendAllText(Website & ".log", "--Emails")
+                    Do Until i = lstEmails.Count
+                        If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
+                            i += 1
+                            'maybe say like "has javascript = true"
+                            GoTo Cont3
+                        End If
+                        System.IO.File.AppendAllText(Website & ".log", lstEmails.Item(i) & vbNewLine)
+                        i += 1
+                    Loop
+                    Process.Start(Website & ".log")
+                    Main2()
+                End If
+Cont4:
+                Console.WriteLine("Found " & lstUrls.Count & " Links.")
+                Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
+                Do Until i = lstUrls.Count
+                    If lstUrls.Item(i).ToString.Contains("javascript:void(0)") = True Then
+                        i += 1
+                        'maybe say like " has javascript = true"
+                        GoTo Cont2
+                    ElseIf lstUrls.Item(i).ToString.Contains("mailto:") = True Then
+                        i += 1
+                        'maybe add it to a mail list?
+                        GoTo Cont2
+                    End If
+                    WriteLine(lstUrls.Item(i))
+                    i += 1
+                    Thread.Sleep(10)
+                Loop
+                Console.WriteLine("--Emails")
+                Do Until i = lstEmails.Count
+                    WriteLine(lstEmails.Item(i))
+                    i += 1
+                    Thread.Sleep(10)
+                Loop
+
+            ElseIf Args(1) = "log" Then
+                If log = True Then
+                    log = False
+                    Console.WriteLine("Auto-Logging is disabled")
+                Else
+                    log = True
+                    Console.WriteLine("Auto-Logging is enabled")
+                End If
+            ElseIf Args(1) = "email" Or Args(1) = "emails" Then
+                i = 0
+                If lstEmails.Count > 245 Then
+                    Console.WriteLine("This list is too long for the console")
+                    Console.WriteLine("Generating log file then opening it...")
+Cont5:
+                    Do Until i = lstEmails.Count
+                        If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
+                            i += 1
+                            GoTo Cont5
+                        End If
+                        System.IO.File.AppendAllText(Website & ".log", lstEmails.Item(i) & vbNewLine)
+                        i += 1
+                    Loop
+                    Process.Start(Website & ".log")
+                    'lstEmails.Clear()
+                    Main2()
+                ElseIf lstEmails.Count = 0 Then
+                    Console.WriteLine("No emails found")
+                    lstEmails.Clear()
+                    Main2()
+                End If
+                Console.WriteLine("Found " & lstEmails.Count & " Emails." & vbNewLine)
+Cont6:
+                Do Until i = lstEmails.Count
+                    If lstEmails.Item(i).ToString.Contains("javascript:") = True Then
+                        i += 1
+                        'maybe say like " has javascript = true"
+                        GoTo Cont6
+                    Else
+                        WriteLine(lstEmails.Item(i))
+                        i += 1
+                    End If
+                    Thread.Sleep(10)
+                Loop
+                'lstEmails.Clear()
+            ElseIf Args(1) = "help" Then
+                CrawlHelp()
+            ElseIf Args(1) = "googlebot" Then
+                Console.WriteLine("Will pretend to be GoogleBot")
+                Agent = "googlebot"
+            ElseIf Args(1) = "none" Then
+                Console.WriteLine("Not using a User-Agent")
+                Agent = "none"
+            ElseIf Args(1) = "qt" Or Args(1) = "default" Then
+                Console.WriteLine("Using default User-Agent")
+                Agent = "qt"
+            ElseIf Args(1) = "clear" Then
+                lstUrls.Clear()
+                lstEmails.Clear()
+                Console.WriteLine("Logs cleared")
+            ElseIf Args(1) = "thread" Then
+                Console.ForegroundColor = ConsoleColor.Yellow
+                Console.WriteLine("Warning this is a beta version")
+                Console.ForegroundColor = ConsoleColor.White
+                If nonThreaded = False Then
+                    nonThreaded = True
+                    Console.WriteLine("Threading turned off")
+                Else
+                    nonThreaded = False
+                    Console.WriteLine("Threading turned on")
+                End If
+            Else
+                If Args(1).ToString.StartsWith("http://") = False AndAlso Args(1).ToString.EndsWith("/") = False Then
+                    Start("http://" & Args(1))
+                ElseIf Args(1).ToString.StartsWith("http://") = False Then
+                    Start("http://" & Args(1))
+                Else
+                    Start(Args(1))
+                End If
+            End If
+        ElseIf Args.Length = 3 Then
+            If Args(1).ToString.StartsWith("http://") = False Then
+                Start("http://" & Args(1), Args(2))
+            ElseIf Args(1).ToString.StartsWith("http://") = False Then
+                Start("http://" & Args(1), Args(2))
+            Else
+                Start(Args(1), Args(2))
+            End If
+        Else
+            Console.WriteLine("Invalid Syntax")
+        End If
+    End Sub
 End Class
