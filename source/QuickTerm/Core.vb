@@ -37,9 +37,9 @@ Public Class Core
             Clipboard.SetDataObject(0)        'save memory by removing the image from the clipboard
             Type = "png"
             Return True
-        Catch ex As Exception
+        Catch
             Type = "png"
-            Console.WriteLine(ex.Message)
+            Er(Err.Number, Err.Description)
             Return False
         End Try
     End Function
@@ -91,8 +91,8 @@ Public Class Core
         Console.WriteLine()
         Console.ForegroundColor = ConsoleColor.White
         Console.WriteLine("Welcome Gentoomen!")
-        SaveScreen("4chan.g")
-        Process.Start("4chan.g.png")
+        SaveScreen("gen2")
+        Process.Start("gen2.png")
         Main()
     End Sub
 
@@ -149,9 +149,14 @@ a:
     End Sub
 
     Public Sub msg3()
-        TRunning += 1
-        MsgBox(msgMbox, MsgBoxStyle.DefaultButton1)
-        TRunning -= 1
+        Try
+            TRunning += 1
+            MsgBox(msgMbox, MsgBoxStyle.DefaultButton1)
+            TRunning -= 1
+        Catch
+            TRunning -= 1
+            Er(Err.Number, Err.Description)
+        End Try
     End Sub
 
     Public Sub cd() 'doesnt work on GNU/Linux
