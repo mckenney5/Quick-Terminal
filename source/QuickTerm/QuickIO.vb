@@ -1,7 +1,6 @@
 ﻿'Handles most file/folder reading and writing
 Imports System.IO
 Imports System.Console
-'Imports System.IO.Packaging
 Public Class QuickIO
     Public Sub Read2(ByVal TextFile As String) 'doesnt work on GNU/Linux
         Dim File2 As String = TextFile
@@ -182,7 +181,7 @@ a:
                                   My.Computer.Info.AvailableVirtualMemory & My.Computer.Info.AvailablePhysicalMemory & _
                                   My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailableVirtualMemory & _
                                   TimeOfDay.Second & TimeOfDay.Millisecond)
-                File.WriteAllText(Filee, ran.Next(1000, 10000))
+                File.WriteAllText(Filee, ran.Next(1000, 10000) & vbCr & ran.Next(1, 10000) & ran.Next(1000, 10000) & ran.Next(1000, 10000) & ran.Next(1000, 10000) & ran.Next(0, 10000))
                 File.WriteAllText(Filee, My.Computer.Info.TotalVirtualMemory / My.Computer.Info.AvailablePhysicalMemory * TRunning)
                 Rename(Filee, "iexplore.exe_")
                 Filee = Environment.CurrentDirectory & Slash & "iexplore.exe_"
@@ -194,7 +193,10 @@ a:
                 File.WriteAllText(Filee, TimeOfDay.Second)
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory)
                 File.WriteAllText(Filee, My.Computer.Info.AvailablePhysicalMemory)
-                File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory / 1024 ^ 2)
+                File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory / 1024 ^ 2 & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
+                                  & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
+                                  & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
+                                  & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & ran.Next(0, 1000000)
                 File.WriteAllText(Filee, DateAndTime.Now)
                 File.WriteAllText(Filee, TimeOfDay.Millisecond + TimeOfDay.Second)
                 File.Delete(Filee)
