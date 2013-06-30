@@ -22,7 +22,7 @@ Public Class NetworkClass
         stat = ip(0).ToString
         Console.WriteLine(stat)
         Console.WriteLine()
-        Main()
+        Main2()
     End Sub
 
     Public Sub ReverseDnsLookUp(ByVal Server As IPAddress)
@@ -36,7 +36,7 @@ Public Class NetworkClass
         stat = Hostname.Aliases(0)
         Console.WriteLine(stat)
         Console.WriteLine()
-        Main()
+        Main2()
     End Sub
 
     Public Function Ping_Server(ByVal Server As String)
@@ -73,7 +73,7 @@ Public Class NetworkClass
         Dim t1 As New System.Threading.Thread(AddressOf ScanThread)
         t1.Priority = Threading.ThreadPriority.AboveNormal
         t1.Start()
-        Main()
+        Main2()
     End Sub
     Private Sub ScanThread()
         TRunning += 1
@@ -105,11 +105,9 @@ a:
                     System.IO.File.AppendAllText(Address & ".log", Oports.Item(i) & vbNewLine)
                     i += 1
                 Loop
-                MsgBox("Scan of " & Address & " finished!", MsgBoxStyle.Information, "Quick Terminal Scan")
-                Dim result1 As Microsoft.VisualBasic.MsgBoxResult = MsgBox("Would you like to view the results?", MsgBoxStyle.YesNo, "Quick Terminal Scan")
-                If result1 = MsgBoxResult.Yes Then
-                    Process.Start(Address & ".log")
-                End If
+                WriteLine()
+                WriteLine("Scan of " & Address & " finished!")
+                Process.Start(Address & ".log")
                 CurrentPort = 0
                 TRunning -= 1
                 Exit Sub
@@ -130,11 +128,9 @@ a:
                     System.IO.File.AppendAllText(Address & ".log", Oports.Item(i) & vbNewLine)
                     i += 1
                 Loop
-                MsgBox("Scan of " & Address & " finished!", MsgBoxStyle.Information, "Quick Terminal Scan")
-                Dim result1 As Microsoft.VisualBasic.MsgBoxResult = MsgBox("Would you like to view the results?", MsgBoxStyle.YesNo, "Quick Terminal Scan")
-                If result1 = MsgBoxResult.Yes Then
-                    Process.Start(Address & ".log")
-                End If
+                WriteLine()
+                WriteLine("Scan of " & Address & " finished!")
+                Process.Start(Address & ".log")
                 TRunning -= 1
                 Exit Sub
             End If
