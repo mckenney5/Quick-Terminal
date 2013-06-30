@@ -4,7 +4,7 @@ Imports System.Drawing
 Imports System.IO
 Imports System.Console
 Public Class Core
-    Public msgMbox As String = ""
+    Public msgMbox As String = Nothing
     Public back2 As Boolean = False
     Dim CdromOpen As Boolean = False
     Public Type As String = "png"
@@ -93,26 +93,6 @@ Public Class Core
         Console.WriteLine("Welcome Gentoomen!")
         SaveScreen("gen2")
         Process.Start("gen2.png")
-        Main()
-    End Sub
-
-    Public Sub dev()
-        Try
-            If File.Exists(Directory.GetCurrentDirectory & Slash & "Dev.log") Then
-                Dim Filee() As String
-                Filee = File.ReadAllLines(Directory.GetCurrentDirectory & Slash & "Dev.log")
-                If Filee(0) = "--Begin of dev log" AndAlso Filee(1) = "(anything made before this is undocumented)" Then
-                    Process.Start("Dev.log")
-                Else
-                    Console.WriteLine("Dev.log is not found")
-                    Console.WriteLine(Filee(0) & vbNewLine & Filee(1) & vbNewLine & Filee(1))
-                End If
-            Else
-                Console.WriteLine("Dev.log is not found")
-            End If
-        Catch
-            Er(Err.Number, Err.Description)
-        End Try
         Main()
     End Sub
 
