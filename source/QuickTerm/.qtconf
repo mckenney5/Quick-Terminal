@@ -1,0 +1,37 @@
+﻿# This file is used to determine variables for QuickTerminal (Similar to YAML)
+#
+# =[BACKUP]==============================================================================================
+# BackUpImportance is used to determine how much resources a thread should take
+# Types: (from greatest to least, Normal being default) Highest, AboveNormal, Normal, BelowNormal, Lowest
+BackUpImportance: Normal
+
+# What folders/files you want the backup command to save
+--- # Files to backup
+- C:\Logs
+- C:\Webserver\Htmls
+- C:\Firewall\Log
+- C:\Important\Secret.txt
+
+# Determine where to put backups, if the folder's not found then the folder will be created
+BackUpLocation: C:\Backups
+
+# =[Telnet Server]=======================================================================================
+# To test these settings do QuickTerminal.exe -l
+AllowTelnet: FALSE
+EnableLogging: TRUE
+LogCommands: TRUE
+LogFailedLogins: FALSE
+LogKicks: TRUE
+ServerPort: 23
+
+# Ascii art is the castle that is shown at login
+EnableAsciiArt: TRUE
+
+# Determine where to save the telnet log (Default: where QuickTerminal is)
+TelnetLogLocation: Default
+TelnetLogName: TelnetServer.log
+ 
+# Telnet Username/Password is defined here, Remember that telnet transfers password as plain text
+# Default is your username (case sensitive)
+TelnetUserName: Default
+TelnetPassword: 1234

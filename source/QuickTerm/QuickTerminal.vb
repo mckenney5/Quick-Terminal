@@ -119,7 +119,7 @@ Module QuickTerminal
                     If ReadConfig() = True Then
                         Login()
                     Else
-                        Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
+                        Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                         Environment.Exit(0)
                     End If
                 ElseIf sArgs(0) = "-i" Then
@@ -139,19 +139,17 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             Commands(sArgs(1))
                         Else
-                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
+                            Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                             Environment.Exit(0)
                         End If
-                        'Commands(sArgs(1))
                     ElseIf sArgs.Length = 3 AndAlso sArgs(1) = "-x" Then
                         exitafter = True
                         If ReadConfig() = True Then
                             Commands(sArgs(2))
                         Else
-                            Console.WriteLine("Error reading main.conf!")
+                            Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                             Environment.Exit(0)
                         End If
-
                     Else
                         If sArgs(1) = "-x" Then
                             exitafter = True
@@ -167,10 +165,9 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             Commands(temp)
                         Else
-                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
+                            Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                             Environment.Exit(0)
                         End If
-
                     End If
                 ElseIf sArgs(0) = "-s" Then
                     back = True
@@ -182,7 +179,7 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             ReadFile(sArgs(1))
                         Else
-                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
+                            Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                             Environment.Exit(0)
                         End If
 
@@ -195,10 +192,9 @@ Module QuickTerminal
                         If ReadConfig() = True Then
                             ReadFile(temp)
                         Else
-                            Console.WriteLine("Error reading main.conf! Args are disabled until file is found.")
+                            Console.WriteLine("Can not find .qtconf file. Command line Args can not work without it.")
                             Environment.Exit(0)
                         End If
-
                     End If
                 Else
                     exitafter = True
@@ -456,8 +452,6 @@ a:
                 Beep()
             ElseIf Args(0) = "beta" Then
                 QuickInfo.BetaCommands()
-            ElseIf Args(0) = "dev" Then
-                Core.dev()
             ElseIf Args(0) = "play" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
@@ -877,8 +871,23 @@ lol:
 #Region "Misc"
     Private Function ReadConfig() As Boolean
         Dim i As UInt16 = 0
+        Dim fc() As String
         Try
-            Dim fc() As String = System.IO.File.ReadAllLines("main.conf")
+            If OS = "Unix" Then
+                If IO.File.Exists("~/.qtconf") = True Then
+                    fc = System.IO.File.ReadAllLines("~/.qtconf")
+                ElseIf IO.File.Exists("/etc/.qtconf") = True Then
+                    fc = System.IO.File.ReadAllLines("/etc/.qtconf")
+                Else
+                    fc = System.IO.File.ReadAllLines(".qtconf")
+                End If
+            Else
+                If IO.File.Exists("C:\Windows\System32\.qtconf") = True Then
+                    fc = System.IO.File.ReadAllLines("C:\Windows\System32\.qtconf")
+                Else
+                    fc = System.IO.File.ReadAllLines(".qtconf")
+                End If
+            End If
             Do Until i = fc.Length
                 Dim f As String = fc(i).ToLower
                 If f.StartsWith("BackUpImportance: ".ToLower) = True Then
@@ -962,7 +971,7 @@ lol:
     End Sub
 
     Private Function UptoDate() As Boolean
-        'Disabled
+        'Disabled Until my server is back up
         Return True
         'Try
         'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
@@ -991,7 +1000,6 @@ lol:
         Environment.Exit(0)
         Exit Sub
     End Sub
-
 
     Private Sub Login()
         If AllowTelnet = False Then
@@ -1095,6 +1103,7 @@ B:
             Return False
         End Try
     End Function
+
     Public Sub Er(Optional ByVal ErrorNum As UInt16 = Nothing, Optional ByVal ErrorDesc As String = Nothing, Optional ByVal EndOnFinish As Boolean = False)
         If Not ErrorNum = Nothing AndAlso Not ErrorDesc = Nothing Then
             Err.Number = ErrorNum
@@ -1102,6 +1111,7 @@ B:
         End If
         If Err.Number = 5 AndAlso Err.Description = Nothing AndAlso OS = "Unix" Then
             'stops random error 5 in Linux
+            ErrorLog.Add("Error: (" & Err.Number & ") " & Err.Description)
             If Scripting = True Then
                 i2 += 1
                 QtCont()
@@ -1128,7 +1138,8 @@ B:
 a:
         Console.ForegroundColor = ConsoleColor.Red
         If Err.Number = 0 Or Err.Number = Nothing Then
-            Console.WriteLine("Error: (" & Err.Number & ") Unknown Error.")
+            Console.WriteLine("Error: (" & Err.Number & ") Internal QuickTerminal error.")
+            Console.WriteLine("Please submit a bug report; it would help a lot! Type bug for more info.")
         ElseIf Err.Number = 9 Then
             Console.WriteLine("Error: (9) Missing Args")
         ElseIf Err.Number = 6 AndAlso Err.Description = "Arithmetic operation resulted in an overflow." Then
@@ -1162,7 +1173,7 @@ a:
             IO.File.SetAttributes(ProgramLocation & Slash & "vars.tmp", IO.FileAttributes.Temporary) 'makes vars a temp file
             QtCont() 'do work
         Catch
-            Er(Err.Number, Err.Description) 'er is the error handler, change it for TTOS's sub
+            Er(Err.Number, Err.Description)
         End Try
     End Sub
 
@@ -1256,7 +1267,7 @@ b:
                     i2 += 1
                     GoTo a
                 ElseIf QtFile(i2).StartsWith("#r.") = True Then 'Finish
-                    If QtFile(i2) = "#r.msg" Then 'nope
+                    If QtFile(i2) = "#r.msg" Then
                         replyhandle = "msg"
                     ElseIf QtFile(i2) = "#r.log" Then
                         replyhandle = "log"
