@@ -1,0 +1,176 @@
+Mock-up Manual Page
+NAME
+	QuickTerminal – Free (as in freedom) alternative to Windows Command Prompt.
+
+SYNOPSIS
+	QuickTerminal [-chilsx]
+
+DESCRITPTION
+	QuickTerminal is a free and feature-packed alternative to Windows Command Prompt. 
+	QuickTerminal was made as a replacement for cmd that I could use on my old Windows 2003 
+	server to do simple tasks and have an even easier scripting language. When I made it, it turned 
+	out to be even better than I expected. The UI looked really good and it was fun to create. This 
+	program took on a mind of its own. Before it had an OpenBSD mentality were I am making this 
+	for myself and you are just here for the ride, but now it has a more GNU mentality by serving 
+	the community and spreading the joy of freedom. Everything done to the program has the users 
+	and administrators in mind. Having it run on GNU/Linux is even better.
+
+	Some of QuickTerminals main features are amazing IO tools for anything from moving files, 
+	reading files, and even overwriting a file until its unreadable by recovery tools. Other features 
+	include a built in http flooder, web crawler, scripting, and much more. Even with all these built-
+	in features the program is still under one 1MB.
+
+OPTIONS SUMMARY
+	QuickTerminal ( http://quitetiny.com/quickterminal )
+	Usage: QuickTerminal -x [args]
+
+	-l, --logon				Invokes a log on  shell; normally used with telnet
+
+	-c, --command  <command>		Runs a command then drops into the shell
+
+	-i, --invisible				Runs QuickTerm without a window
+
+	-x, --exit				Add with any of the Args and it will close after its job
+
+	-h, --help				This information; to see commands do '-x -c help'
+
+	-s, --script <scriptfile>		Runs a QTS script
+
+COMMANDS
+	Beta – Lists all unstable commands; use with caution
+	Call – Runs a program without opening a new and waits for it to stop (like bash)
+	Cap – Takes a picture of the terminal
+	Cd – Changes directory. Type 'cd ..' to go back a directory
+	Cdtray – Opens/Closes your cd tray (if you have one)
+	Cls – Clears the screen
+	Clear – Clears the screen
+	Crawl – Searches a web page for links and emails. It also follows those links.
+	Cred – Shows code borrowed  from other free programs
+	Cmd – Just like call but has its own prompt
+	Copy – Copies a file. Usage: copy <file>|<newfile>
+	Date – Displays the date
+	Ddos – Floods http requests along with ICMP ping packets
+	Dec – Decrypts an AES encrypted string
+	Define – Looks up a word on an online dictionary
+	Delete – Deletes a file
+	Delete2 – Deletes a file with a new thread which allows you to delete large files without wait
+	Delete3 – Deletes and overwrites a file 16 times to make sure it's unrecoverable
+	Dir – Lists files and folders in your current directory. Used with the cd command to navigate
+	Dns – Looks up a given hostname and returns an IPv4 address
+	Download – Downloads a file from a server. Usage: Download <Location>
+	Echo – Prints to the screen what you said. 'echo hi' will print 'hi'
+	Enc – Encrypts string with AES encryption. Used with dec to have a secured chat
+	Errors – Displays errors that has happened in Quick-Terminal
+	Exit – Closes Quick-Terminal
+	Firewall – Enables/disables Windows firewall. Usage firewall <enable/disable>
+	Folder – Creates a new folder or directory in the current directory
+	Help – Displays all commands (that aren't in beta) with a short description
+	Info – Shows computer information like OS type and number of CPUs
+	Install – Creates and runs a .reg file making Windows associates .qts files with Quick-Terminal
+	Ip – Returns local IPv4 address
+	Kill – Kills a running process
+	Lock – Locks a Windows computer
+	Logoff – Logs off a computer
+	Ls – Lists files and folders in your current directory
+	Md5 – Returns an md5 hash value of a file
+	Md5log – Logs all md5 hashes to a file. It's used in conjunction with vscan to create a database
+	Move – Moves a file to another directory. Just like cutting a file
+	Msg – Displays a message box with the given text
+	Pi – Prints pi as a decimal to 28 places
+	Ping – Sends an ICMP 32 byte ping packet to a server and waits for a reply
+	Prompt – Changes the prompt string from '==>' to a user defined one
+	Pwd – Prints the location of your current directory
+	Qwrite – Quickly writes text to a file. Usage: qwrite <filename>|<text>
+	Random – Returns a random number between 1 – 100  
+	Read – Opens a text file for reading
+	Refresh – Closes the current Quick-Terminal and opens a new one
+	Remove – Deletes a directory
+	Restart – Restarts a computer
+	Run – Starts a new program in a new window
+	Sc – Takes a screen shot of the whole display
+	Scan – Scans a computer for open ports. Usage: scan <computer> <StartPort> <EndPort>
+	Search – Searches the web using duckduckgo
+	Sp – Used to track the scan command by displaying the current port it is on
+	Syntax – Displays the syntax of commands
+	Telnet – Uses netcat (nc.exe) to start a telnet server
+	Telnet2 – Uses nmap's netcat (ncat) to start a telnet server
+	Test – Does something random
+	Time – Displays current time
+	Timer – Starts/stops a timer and returns the time in between. Usage timer <start/stop>
+	Upload – Uploads a file to a server
+	Ver – Displays Quick-Terminal's version
+	Vscan – Scans the current directory by checking the md5 hashes. Use:  vscan <Database.txt>
+	Whoami – Returns the current username (similar to bash)
+	Write – Creates and edits a text file
+	Zip – Creates a zip archive
+
+CRAWL
+	DESCRIPTION
+		A web crawler/spider that goes to a website specified and logs all the links and emails on 
+		the page. After it's done with that then it follows those link and logs the next page 
+		(depending on the depth specified). Warning: if you set the depth too high it will eat 
+		system resources.
+	
+	SYNOPSIS
+		crawl <cmd>/<website> <depth>
+			Cmd can be clear,  custom, default, email, googlebot, help, list, log, none, qt, url
+			Website has to be a real website
+			Depth is how far you want the crawler to follow a link
+		Commands:
+			-clear – clears the search results
+			-email – displays found emails
+			-help – displays help
+			-list – displays search result
+			-log – writes the search to a log
+		User-Agent:
+			-default – changes user-agent back to default
+			-custom – uses a custom user-agent
+			-googlebot – pretends to be googlebot
+			-non – doesn't use a user-agent
+			-qt – uses QuiteTiny's user-agent (default)
+
+DDOS
+	DESCRIPTION
+		A multi-use http and ping flooder. Used to test strain on your network. 
+	SYNOPSIS
+		ddos <type> <target> <boostfile> <wait>
+			Type means the type of attack.
+			Target is a servers hostname or IP address.
+			Boostfile is a file used only for a boost attack. It contains user-agents and file 
+			locations on the remote server. This file greatly increases the strength of Ddos.
+			Wait is the delay of the request in milliseconds. 
+		Type:
+			-boost – a more powerful http flooder using a boost file.
+			-http – a basic http flooder with 10 threads dedicated to flooding
+			-make – generates a generic boost file
+			-ping – sends large ping requests
+
+EXAMPLES
+	Lists commands
+		QuickTerminal.exe -x -c help
+
+	List command's syntax
+		QuickTerminal.exe -x -c syntax
+
+	Crawls google.com with a depth of one and log the results
+		QuickTerminal.exe -x -c crawl log && crawl google.com 1
+
+	Scan your computer for open ports between ports 10 and 82
+		QuickTerminal.exe -x -c scan localhost 10 82
+
+	Make a message appear in a script after running an update (Debian GNU/Linux)
+		sudo apt-get upgrade && mono QuickTerminal.exe -x -c msg Update Done!
+
+	Stress tests your router with an http flood with a one millisecond delay
+		QuickTerminal.exe -c ddos http 192.168.1.1 1
+
+Bugs
+	No body is perfect, even the developers. You can help the community and us by submitting a 
+	bug report. All you have to do is email bug@quitetiny.com with the subject line 
+	[QuickTerminal] <bug>. You can also submit an issue on GitHub by going to 
+	https://github.com/mckenney5/Quick-Terminal BUT make sure you are running the latest 
+	version. In the report make sure you include what you were doing, the output from the 
+	command 'errors', and a picture, if it helps (it's worth 1000 words or something like that).
+
+Authors
+	·	Adam McKenney adam@quitetiny.com
