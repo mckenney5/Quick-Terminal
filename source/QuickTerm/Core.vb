@@ -2,6 +2,7 @@
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.IO
+Imports System.Diagnostics
 Imports System.Console
 Public Class Core
     Public msgMbox As String = Nothing

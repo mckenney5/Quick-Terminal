@@ -288,11 +288,11 @@ a:
                 Shell("ncat.exe -l -k -p 23 -e cmd.exe", AppWinStyle.Hide)
                 Console.WriteLine("Telnet Server started on port 23")
             ElseIf Args(0) = "call" Then 'Doesnt work on Linux *yet*
-                If OS = "Unix" Then
-                    Console.WriteLine("This command is not designed for GNU/Linux")
-                    Main2()
-                End If
-                Shell(command.Remove(0, 6), , True)
+                'If OS = "Unix" Then
+                'Console.WriteLine("This command is not designed for GNU/Linux")
+                'Main2()
+                'End If
+                Microsoft.VisualBasic.Interaction.Shell(command.Remove(0, 6), , True)
             ElseIf Args(0) = "test" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")
@@ -994,7 +994,7 @@ lol:
     End Function
 
     Private Sub refresh()
-        Process.Start("QuickTerm.exe")
+        System.Diagnostics.Process.Start("QuickTerm.exe")
         Thread.Sleep(100)
         Environment.Exit(0)
         Exit Sub
