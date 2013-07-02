@@ -196,7 +196,7 @@ a:
                 File.WriteAllText(Filee, My.Computer.Info.AvailableVirtualMemory / 1024 ^ 2 & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
                                   & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
                                   & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory _
-                                  & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & ran.Next(0, 1000000)
+                                  & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & My.Computer.Info.AvailablePhysicalMemory & ran.Next(0, 1000000))
                 File.WriteAllText(Filee, DateAndTime.Now)
                 File.WriteAllText(Filee, TimeOfDay.Millisecond + TimeOfDay.Second)
                 File.Delete(Filee)
