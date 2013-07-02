@@ -106,7 +106,7 @@ Module QuickTerminal
 #End Region
 
 #Region "UI"
-    Sub Main(Optional ByVal sArgs() As String = Nothing)
+    Sub Main(Optional ByVal sArgs() As String = Nothing) 'to be redone
         Try
             If OS = "Unix" Then 'Mono calls all computers that arent Windows, Unix
                 Slash = "/" 'flips slash for Linux
@@ -126,7 +126,7 @@ Module QuickTerminal
                     invisable = True
                 ElseIf sArgs(0) = "-h" Then
                     exitafter = True
-                    QuickInfo.Help()
+                    QuickInfo.Help2()
                 ElseIf sArgs(0) = "-x" Then
                     exitafter = True
                 ElseIf sArgs(0) = "-c" Then
@@ -223,8 +223,7 @@ Module QuickTerminal
                 End If
             End If
             If exitafter = True Then
-                Console.ForegroundColor = ConsoleColor.Black
-                ReadKey()
+
                 Environment.Exit(0)
             End If
             If Scripting = True Then
