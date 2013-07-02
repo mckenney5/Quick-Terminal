@@ -1,0 +1,10 @@
+All news goes here!
+=====================
+From Newest to oldest
+=====================
+
+Command Line Args in QuickTerm are going to be 100% redone but the syntax will stay the same!
+
+
+
+Crawl is being redone and also becoming its own program with its own git repo. Any changes with crawl will be added to QuickTerminal.
