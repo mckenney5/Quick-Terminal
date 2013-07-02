@@ -1,6 +1,6 @@
 Mock-up Manual Page
 NAME
-	QuickTerminal – Free (as in freedom) alternative to Windows Command Prompt.
+	QuickTerminal -- Free (as in freedom) alternative to Windows Command Prompt.
 
 SYNOPSIS
 	QuickTerminal [-chilsx]
@@ -37,72 +37,72 @@ OPTIONS SUMMARY
 	-s, --script <scriptfile>		Runs a QTS script
 
 COMMANDS
-	Beta – Lists all unstable commands; use with caution
-	Call – Runs a program without opening a new and waits for it to stop (like bash)
-	Cap – Takes a picture of the terminal
-	Cd – Changes directory. Type 'cd ..' to go back a directory
-	Cdtray – Opens/Closes your cd tray (if you have one)
-	Cls – Clears the screen
-	Clear – Clears the screen
-	Crawl – Searches a web page for links and emails. It also follows those links.
-	Cred – Shows code borrowed  from other free programs
-	Cmd – Just like call but has its own prompt
-	Copy – Copies a file. Usage: copy <file>|<newfile>
-	Date – Displays the date
-	Ddos – Floods http requests along with ICMP ping packets
-	Dec – Decrypts an AES encrypted string
-	Define – Looks up a word on an online dictionary
-	Delete – Deletes a file
-	Delete2 – Deletes a file with a new thread which allows you to delete large files without wait
-	Delete3 – Deletes and overwrites a file 16 times to make sure it's unrecoverable
-	Dir – Lists files and folders in your current directory. Used with the cd command to navigate
-	Dns – Looks up a given hostname and returns an IPv4 address
-	Download – Downloads a file from a server. Usage: Download <Location>
-	Echo – Prints to the screen what you said. 'echo hi' will print 'hi'
-	Enc – Encrypts string with AES encryption. Used with dec to have a secured chat
-	Errors – Displays errors that has happened in Quick-Terminal
-	Exit – Closes Quick-Terminal
-	Firewall – Enables/disables Windows firewall. Usage firewall <enable/disable>
-	Folder – Creates a new folder or directory in the current directory
-	Help – Displays all commands (that aren't in beta) with a short description
-	Info – Shows computer information like OS type and number of CPUs
-	Install – Creates and runs a .reg file making Windows associates .qts files with Quick-Terminal
-	Ip – Returns local IPv4 address
-	Kill – Kills a running process
-	Lock – Locks a Windows computer
-	Logoff – Logs off a computer
-	Ls – Lists files and folders in your current directory
-	Md5 – Returns an md5 hash value of a file
-	Md5log – Logs all md5 hashes to a file. It's used in conjunction with vscan to create a database
-	Move – Moves a file to another directory. Just like cutting a file
-	Msg – Displays a message box with the given text
-	Pi – Prints pi as a decimal to 28 places
-	Ping – Sends an ICMP 32 byte ping packet to a server and waits for a reply
-	Prompt – Changes the prompt string from '==>' to a user defined one
-	Pwd – Prints the location of your current directory
-	Qwrite – Quickly writes text to a file. Usage: qwrite <filename>|<text>
-	Random – Returns a random number between 1 – 100  
-	Read – Opens a text file for reading
-	Refresh – Closes the current Quick-Terminal and opens a new one
-	Remove – Deletes a directory
-	Restart – Restarts a computer
-	Run – Starts a new program in a new window
-	Sc – Takes a screen shot of the whole display
-	Scan – Scans a computer for open ports. Usage: scan <computer> <StartPort> <EndPort>
-	Search – Searches the web using duckduckgo
-	Sp – Used to track the scan command by displaying the current port it is on
-	Syntax – Displays the syntax of commands
-	Telnet – Uses netcat (nc.exe) to start a telnet server
-	Telnet2 – Uses nmap's netcat (ncat) to start a telnet server
-	Test – Does something random
-	Time – Displays current time
-	Timer – Starts/stops a timer and returns the time in between. Usage timer <start/stop>
-	Upload – Uploads a file to a server
-	Ver – Displays Quick-Terminal's version
-	Vscan – Scans the current directory by checking the md5 hashes. Use:  vscan <Database.txt>
-	Whoami – Returns the current username (similar to bash)
-	Write – Creates and edits a text file
-	Zip – Creates a zip archive
+	Beta -- Lists all unstable commands; use with caution
+	Call -- Runs a program without opening a new and waits for it to stop (like bash)
+	Cap -- Takes a picture of the terminal
+	Cd -- Changes directory. Type 'cd ..' to go back a directory
+	Cdtray -- Opens/Closes your cd tray (if you have one)
+	Cls -- Clears the screen
+	Clear -- Clears the screen
+	Crawl -- Searches a web page for links and emails. It also follows those links.
+	Cred -- Shows code borrowed  from other free programs
+	Cmd -- Just like call but has its own prompt
+	Copy -- Copies a file. Usage: copy <file>|<newfile>
+	Date -- Displays the date
+	Ddos -- Floods http requests along with ICMP ping packets
+	Dec -- Decrypts an AES encrypted string
+	Define -- Looks up a word on an online dictionary
+	Delete -- Deletes a file
+	Delete2 -- Deletes a file with a new thread which allows you to delete large files without wait
+	Delete3 -- Deletes and overwrites a file 16 times to make sure it's unrecoverable
+	Dir -- Lists files and folders in your current directory. Used with the cd command to navigate
+	Dns -- Looks up a given hostname and returns an IPv4 address
+	Download -- Downloads a file from a server. Usage: Download <Location>
+	Echo -- Prints to the screen what you said. 'echo hi' will print 'hi'
+	Enc -- Encrypts string with AES encryption. Used with dec to have a secured chat
+	Errors -- Displays errors that has happened in Quick-Terminal
+	Exit -- Closes Quick-Terminal
+	Firewall -- Enables/disables Windows firewall. Usage firewall <enable/disable>
+	Folder -- Creates a new folder or directory in the current directory
+	Help -- Displays all commands (that aren't in beta) with a short description
+	Info -- Shows computer information like OS type and number of CPUs
+	Install -- Creates and runs a .reg file making Windows associates .qts files with Quick-Terminal
+	Ip -- Returns local IPv4 address
+	Kill -- Kills a running process
+	Lock -- Locks a Windows computer
+	Logoff -- Logs off a computer
+	Ls -- Lists files and folders in your current directory
+	Md5 -- Returns an md5 hash value of a file
+	Md5log -- Logs all md5 hashes to a file. It's used in conjunction with vscan to create a database
+	Move -- Moves a file to another directory. Just like cutting a file
+	Msg -- Displays a message box with the given text
+	Pi -- Prints pi as a decimal to 28 places
+	Ping -- Sends an ICMP 32 byte ping packet to a server and waits for a reply
+	Prompt -- Changes the prompt string from '==>' to a user defined one
+	Pwd -- Prints the location of your current directory
+	Qwrite -- Quickly writes text to a file. Usage: qwrite <filename>|<text>
+	Random -- Returns a random number between 1 -- 100  
+	Read -- Opens a text file for reading
+	Refresh -- Closes the current Quick-Terminal and opens a new one
+	Remove -- Deletes a directory
+	Restart -- Restarts a computer
+	Run -- Starts a new program in a new window
+	Sc -- Takes a screen shot of the whole display
+	Scan -- Scans a computer for open ports. Usage: scan <computer> <StartPort> <EndPort>
+	Search -- Searches the web using duckduckgo
+	Sp -- Used to track the scan command by displaying the current port it is on
+	Syntax -- Displays the syntax of commands
+	Telnet -- Uses netcat (nc.exe) to start a telnet server
+	Telnet2 -- Uses nmap's netcat (ncat) to start a telnet server
+	Test -- Does something random
+	Time -- Displays current time
+	Timer -- Starts/stops a timer and returns the time in between. Usage timer <start/stop>
+	Upload -- Uploads a file to a server
+	Ver -- Displays Quick-Terminal's version
+	Vscan -- Scans the current directory by checking the md5 hashes. Use:  vscan <Database.txt>
+	Whoami -- Returns the current username (similar to bash)
+	Write -- Creates and edits a text file
+	Zip -- Creates a zip archive
 
 CRAWL
 	DESCRIPTION
@@ -117,17 +117,17 @@ CRAWL
 			Website has to be a real website
 			Depth is how far you want the crawler to follow a link
 		Commands:
-			-clear – clears the search results
-			-email – displays found emails
-			-help – displays help
-			-list – displays search result
-			-log – writes the search to a log
+			-clear -- clears the search results
+			-email -- displays found emails
+			-help -- displays help
+			-list -- displays search result
+			-log -- writes the search to a log
 		User-Agent:
-			-default – changes user-agent back to default
-			-custom – uses a custom user-agent
-			-googlebot – pretends to be googlebot
-			-non – doesn't use a user-agent
-			-qt – uses QuiteTiny's user-agent (default)
+			-default -- changes user-agent back to default
+			-custom -- uses a custom user-agent
+			-googlebot -- pretends to be googlebot
+			-non -- doesn't use a user-agent
+			-qt -- uses QuiteTiny's user-agent (default)
 
 DDOS
 	DESCRIPTION
@@ -140,10 +140,10 @@ DDOS
 			locations on the remote server. This file greatly increases the strength of Ddos.
 			Wait is the delay of the request in milliseconds. 
 		Type:
-			-boost – a more powerful http flooder using a boost file.
-			-http – a basic http flooder with 10 threads dedicated to flooding
-			-make – generates a generic boost file
-			-ping – sends large ping requests
+			-boost -- a more powerful http flooder using a boost file.
+			-http -- a basic http flooder with 10 threads dedicated to flooding
+			-make -- generates a generic boost file
+			-ping -- sends large ping requests
 
 EXAMPLES
 	Lists commands
