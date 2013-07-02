@@ -286,4 +286,14 @@ Public Class Info
                                   )
         Main2()
     End Sub
+    Public Sub Help2()
+        WriteLine("VERSION: " & QuickTerminal.ver & vbNewLine)
+        WriteLine("QuickTerminal's Command Line Args:")
+        WriteLine("-l or --logon            Invokes the login shell function; used for telnet")
+        WriteLine("-c or --command          Runs a command then drops into a shell")
+        WriteLine("-i or --invisable        Runs QuickTerminal without a window")
+        WriteLine("-x or --exit             Exits the terminal after completion")
+        WriteLine("-h or --help             This information. For help with commands type 'Quickterm.exe -x -c help'")
+        WriteLine("-s or --script           Runs a QTS script")
+    End Sub
 End Class
