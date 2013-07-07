@@ -48,6 +48,7 @@ Module QuickTerminal
     Dim QMath As New QTMath
     Dim QRemote As New Remote
     Dim QEnc As New QuickEncryption
+    Dim CN As New Conn
 
     '[Booleans]
     Dim back As Boolean = False
@@ -293,6 +294,8 @@ a:
                 'Main2()
                 'End If
                 Microsoft.VisualBasic.Interaction.Shell(command.Remove(0, 6), , True)
+            ElseIf Args(0) = "connect" Then
+                CN.Connect(Args(1), Args(2))
             ElseIf Args(0) = "test" Then
                 If OS = "Unix" Then
                     Console.WriteLine("This command is not designed for GNU/Linux")

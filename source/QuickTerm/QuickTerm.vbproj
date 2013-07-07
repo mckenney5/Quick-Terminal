@@ -72,6 +72,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conn.vb" />
     <Compile Include="Ddos.vb" />
     <Compile Include="Info.vb" />
     <Compile Include="QTMath.vb" />
