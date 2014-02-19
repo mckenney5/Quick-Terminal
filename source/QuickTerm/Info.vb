@@ -258,7 +258,7 @@ Public Class Info
                                   & "pi                  (prints pi as a Decimal to 28 places)" & vbNewLine _
                                   & "pi2                 (prints pi as a string to 500 places)" & vbNewLine _
                                   & "ping                (pings a server with 32 bytes of data)" & vbNewLine _
-                                  & "prompt              (change default prompt string '==> ' with a user defined one)" & vbNewLine _
+                                  & "prompt              (changes the default prompt string with a user defined one)" & vbNewLine _
                                   & "pwd                 (prints the working directory)" & vbNewLine _
                                   & "qwrite              (quicky writes a text file)" & vbNewLine _
                                   & "random              (generates random number between 1 - 1000)" & vbNewLine _

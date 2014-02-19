@@ -26,7 +26,7 @@ Module QuickTerminal
 
 #Region "Vars"
     '[Public]
-    Public ReadOnly ver As String = "1.2.6 BETA"
+    Public ReadOnly ver As String = "1.2.7 BETA"
     Public ErrorLog As New ArrayList
     Public lstUrls As New ArrayList
     Public lstEmails As New ArrayList
@@ -35,7 +35,7 @@ Module QuickTerminal
     Public Filee As String = Nothing
     Public nomsg As Boolean = False
     Public OS As String = My.Computer.Info.OSFullName
-    Public Slash As String = "\" 'used for OS types (Windows is '\')
+    Public Slash As Char = "\" 'used for OS types (Windows is '\')
     Public ExecDir As String = "C:\Windows\System32\"
 
     '[Declarations]
