@@ -200,9 +200,9 @@ a:
                 File.WriteAllText(Filee, DateAndTime.Now)
                 File.WriteAllText(Filee, TimeOfDay.Millisecond + TimeOfDay.Second)
                 File.Delete(Filee)
-                Console.WriteLine("File deleted successfully.")
+                'Console.WriteLine("File deleted successfully.")
             Else
-                Console.WriteLine("File not found.")
+                'Console.WriteLine("File not found.")
             End If
         Catch
             Console.WriteLine()

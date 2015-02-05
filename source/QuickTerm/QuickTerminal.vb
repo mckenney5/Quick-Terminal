@@ -74,7 +74,7 @@ Module QuickTerminal
 #Region "Script Vars"
     Public errorhandle As String = "default"
     Public replyhandle As String = "default"
-    Public invisable As Boolean = False
+    Public invisible As Boolean = False
     Public Scripting As Boolean = False
     Dim QtScriptFile As String = Nothing
     Dim QtFile() As String
@@ -83,6 +83,7 @@ Module QuickTerminal
     Public looppfor As UInteger
     Public loopped As UInteger = 1
     Public ifthen As Boolean = False
+    Dim SkipClear As Boolean = False
 #End Region
 
 #Region "Config Vars"
@@ -124,7 +125,7 @@ Module QuickTerminal
                         Environment.Exit(0)
                     End If
                 ElseIf sArgs(0) = "-i" Then
-                    invisable = True
+                    invisible = True
                 ElseIf sArgs(0) = "-h" Then
                     exitafter = True
                     QuickInfo.Help2()
@@ -1121,6 +1122,16 @@ B:
                 Main2()
             End If
         End If
+        If Err.Number = 91 AndAlso Err.Description = "Error: (91) Object reference not set to an instance of an object." AndAlso OS <> "Unix" Then
+            'stops random error 91 in Linux
+            ErrorLog.Add("Error: (" & Err.Number & ") " & Err.Description)
+            If Scripting = True Then
+                i2 += 1
+                QtCont()
+            Else
+                Main2()
+            End If
+        End If
         ErrorLog.Add("Error: (" & Err.Number & ") " & Err.Description)
         If Scripting = True Then
             If errorhandle = "default" Then
@@ -1183,7 +1194,10 @@ a:
         Try
 a:
             Do Until i2 >= QtFile.Length
-                'replace vars
+                'reads lines
+                Do Until QtFile(i2).StartsWith(vbTab) = False 'ignores tabs
+                    QtFile(i2) = QtFile(i2).Replace(vbTab, "")
+                Loop
                 If QtFile(i2).StartsWith("//") = True Then 'comment
                     i2 += 1
                     GoTo a
@@ -1196,7 +1210,8 @@ a:
                 ElseIf QtFile(i2).StartsWith("FIXME ") = True Then 'fixme for errors (e.x FIXME echo ~moo)
                     i2 += 1
                     GoTo a
-                    '<Global Vars>
+
+                    '<System Vars>
                 ElseIf QtFile(i2).Contains("~user") = True AndAlso QtFile(i2).Contains("'~user'") = False Then
                     QtFile(i2) = QtFile(i2).Replace("~user", Environment.UserName)
                     GoTo a 'to check for more vars
@@ -1215,10 +1230,9 @@ a:
                 ElseIf QtFile(i2).Contains("~ip") = True AndAlso QtFile(i2).Contains("'~ip'") = False Then
                     QtFile(i2) = QtFile(i2).Replace("~ip", Net.GetLocalIpAddress.ToString)
                     GoTo a
+                    '</System Vars>
 
-                    '</Global Vars>
-
-                    '<Temp Vars>
+                    '<User Vars>
                 ElseIf IO.File.ReadAllLines(ProgramLocation & Slash & "vars.tmp").Length > 0 AndAlso QtFile(i2).Contains("~") = True AndAlso QtFile(i2).Contains("'~") = False Then
                     Dim temp() As String = IO.File.ReadAllLines(ProgramLocation & "" & Slash & "vars.tmp")
                     If temp.Length > 65535 Then
@@ -1230,23 +1244,18 @@ a:
                     Dim ii As UInt16 = 0
                     Dim davars() As String = Split(QtFile(i2), "~")
                     Do Until ii = temp.Length
-                        'MsgBox(davars(1))
-                        'Console.WriteLine("if " & temp(ii) & " starts with " & davars(1).Trim & "▬ then")
                         If temp(ii).StartsWith(davars(1).Trim & "▬") = True Then
-                            'Console.WriteLine("Found")
                             Dim tempp() As String = Split(temp(ii), "▬")
-                            'Console.WriteLine("~" & davars(1).Trim & tempp(1))
                             QtFile(i2) = QtFile(i2).Replace("~" & davars(1).Trim, tempp(1))
                             GoTo a
                         End If
                         ii += 1
                     Loop
-                    'Console.WriteLine("not found")
-                    'QtFile(i2) = QtFile(i2).Replace("~" & temp1.Item(0), temp1.Item(1))
                 Else
                     'if it isnt a var then go to the commands
                     GoTo b
                 End If
+                '</User Vars>
 b:
                 'commands
                 If QtFile(i2) = Nothing Then 'if line is empty then
@@ -1262,9 +1271,11 @@ b:
                     ElseIf QtFile(i2) = "#e.default" Then
                         errorhandle = "default"
                     End If
-                ElseIf QtFile(i2) = "#invisable" Then ':)
-                    If invisable = False Then
-                        Shell("QuickTermSE.exe -i -s " & QtScriptFile, AppWinStyle.Hide)
+                ElseIf QtFile(i2).StartsWith("#skipclear") = True Then 'Stops QT from clearing variables
+                    SkipClear = True
+                ElseIf QtFile(i2) = "#invisable" Then 'Runs the script in the background
+                    If invisible = False Then
+                        Shell("QuickTerm.exe -i -s " & QtScriptFile, AppWinStyle.Hide)
                     End If
                     i2 += 1
                     GoTo a
@@ -1351,7 +1362,7 @@ b:
                     ReadKey()
                     WriteLine()
                     Console.ForegroundColor = ConsoleColor.White
-                ElseIf QtFile(i2) = "pause" Then 'like pause
+                ElseIf QtFile(i2) = "pause" Then 'like pause in cmd
                     Console.Write("Press any key to continue...")
                     Console.ForegroundColor = ConsoleColor.Black
                     ReadKey()
@@ -1381,7 +1392,9 @@ b:
             ClearVars() 'allows for more scripts to be run later
             Er(Err.Number, Err.Description)
         End Try
-        ClearVars()
+        If SkipClear = False Then
+            ClearVars()
+        End If
         Main2() 'goes back to the UI
     End Sub
 
@@ -1391,19 +1404,21 @@ b:
         QtScriptFile = Nothing
         errorhandle = "default"
         replyhandle = "default"
-        invisable = False
+        invisible = False
         Scripting = False
         QtFile = Nothing
         loopp = Nothing
         loopped = 1
         looppfor = Nothing
-        Dim worker As New Thread(AddressOf QIO.SecureDelete)
-        'deletes vars.tmp
-        Filee = ProgramLocation & Slash & "vars.tmp"
-        nomsg = True
-        worker.Priority = ThreadPriority.Highest
-        On Error Resume Next
-        worker.Start()
+        If IO.File.Exists(ProgramLocation & Slash & "vars.tmp") = True Then
+            Dim worker As New Thread(AddressOf QIO.SecureDelete)
+            'deletes vars.tmp
+            Filee = ProgramLocation & Slash & "vars.tmp"
+            nomsg = True
+            worker.Priority = ThreadPriority.Highest
+            On Error Resume Next
+            worker.Start()
+        End If
         Return "Done"
     End Function
 #End Region
