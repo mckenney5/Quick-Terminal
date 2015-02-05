@@ -1151,16 +1151,16 @@ B:
 a:
         Console.ForegroundColor = ConsoleColor.Red
         If Err.Number = 0 Or Err.Number = Nothing Then
-            Console.WriteLine("Error: (" & Err.Number & ") Internal QuickTerminal error.")
-            Console.WriteLine("Please submit a bug report; it would help a lot! Type bug for more info.")
+            Console.Error.WriteLine("Error: (" & Err.Number & ") Internal QuickTerminal error.")
+            Console.Error.WriteLine("Please submit a bug report; it would help a lot! Type bug for more info.")
         ElseIf Err.Number = 9 Then
-            Console.WriteLine("Error: (9) Missing Args")
+            Console.Error.WriteLine("Error: (9) Missing Args")
         ElseIf Err.Number = 6 AndAlso Err.Description = "Arithmetic operation resulted in an overflow." Then
-            Console.WriteLine("Error: (6) The number is too high and resulted in an overflow.")
+            Console.Error.WriteLine("Error: (6) The number is too high and resulted in an overflow.")
         ElseIf Err.Description.StartsWith("Index was out of range. Must be non-negative and less than the size") = True Then
-            Console.WriteLine("Search may not yet be completed (if this error keeps occuring then turn on auto logging)")
+            Console.Error.WriteLine("Search may not yet be completed (if this error keeps occuring then turn on auto logging)")
         Else
-            Console.WriteLine("Error: (" & Err.Number & ") " & Err.Description)
+            Console.Error.WriteLine("Error: (" & Err.Number & ") " & Err.Description)
         End If
         Err.Clear()
         If EndOnFinish = True Then
