@@ -977,7 +977,7 @@ lol:
         'Disabled Until my server is back up
         Return True
         'Try
-        'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://quitetiny.com/Updates/Ver_QuickTerm.txt")
+        'Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("EXAMPLE")
         'Dim response As System.Net.HttpWebResponse = request.GetResponse()
 
         'Dim sr As System.IO.StreamReader = New System.IO.StreamReader(response.GetResponseStream())
