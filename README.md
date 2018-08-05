@@ -1,4 +1,7 @@
-﻿Quick Terminal
+# !-- UNSAFE, DEPRECATED, ARCHIVE ONLY --!
+# SEE ISSUE 1
+
+Quick Terminal
 ==============
 	The Free (as in freedom) replacement to CMD
 
